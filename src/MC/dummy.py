@@ -6,14 +6,14 @@ from src.MC.effects import Effect
 
 class Dummy:
     """ Dummy class """
-    def __init__(self, health=21000000):
+    def __init__(self, health=21000000, base_armor=18200):
         """ Dummy class """
         self.attributes = {
             "health_bar": health, # 21M Dummy
             "debuffs": {},
-            "base_resistance": 18200, # Standard armor, just to reaply each round
-            "spell_resistance": 18200,
-            "physical_resistance": 18200,
+            "base_resistance": base_armor, # Standard armor, just to reaply each round
+            "spell_resistance": base_armor,
+            "physical_resistance": base_armor,
             "damage_extra": 0,
             "critical_damage_extra": 0
         }

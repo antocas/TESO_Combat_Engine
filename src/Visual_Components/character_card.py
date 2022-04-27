@@ -25,4 +25,3 @@ def generate_character_card():
 
     if st.button("Save"):
         st.session_state['character'] = Character(data)
-        print(st.session_state['character'])
