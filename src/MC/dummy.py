@@ -51,7 +51,7 @@ class Dummy:
         # So, first we apply debuffs (some ignored, it's a freaking dummy), then we hit the dummy
         remove = []
         for name, debuff in self.attributes['debuffs'].items():
-            print(debuff)
+            # print(debuff)
             if debuff.mode == 'percent':
                 stat = (self.attributes[ debuff.stat_affected ] * debuff.value) // 100
             elif debuff.mode == 'fixed':
@@ -63,7 +63,7 @@ class Dummy:
                     remove.append(name)
             except:
                 pass
-            print(name, debuff.stat_affected, self.attributes[ debuff.stat_affected])
+            # print(name, debuff.stat_affected, self.attributes[ debuff.stat_affected])
         for name in remove:
             del self.attributes['debuffs'][name]
 

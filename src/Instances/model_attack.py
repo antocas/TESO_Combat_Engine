@@ -3,7 +3,7 @@ from src.MC import attack
 from src.Instances.model_debuffs import *
 
 light_attack = attack.Attack(
-    name='Light attack', value=5000, type='Direct damage'
+    name='Light attack', value=5000, duration=1, type='Direct damage'
 )
 wall_of_elements = attack.Attack(
     name='Wall of elements', value=2500, type='Direct damage', duration=10

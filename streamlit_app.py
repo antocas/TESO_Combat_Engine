@@ -9,16 +9,25 @@ def sidebar_block():
     return st.sidebar.selectbox("Options", ('Dummy', 'Character', 'Skills'))
 
 def dps_metric():
-    columns = st.columns([2, 2, 2, 4, 2])
+    columns = st.columns([2, 1, 2, 2, 2])
     with columns[0]:
-        st.metric(label="DPS", value=st.session_state.get('dps') or 0)
-    with columns[1]:
-        st.metric(label="Time (minutes)", value=st.session_state.get('time_minutes') or 0)
-    with columns[2]:
-        st.metric(label="Time (seconds)", value=st.session_state.get('time_seconds') or 0)
-    with columns[4]:
         if st.button('Calculate', on_click=main_combat_test):
             st.experimental_rerun()
+    with columns[2]:
+        new = st.session_state.get('dps') or 0
+        old = st.session_state.get('old_dps') or 0
+        st.metric(label="DPS", value=new, delta=new-old)
+        st.session_state['old_dps'] = new
+    with columns[3]:
+        new = st.session_state.get('time_minutes') or 0
+        old = st.session_state.get('old_time_minutes') or 0
+        st.metric(label="Time (minutes)", value=new, delta=new-old)
+        st.session_state['old_time_minutes'] = new
+    with columns[4]:
+        new = st.session_state.get('time_seconds') or 0
+        old = st.session_state.get('old_time_seconds') or 0
+        st.metric(label="Time (seconds)", value=new, delta=new-old)
+        st.session_state['old_time_seconds'] = new
 
 if __name__ == '__main__':
     st.set_page_config(layout="wide")

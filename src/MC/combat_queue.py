@@ -9,22 +9,23 @@ class QueueAttack:
         self._attacks = {}
         self._to_remove = []
 
+    def __str__(self):
+        at = [ name for name, attack in self._attacks.items() ]
+        return ', '.join(at)
+
     def add_attack(self, attack:attack.Attack):
         """ Add to queue """
         self._attacks[attack._name] = deepcopy(attack)
 
-    def delete_attack_from_queue(self, attack_name:str):
+    def decrease_attack_duration(self, attack_name:str):
         """ Remove from queue """
-        self._to_remove += attack_name
+        self._attacks[attack_name]._duration = self._attacks[attack_name]._duration - 1
+        if self._attacks[attack_name]._duration == 0:
+            self._to_remove.append(attack_name)
 
     def clear_attacks(self):
         """ Remove those attacks which finished recently """
         # Revisamos los ataques y si tienen duracion o ha caducado
-        for name, attack in self._attacks.items():
-            if attack._duration and attack._duration > 0:
-                attack._duration -= 1
-            else:
-                self._to_remove += name
         while len(self._to_remove) > 0:
             name = self._to_remove.pop()
             del self._attacks[name]

@@ -9,6 +9,7 @@ from src.Instances.model_attack import *
 import streamlit as st
 
 def main_combat_test():
+    print('*'*100)
     # initial_health = 300000
     initial_health = 21000000
 
@@ -24,6 +25,7 @@ def main_combat_test():
         queue.add_attack(light_attack)
         for to_renovate in circular:
             if not queue.in_queue(to_renovate._name):
+                # print(seconds, to_renovate._name)
                 queue.add_attack(to_renovate)
                 break
         
@@ -42,11 +44,13 @@ def main_combat_test():
                 DAMAGE += DAMAGE*MAX_CRIT
             test_dummy.hit_dummy(DAMAGE, PENETRATION)
             # TEST
-            queue.delete_attack_from_queue(attack._name)
+            queue.decrease_attack_duration(attack._name)
         
         test_dummy.reset_resistances()
+        queue.clear_attacks()
         seconds += 1
 
+    print(seconds)
     combat_minutes = seconds//60
     combat_seconds = seconds%60
     
