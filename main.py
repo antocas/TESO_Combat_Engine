@@ -9,8 +9,8 @@ from src.Instances.model_attack import *
 import streamlit as st
 
 def main_combat_test():
-    initial_health = 300000
-    # initial_health = 21000000
+    # initial_health = 300000
+    initial_health = 21000000
 
     test_dummy = dummy.Dummy(health=initial_health)
     queue = combat_queue.QueueAttack()
