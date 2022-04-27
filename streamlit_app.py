@@ -1,5 +1,9 @@
+import json
+from io import StringIO 
+
 import streamlit as st
 
+from src.MC.character import Character
 from src.Visual_Components.character_card import generate_character_card
 from src.Visual_Components.dummy_card import generate_dummy_card
 
@@ -35,5 +39,13 @@ if __name__ == '__main__':
     sidebar_block_option = sidebar_block()
     if 'Character' == sidebar_block_option:
         generate_character_card()
+        loading_character = st.sidebar.file_uploader('Load character')
+        st.sidebar.download_button('Save character',
+            json.dumps(st.session_state['character'].as_dict()),
+            (st.session_state['character'].name+'.json')
+        )
+        if loading_character:
+            stringio = StringIO(loading_character.getvalue().decode("utf-8"))
+            st.session_state['character'] = Character(json.loads(stringio.read()))
     if 'Dummy' == sidebar_block_option:
         generate_dummy_card()

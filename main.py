@@ -18,7 +18,7 @@ def main_combat_test():
     seconds = 0
 
 
-    circular = [wall_of_elements, mystic_orb, barbed_trap]
+    circular = [wall_of_elements, mystic_orb, barbed_trap, degeneration]
     test_dummy.set_debuff(minor_breach)
 
     while test_dummy.attributes["health_bar"] > 0:
@@ -50,7 +50,6 @@ def main_combat_test():
         queue.clear_attacks()
         seconds += 1
 
-    print(seconds)
     combat_minutes = seconds//60
     combat_seconds = seconds%60
     

@@ -11,6 +11,9 @@ wall_of_elements = attack.Attack(
 mystic_orb = attack.Attack(
     name='Mystic orb', value=1200, type='Direct damage', duration=10
 )
+degeneration = attack.Attack(
+    name='Degeneration', value=3000, type='Direct damage', duration=12
+)
 barbed_trap = attack.Attack(
     name='Barbed trap', value=0, type='Direct damage', duration=16, debuf=minor_breach
 )

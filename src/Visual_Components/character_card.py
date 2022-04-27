@@ -23,5 +23,4 @@ def generate_character_card():
         data['spell_penetration'] = st.text_input("Spell penetration", value = data.get('spell_penetration') or 0)
         data['physical_penetration'] = st.text_input("Physical penetration", value = data.get('physical_penetration') or 0)
 
-    if st.button("Save"):
-        st.session_state['character'] = Character(data)
+    st.session_state['character'] = Character(data)

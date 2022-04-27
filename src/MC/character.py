@@ -24,3 +24,14 @@ class Character:
 
     def as_dict(self):
         return self.attributes
+
+    def apply_buffs():
+        pass
+
+    def next_attack(self):
+        pass
+
+    def get_name(self):
+        return self.attributes["name"]
+
+    name = property(get_name)
