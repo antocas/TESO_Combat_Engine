@@ -49,6 +49,7 @@ def main_combat_test():
 
     combat_minutes = seconds//60
     combat_seconds = seconds%60
-    print(f"Derrotado en {combat_minutes} minutos, {combat_seconds} segundos, con dps {initial_health//seconds}")
+    
     st.session_state['dps'] = initial_health//seconds
-    st.session_state['time'] = seconds
+    st.session_state['time_minutes'] = combat_minutes
+    st.session_state['time_seconds'] = combat_seconds

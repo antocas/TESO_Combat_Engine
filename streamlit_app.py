@@ -9,12 +9,14 @@ def sidebar_block():
     return st.sidebar.selectbox("Options", ('Dummy', 'Character', 'Skills'))
 
 def dps_metric():
-    columns = st.columns([2, 2, 6, 2])
+    columns = st.columns([2, 2, 2, 4, 2])
     with columns[0]:
         st.metric(label="DPS", value=st.session_state.get('dps') or 0)
     with columns[1]:
-        st.metric(label="Time (seconds)", value=st.session_state.get('time') or 0)
-    with columns[3]:
+        st.metric(label="Time (minutes)", value=st.session_state.get('time_minutes') or 0)
+    with columns[2]:
+        st.metric(label="Time (seconds)", value=st.session_state.get('time_seconds') or 0)
+    with columns[4]:
         if st.button('Calculate', on_click=main_combat_test):
             st.experimental_rerun()
 
