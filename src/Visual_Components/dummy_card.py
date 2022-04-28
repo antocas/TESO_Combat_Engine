@@ -16,3 +16,13 @@ def generate_dummy_card():
 
     if st.button("Save"):
         st.session_state['dummy'] = Dummy(data)
+
+    st.session_state['dummy'] = Dummy(data)
+    loading_dummy = st.sidebar.file_uploader('Load dummy')
+    st.sidebar.download_button('Save dummy',
+        json.dumps(st.session_state['dummy'].as_dict()),
+        (st.session_state['dummy'].name+'.json')
+    )
+    if loading_dummy:
+        stringio = StringIO(loading_dummy.getvalue().decode("utf-8"))
+        st.session_state['dummy'] = Dummy(json.loads(stringio.read()))
