@@ -30,7 +30,7 @@ def dps_metric():
         st.session_state['old_time_seconds'] = new
 
 if __name__ == '__main__':
-    st.set_page_config(layout="wide")
+    st.set_page_config(page_title="Combatest", page_icon='⚔️', layout="wide")
     dps_metric()
     sidebar_block_option = sidebar_block()
     
