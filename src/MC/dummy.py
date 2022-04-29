@@ -6,14 +6,14 @@ from src.MC.effects import Effect
 
 class Dummy:
     """ Dummy class """
-    def __init__(self, health=21000000, base_armor=18200):
+    def __init__(self, kwargs):
         """ Dummy class """
         self.attributes = {
-            "health_bar": health, # 21M Dummy
-            "debuffs": {},
-            "base_resistance": base_armor, # Standard armor, just to reaply each round
-            "spell_resistance": base_armor,
-            "physical_resistance": base_armor,
+            "name": kwargs.get('name') or "Iron Atronach",
+            "health_bar": kwargs.get('health') or 21000000, #21M Dummy
+            "debuffs": kwargs.get('debuffs') or {},
+            "base_resistance": kwargs.get('base_armor') or 18200, # Standard armor
+            "physical_resistance": kwargs.get('base_armor') or 18200,
             "damage_extra": 0,
             "critical_damage_extra": 0
         }
@@ -22,7 +22,7 @@ class Dummy:
         """ Str dummy """
         print("Health bar:", self.attributes["health_bar"])
         print("Debufs")
-        print(self.attributes["debufs"])
+        # print(self.attributes["debufs"])
         return "Dummy class"
 
     def hit_dummy(self, damage, penetration, type_of_damage='spell_resistance', critical_damage=False):
@@ -70,3 +70,6 @@ class Dummy:
     def reset_resistances(self):
         self.attributes['spell_resistance'] = self.attributes["base_resistance"]
         self.attributes['physical_resistance'] = self.attributes["base_resistance"]
+
+    def as_dict(self):
+        return self.attributes
