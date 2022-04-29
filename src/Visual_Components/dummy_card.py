@@ -19,8 +19,6 @@ def generate_dummy_card():
     st.session_state['dummy'] = Dummy(data)
     loading_dummy = st.sidebar.file_uploader('Load dummy')
 
-    print(st.session_state['dummy'])
-
     st.sidebar.download_button('Save dummy',
         json.dumps(st.session_state['dummy'].as_dict()),
         (st.session_state['dummy'].as_dict()['name']+'.json')

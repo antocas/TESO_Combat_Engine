@@ -13,6 +13,7 @@ class Dummy:
             "health_bar": kwargs.get('health') or 21000000, #21M Dummy
             "debuffs": kwargs.get('debuffs') or {},
             "base_resistance": kwargs.get('base_armor') or 18200, # Standard armor
+            "spell_resistance": kwargs.get('base_armor') or 18200,
             "physical_resistance": kwargs.get('base_armor') or 18200,
             "damage_extra": 0,
             "critical_damage_extra": 0
@@ -56,6 +57,7 @@ class Dummy:
                 stat = (self.attributes[ debuff.stat_affected ] * debuff.value) // 100
             elif debuff.mode == 'fixed':
                 stat = debuff.value
+            print(name, debuff)
             self.attributes[ debuff.stat_affected ] = max(0, self.attributes[ debuff.stat_affected ] - stat)
             try:
                 debuff.decrease_duration()
