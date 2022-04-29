@@ -12,7 +12,7 @@ def main_combat_test(**kwargs):
     print('*'*100)
     initial_health = kwargs.get("health") or 21000000
 
-    test_dummy = dummy.Dummy(health=initial_health)
+    test_dummy = dummy.Dummy({})
     queue = combat_queue.QueueAttack()
     seconds = 0
 
