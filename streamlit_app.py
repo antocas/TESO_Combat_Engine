@@ -11,7 +11,9 @@ def sidebar_block():
 def dps_metric():
     columns = st.columns([2, 1, 2, 2, 2])
     with columns[0]:
-        if st.button('Calculate', on_click=main_combat_test, kwargs={"health":300000}):
+        if st.button('Calculate'):
+            with st.spinner('Calculating dps'):
+                main_combat_test()
             st.experimental_rerun()
     with columns[2]:
         new = st.session_state.get('dps') or 0
