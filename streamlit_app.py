@@ -1,9 +1,10 @@
 import streamlit as st
 
-from src.Visual_Components.character_card import generate_character_card
+from src.Visual_Components.skill_card import generate_skill_card
 from src.Visual_Components.dummy_card import generate_dummy_card
+from src.Visual_Components.character_card import generate_character_card
 
-from main import main_combat_test
+from src.MC.combat_simulator import main_combat
 
 def sidebar_block():
     return st.sidebar.selectbox("Options", ('Dummy', 'Character', 'Skills'))
@@ -13,7 +14,10 @@ def dps_metric():
     with columns[0]:
         if st.button('Calculate'):
             with st.spinner('Calculating dps'):
-                main_combat_test()
+                if st.session_state.get('dummy') and st.session_state.get('character'):
+                    main_combat(st.session_state.get('dummy'), st.session_state.get('character'))
+                else:
+                    st.error('You need some data on your dummy or your character')
             st.experimental_rerun()
     with columns[2]:
         new = st.session_state.get('dps') or 0
@@ -35,13 +39,15 @@ if __name__ == '__main__':
     st.set_page_config(page_title="Combatest", page_icon='⚔️', layout="wide")
     dps_metric()
     sidebar_block_option = sidebar_block()
-    
+
     if 'Character' == sidebar_block_option:
         generate_character_card()
-        
-   
+
     if 'Dummy' == sidebar_block_option:
         generate_dummy_card()
 
+    if 'Skills' == sidebar_block_option:
+        generate_skill_card()
+
     if st.sidebar.button('Refesh data'):
-        st.experimental_rerun() 
+        st.experimental_rerun()

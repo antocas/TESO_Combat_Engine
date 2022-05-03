@@ -33,5 +33,13 @@ class Character:
 
     def get_name(self):
         return self.attributes["name"]
-
+    def get_spell_damage(self):
+        return self.attributes["spell_damage"]
+    def get_spell_critical(self):
+        return self.attributes["spell_critical"]
+    def get_spell_penetration(self):
+        return self.attributes["spell_penetration"]
     name = property(get_name)
+    spell_damage = property(get_spell_damage)
+    spell_critical = property(get_spell_critical)
+    spell_penetration = property(get_spell_penetration)

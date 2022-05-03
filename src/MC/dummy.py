@@ -74,4 +74,18 @@ class Dummy:
         self.attributes['physical_resistance'] = self.attributes["base_resistance"]
 
     def as_dict(self):
-        return self.attributes
+        data = {
+            "name": self.attributes['name'],
+            "health_bar": self.attributes['health_bar'],
+            "base_resistance": self.attributes['base_resistance'],
+            "spell_resistance": self.attributes['spell_resistance'],
+            "physical_resistance": self.attributes['physical_resistance'],
+            "damage_extra": 0,
+            "critical_damage_extra": 0
+        }
+        return data
+
+    def get_health(self):
+        return self.attributes['health_bar']
+
+    health = property(get_health)

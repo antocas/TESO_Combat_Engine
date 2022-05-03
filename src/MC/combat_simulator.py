@@ -1,6 +1,7 @@
 """ Main for testing """
 import random
-from src.MC import dummy
+from src.MC.dummy import Dummy
+from src.MC.character import Character
 from src.MC import attack
 from src.MC import combat_queue
 
@@ -8,19 +9,16 @@ from src.Instances.model_attack import *
 
 import streamlit as st
 
-def main_combat_test(**kwargs):
-    print('*'*100)
-    initial_health = kwargs.get("health") or 21000000
-
-    test_dummy = dummy.Dummy({})
+def main_combat(dummy:Dummy, character:Character):
     queue = combat_queue.QueueAttack()
+    initial_health = dummy.health
     seconds = 0
+    channeling_time = 1
 
+    circular = [barbed_trap, wall_of_elements, mystic_orb, blazing_spear, degeneration, puncturing_sweep]
+    dummy.set_debuff(minor_breach)
 
-    circular = [wall_of_elements, mystic_orb, barbed_trap, degeneration]
-    test_dummy.set_debuff(minor_breach)
-
-    while test_dummy.attributes["health_bar"] > 0:
+    while dummy.attributes["health_bar"] > 0:
         queue.add_attack(light_attack)
         for to_renovate in circular:
             if not queue.in_queue(to_renovate._name):
@@ -29,25 +27,26 @@ def main_combat_test(**kwargs):
                 break
         
         # DAMAGE = 5000
-        CRIT_PROB = 0.91
-        MAX_CRIT = 0.91
-        PENETRATION = 5395
+        CRIT_PROB = character.spell_critical
+        MAX_CRIT = character.spell_critical
+        PENETRATION = character.spell_penetration
         # PENETRATION = 18200
 
-        test_dummy.apply_debuffs()
+        dummy.apply_debuffs()
         
         # RONDA DE ATAQUES
         for name, attack in queue._attacks.items():
+            print(name)
             DAMAGE = attack._value
             if random.random() <= CRIT_PROB:
                 DAMAGE += DAMAGE*MAX_CRIT
-            test_dummy.hit_dummy(DAMAGE, PENETRATION)
+            dummy.hit_dummy(DAMAGE, PENETRATION)
             # TEST
-            queue.decrease_attack_duration(attack._name)
-        
-        test_dummy.reset_resistances()
+            queue.decrease_attack_duration(attack._name, channeling_time)
+        print('*'*200)
+        dummy.reset_resistances()
         queue.clear_attacks()
-        seconds += 1
+        seconds = seconds + channeling_time
 
     combat_minutes = seconds//60
     combat_seconds = seconds%60

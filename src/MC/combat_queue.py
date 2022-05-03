@@ -17,9 +17,9 @@ class QueueAttack:
         """ Add to queue """
         self._attacks[attack._name] = deepcopy(attack)
 
-    def decrease_attack_duration(self, attack_name:str):
+    def decrease_attack_duration(self, attack_name:str, channeling_time:int=1):
         """ Remove from queue """
-        self._attacks[attack_name]._duration = self._attacks[attack_name]._duration - 1
+        self._attacks[attack_name]._duration = self._attacks[attack_name]._duration - channeling_time
         if self._attacks[attack_name]._duration == 0:
             self._to_remove.append(attack_name)
 
