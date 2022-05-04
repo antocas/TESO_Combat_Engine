@@ -1,6 +1,7 @@
 import streamlit as st
 
-from src.Visual_Components.skill_card import generate_skill_card, generate_skill_card_plus
+from src.Visual_Components.skill_card import generate_skill_card
+from src.Visual_Components.skill_card import generate_skill_card_plus
 from src.Visual_Components.dummy_card import generate_dummy_card
 from src.Visual_Components.character_card import generate_character_card
 
