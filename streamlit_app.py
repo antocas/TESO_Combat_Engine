@@ -1,6 +1,6 @@
 import streamlit as st
 
-from src.Visual_Components.skill_card import generate_skill_card
+from src.Visual_Components.skill_card import generate_skill_card, generate_skill_card_plus
 from src.Visual_Components.dummy_card import generate_dummy_card
 from src.Visual_Components.character_card import generate_character_card
 
@@ -47,7 +47,10 @@ if __name__ == '__main__':
         generate_dummy_card()
 
     if 'Skills' == sidebar_block_option:
-        generate_skill_card()
+        if st.sidebar.checkbox('Plus', value=True):
+            generate_skill_card_plus()
+        else:
+            generate_skill_card()
 
     if st.sidebar.button('Refesh data'):
         st.experimental_rerun()

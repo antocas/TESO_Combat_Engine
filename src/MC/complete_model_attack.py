@@ -19,6 +19,7 @@ class Attack:
         spell_damage = 4500
         flat_damage_amp = 0
         skill_level = 0.033
+        dmg = []
 
         if skill_coef_spell_damage/skill_coef_max_magicka > 10.6 or skill_coef_spell_damage/skill_coef_max_magicka < 10.4:
             print("Posible error", skill_coef_spell_damage/skill_coef_max_magicka)
