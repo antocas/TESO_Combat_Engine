@@ -8,7 +8,7 @@ from src.Visual_Components.character_card import generate_character_card
 from src.MC.combat_simulator import main_combat
 
 def sidebar_block():
-    return st.sidebar.selectbox("Options", ('Dummy', 'Character', 'Skills'))
+    return st.sidebar.selectbox("Options", ('Character', 'Skills', 'Dummy'))
 
 def dps_metric():
     columns = st.columns([2, 1, 2, 2, 2])
@@ -44,14 +44,14 @@ if __name__ == '__main__':
     if 'Character' == sidebar_block_option:
         generate_character_card()
 
-    if 'Dummy' == sidebar_block_option:
-        generate_dummy_card()
-
     if 'Skills' == sidebar_block_option:
         if st.sidebar.checkbox('Plus', value=True):
             generate_skill_card_plus()
         else:
             generate_skill_card()
+
+    if 'Dummy' == sidebar_block_option:
+        generate_dummy_card()
 
     if st.sidebar.button('Refesh data'):
         st.experimental_rerun()
