@@ -8,7 +8,7 @@ from src.mc.skill import Skill
 import streamlit as st
 
 def load_data_from_storage(skill_name):
-    file_name = f'src/generators/gkills/{skill_name}.json'.replace(' ', '_')
+    file_name = f'src/generators/skills/{skill_name}.json'.replace(' ', '_')
     skill = {}
     with open(file_name, 'r+', encoding='utf-8') as f:
         skill = json.load(f)
