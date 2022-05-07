@@ -1,6 +1,6 @@
 """ Class attack """
 
-from src.MC.character import Character
+from src.mc.character import Character
 
 
 class Attack:

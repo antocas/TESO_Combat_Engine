@@ -1,11 +1,11 @@
 import streamlit as st
 
-from src.Visual_Components.skill_card import generate_skill_card
-from src.Visual_Components.skill_card import generate_skill_card_plus
-from src.Visual_Components.dummy_card import generate_dummy_card
-from src.Visual_Components.character_card import generate_character_card
+from src.visual_components.skill_card import generate_skill_card
+from src.visual_components.skill_card import generate_skill_card_plus
+from src.visual_components.dummy_card import generate_dummy_card
+from src.visual_components.character_card import generate_character_card
 
-from src.MC.combat_simulator import main_combat
+from src.mc.combat_simulator import main_combat
 
 def sidebar_block():
     return st.sidebar.selectbox("Options", ('Character', 'Skills', 'Dummy'))

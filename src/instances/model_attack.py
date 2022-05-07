@@ -1,6 +1,6 @@
 """ Models based on attacks """
-from src.MC import attack
-from src.Instances.model_debuffs import *
+from src.mc import attack
+from src.instances.model_debuffs import *
 
 light_attack = attack.Attack(
     name='Light attack', value=12500, duration=1, type='Direct damage'

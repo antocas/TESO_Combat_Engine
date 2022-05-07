@@ -3,10 +3,10 @@ from io import StringIO
 
 import streamlit as st
 
-from src.Visual_Components.skill_card import clean_skills
+from src.visual_components.skill_card import clean_skills
 from src.config.class_names import class_names
 from src.config.weapon_names import weapon_names
-from src.MC.character import Character
+from src.mc.character import Character
 
 def block_load_data():
     st.session_state['character_loaded'] = not st.session_state['character_loaded']

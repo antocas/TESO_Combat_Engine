@@ -2,7 +2,7 @@ import json
 from io import StringIO
 import streamlit as st
 
-from src.MC.dummy import Dummy
+from src.mc.dummy import Dummy
 
 def generate_dummy_card():
     data = {}

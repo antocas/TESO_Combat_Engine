@@ -1,0 +1,18 @@
+{
+    "name": "Name",
+    "class_name": "Class",
+    "max_health": "Max health",
+    "spell_damage": "Spell damage",
+    "weapon_damage": "Weapon damage",
+    "main_bar": "Main bar",
+    "second_bar": "Second bar",
+    "max_magicka": "Max magicka",
+    "spell_critical": "Spell critical",
+    "weapon_critical": "Weapon critical",
+    "max_stamina": "Max stamina",
+    "spell_penetration": "Spell penetration",
+    "physical_penetration": "Physical penetration",
+    "dps": "DPS",
+    "time_minutes": "Time (minutes)",
+    "time_seconds": "Time (seconds)"
+}

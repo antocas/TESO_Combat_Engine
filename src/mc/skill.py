@@ -1,6 +1,6 @@
 """ Class character """
 
-from src.MC.character import Character
+from src.mc.character import Character
 
 
 class Skill:
@@ -21,8 +21,13 @@ class Skill:
             skill_coef_spell_damage = float(self.attributes[f'b{n_coef}'])
             spell_damage = int(character.spell_damage)
             self.attributes[f'userCoef{n_coef}'] = (skill_coef_max_magicka * max_magicka + skill_coef_spell_damage * spell_damage)
+    
+    @property
+    def description(self):
+        return self.attributes['description']
 
-    def get_coef_description(self):
+    @property
+    def coef_description(self):
         return self.attributes['coefDescription']
 
     def get_calculated_damage(self):
@@ -34,6 +39,3 @@ class Skill:
 
     def get_calculated_description(self):
         self.attributes['coef_description'] = re.sub(r'\$\d', '{}', st.session_state['skills_available'][skill_name]['coefDescription'])
-
-
-    coef_description = property(get_coef_description)

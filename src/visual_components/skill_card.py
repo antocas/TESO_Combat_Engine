@@ -4,11 +4,11 @@ import json
 
 from src.config.class_names import class_names
 from src.config.skills_names import skills_names
-from src.MC.skill import Skill
+from src.mc.skill import Skill
 import streamlit as st
 
 def load_data_from_storage(skill_name):
-    file_name = f'src/Generators/Skills/{skill_name}.json'.replace(' ', '_')
+    file_name = f'src/generators/gkills/{skill_name}.json'.replace(' ', '_')
     skill = {}
     with open(file_name, 'r+', encoding='utf-8') as f:
         skill = json.load(f)
@@ -59,11 +59,15 @@ def generate_skill_card_plus():
     # Show (as expandible) selected skills
     for skill_name in selections:
         with st.expander(skill_name):
+            # print(st.session_state['skills_available'][skill_name])
             # Substitude $1 and alike for {}
             coef_description = re.sub(r'\$\d', '{}', st.session_state['skills_available'][skill_name].coef_description)
-            # Calculate damage
-            st.session_state['skills_available'][skill_name].calculate_coefs(st.session_state['character'])
-            # Damage
-            damage = st.session_state['skills_available'][skill_name].get_calculated_damage()
-            # Format output text
-            st.write( coef_description.format(*damage) )
+            if coef_description == '':
+                st.caption(st.session_state['skills_available'][skill_name].description)
+            else:
+                # Calculate damage
+                st.session_state['skills_available'][skill_name].calculate_coefs(st.session_state['character'])
+                # Damage
+                damage = st.session_state['skills_available'][skill_name].get_calculated_damage()
+                # Format output text
+                st.caption(coef_description.format(*damage))

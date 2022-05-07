@@ -22,6 +22,6 @@ for skill in skills:
         table_id = i.find('th').text
         value = i.find('td').text
         skill_dict[table_id] = value
-    file_name = 'src/Generators/Skills/'+skill_dict['name']+'.json'
+    file_name = 'src/generators/skills/'+skill_dict['name']+'.json'
     with open(file_name.replace(' ', '_'), 'w+', encoding='utf-8') as f:
         json.dump(skill_dict, f)

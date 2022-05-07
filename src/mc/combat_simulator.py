@@ -1,11 +1,11 @@
 """ Main for testing """
 import random
-from src.MC.dummy import Dummy
-from src.MC.character import Character
-from src.MC import attack
-from src.MC import combat_queue
+from src.mc.dummy import Dummy
+from src.mc.character import Character
+from src.mc import attack
+from src.mc import combat_queue
 
-from src.Instances.model_attack import *
+from src.instances.model_attack import *
 
 import streamlit as st
 

@@ -1,6 +1,6 @@
 """ Queue for attacks """
 from copy import deepcopy
-from src.MC import attack
+from src.mc import attack
 
 class QueueAttack:
     """ Queue for attacks """

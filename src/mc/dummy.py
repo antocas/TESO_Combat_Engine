@@ -1,7 +1,7 @@
 """ Dummy class """
 
 from copy import deepcopy
-from src.MC.effects import Effect
+from src.mc.effects import Effect
 
 
 class Dummy:
