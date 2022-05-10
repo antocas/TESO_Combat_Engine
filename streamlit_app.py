@@ -1,7 +1,6 @@
 import streamlit as st
 
 from src.visual_components.skill_card import generate_skill_card
-from src.visual_components.skill_card import generate_skill_card_plus
 from src.visual_components.skill_card import generate_skills_icons
 from src.visual_components.dummy_card import generate_dummy_card
 from src.visual_components.character_card import generate_character_card
@@ -48,11 +47,8 @@ if __name__ == '__main__':
         generate_character_card()
 
     if 'Skills' == sidebar_block_option:
-        if st.sidebar.checkbox('Plus', value=True):
-            generate_skill_card_plus()
-            generate_skills_icons()
-        else:
-            generate_skill_card()
+        generate_skill_card()
+        generate_skills_icons()
 
     if 'Dummy' == sidebar_block_option:
         generate_dummy_card()

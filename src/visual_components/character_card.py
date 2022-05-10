@@ -23,6 +23,14 @@ def generate_character_card():
     if st.session_state.get('character'):
         data = st.session_state['character'].attributes
     
+    # * Load character from file
+    loading_character = st.sidebar.file_uploader('Load character', on_change=block_load_data)
+    if loading_character:
+        stringio = StringIO(loading_character.getvalue().decode("utf-8"))
+        data = json.loads(stringio.read())
+        block_load_data()
+
+    # * All visual inputs
     data['name'] = st.text_input("Name", value = data.get('name') or "")
     cols = st.columns(2)
     with cols[0]:
@@ -69,13 +77,9 @@ def generate_character_card():
         gen_spacing(3)
         data['physical_resistance'] = st.text_input("Physical resistance", value = data.get('physical_resistance') or 0)
 
+    # * Save character to a file
     st.session_state['character'] = Character(data)
-    loading_character = st.sidebar.file_uploader('Load character', disabled=not st.session_state['character_loaded'])
     st.sidebar.download_button('Save character',
         json.dumps(st.session_state['character'].as_dict()),
         (st.session_state['character'].name+'.json')
     )
-    if loading_character and st.session_state['character_loaded']:
-        stringio = StringIO(loading_character.getvalue().decode("utf-8"))
-        st.session_state['character'] = Character(json.loads(stringio.read()))
-        block_load_data()

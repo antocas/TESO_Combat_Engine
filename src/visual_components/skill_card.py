@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-from src.config.class_names import class_names
+# from src.config.class_names import class_names
 from src.config.skills_names import skills_names
 from src.mc.skill import Skill
 import streamlit as st
@@ -30,33 +30,23 @@ def generate_skills_icons():
                 st.image(img)
             i = i + 1
 
-def generate_skill_card():
-    selections = st.multiselect('Skill name', skills_names)
-    skills = {}
-    for selection in selections:
-        if not skills.get(selection):
-            skills[selection] = load_data_from_storage(selection)
-    for skill_name, skill in skills.items():
-        with st.expander(skill_name):
-            skill['coefDescription'] = re.sub(r'\$\d', '{}', skill['coefDescription'])
-            max_coefs = int(skill['numCoefVars']) + 1
-            static_damages = []
-            for coef in range(1, max_coefs):
-                static_damage = f'staticDamage{coef}'
-                skill[static_damage] = int(st.number_input(f'Valor {coef}', min_value=0, value=0, key=skill_name+static_damage))
-                static_damages.append(str(skill[static_damage]))
-            st.write( skill['coefDescription'].format(*static_damages) )
+def generate_skill_in_columns():
+    pass
 
-def generate_skill_card_plus():
-    st.title('Esto es plus')
-    # Check character exists
+def generate_skill_card():
+    # * Check character exists
     if not st.session_state.get('character'):
         st.error('First, you need to create a character')
         return None
-    # Check if skills are loaded, and load them
+
+    # * Check if skills are loaded, and load them
     if not st.session_state.get('skills_available'):
         st.session_state['skills_available'] = {}
         st.session_state['passives_available'] = {}
+
+        skills_name = [ s.replace('.json', '').replace('_', ' ') for s in os.listdir('src/generators/skills') ]
+        print(skills_name)
+
         for skill_name in skills_names:
             skill = load_data_from_storage(skill_name)
             if skill['classType'] == st.session_state['character'].class_name or skill['skillLine'] == st.session_state['character'].main_bar or skill['skillLine'] == st.session_state['character'].second_bar:
@@ -64,15 +54,14 @@ def generate_skill_card_plus():
                     st.session_state['skills_available'][skill_name] = Skill(skill)
                 else:
                     st.session_state['passives_available'][skill_name] = Skill(skill)
-
-    # Filter out necessary skills
+    # * Filter out necessary skills
     skills_names_plus = list(st.session_state['skills_available'].keys())
     selections = st.multiselect('Skill name', skills_names_plus)
     skills = {}
     st.session_state['skills_selected'] = [ st.session_state['skills_available'][skill_name] for skill_name in selections ]
 
 
-    # Show (as expandible) selected skills
+    # * Show (as expandible) selected skills
     for skill_name in selections:
         with st.expander(skill_name):
             # print(st.session_state['skills_available'][skill_name])
