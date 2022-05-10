@@ -21,6 +21,9 @@ for skill in skills:
     for i in table:
         table_id = i.find('th').text
         value = i.find('td').text
+        if table_id == "texture":
+            img_link = i.find('a').get('href')
+            value = f'https:{img_link}'
         skill_dict[table_id] = value
     file_name = 'src/generators/skills/'+skill_dict['name']+'.json'
     with open(file_name.replace(' ', '_'), 'w+', encoding='utf-8') as f:

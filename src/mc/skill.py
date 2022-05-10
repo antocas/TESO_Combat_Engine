@@ -23,6 +23,10 @@ class Skill:
             self.attributes[f'userCoef{n_coef}'] = (skill_coef_max_magicka * max_magicka + skill_coef_spell_damage * spell_damage)
     
     @property
+    def image(self):
+        return self.attributes['texture']
+
+    @property
     def description(self):
         return self.attributes['description']
 

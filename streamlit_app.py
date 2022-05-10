@@ -2,12 +2,15 @@ import streamlit as st
 
 from src.visual_components.skill_card import generate_skill_card
 from src.visual_components.skill_card import generate_skill_card_plus
+from src.visual_components.skill_card import generate_skills_icons
 from src.visual_components.dummy_card import generate_dummy_card
 from src.visual_components.character_card import generate_character_card
 
 from src.mc.combat_simulator import main_combat
 
 def sidebar_block():
+    config = {}
+    # options['']
     return st.sidebar.selectbox("Options", ('Character', 'Skills', 'Dummy'))
 
 def dps_metric():
@@ -47,6 +50,7 @@ if __name__ == '__main__':
     if 'Skills' == sidebar_block_option:
         if st.sidebar.checkbox('Plus', value=True):
             generate_skill_card_plus()
+            generate_skills_icons()
         else:
             generate_skill_card()
 

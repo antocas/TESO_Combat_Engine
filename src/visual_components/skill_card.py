@@ -20,6 +20,16 @@ def clean_skills():
     except:
         st.error('No skills loaded')
 
+def generate_skills_icons():
+    if st.session_state.get('skills_selected'):
+        images_cols = st.columns(10)
+        i = 0
+        for skill in st.session_state['skills_selected']:
+            with images_cols[i]:
+                img = skill.image
+                st.image(img)
+            i = i + 1
+
 def generate_skill_card():
     selections = st.multiselect('Skill name', skills_names)
     skills = {}
@@ -46,15 +56,21 @@ def generate_skill_card_plus():
     # Check if skills are loaded, and load them
     if not st.session_state.get('skills_available'):
         st.session_state['skills_available'] = {}
+        st.session_state['passives_available'] = {}
         for skill_name in skills_names:
             skill = load_data_from_storage(skill_name)
             if skill['classType'] == st.session_state['character'].class_name or skill['skillLine'] == st.session_state['character'].main_bar or skill['skillLine'] == st.session_state['character'].second_bar:
-                st.session_state['skills_available'][skill_name] = Skill(skill)
+                if skill['isPassive'] == "0":
+                    st.session_state['skills_available'][skill_name] = Skill(skill)
+                else:
+                    st.session_state['passives_available'][skill_name] = Skill(skill)
 
     # Filter out necessary skills
     skills_names_plus = list(st.session_state['skills_available'].keys())
     selections = st.multiselect('Skill name', skills_names_plus)
     skills = {}
+    st.session_state['skills_selected'] = [ st.session_state['skills_available'][skill_name] for skill_name in selections ]
+
 
     # Show (as expandible) selected skills
     for skill_name in selections:
@@ -71,3 +87,7 @@ def generate_skill_card_plus():
                 damage = st.session_state['skills_available'][skill_name].get_calculated_damage()
                 # Format output text
                 st.caption(coef_description.format(*damage))
+
+    passives_names_plus = list(st.session_state['passives_available'].keys())
+    selections = st.multiselect('Passives name', passives_names_plus)
+    passives = {}
