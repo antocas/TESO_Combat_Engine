@@ -1,7 +1,7 @@
 """ Class character """
 
 from src.mc.character import Character
-
+import re
 
 class Skill:
     def __init__(self, atributes):
@@ -23,8 +23,24 @@ class Skill:
             self.attributes[f'userCoef{n_coef}'] = (skill_coef_max_magicka * max_magicka + skill_coef_spell_damage * spell_damage)
     
     @property
+    def skill_id(self):
+        return self.attributes['id']    
+
+    @property
     def image(self):
         return self.attributes['texture']
+
+    @property
+    def skill_type(self):
+        return self.attributes['skillType']
+
+    @property
+    def skill_line(self):
+        return self.attributes['skillLine']
+
+    @property
+    def name(self):
+        return self.attributes['name']
 
     @property
     def description(self):
