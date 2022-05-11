@@ -33,23 +33,23 @@ def generate_character_card():
     cols = st.columns(2)
     with cols[0]:
         try:
-            data['races'] = st.selectbox("Races", races_names, index=races_names.index(data.get('races')))
+            data['races'] = st.selectbox("Races", races_names, on_change=clean_skills, index=races_names.index(data.get('races')))
         except:
-            data['races'] = st.selectbox("Races", races_names)
+            data['races'] = st.selectbox("Races", races_names, on_change=clean_skills)
         try:
-            data['main_bar'] = st.selectbox("Main bar", weapon_names, index=weapon_names.index(data.get('main_bar')))
+            data['main_bar'] = st.selectbox("Main bar", weapon_names, on_change=clean_skills, index=weapon_names.index(data.get('main_bar')))
         except Exception as e:
-            data['main_bar'] = st.selectbox("Main bar", weapon_names)
+            data['main_bar'] = st.selectbox("Main bar", weapon_names, on_change=clean_skills)
 
     with cols[1]:
         try:
             data['class'] = st.selectbox("Class", class_names, on_change=clean_skills, index=class_names.index(data.get('class')))
         except:
-            data['class'] = st.selectbox("Class", class_names)
+            data['class'] = st.selectbox("Class", class_names, on_change=clean_skills)
         try:
-            data['second_bar'] = st.selectbox("Second bar", weapon_names, index=weapon_names.index(data.get('second_bar')))
+            data['second_bar'] = st.selectbox("Second bar", weapon_names, on_change=clean_skills, index=weapon_names.index(data.get('second_bar')))
         except Exception as e:
-            data['second_bar'] = st.selectbox("Second bar", weapon_names)
+            data['second_bar'] = st.selectbox("Second bar", weapon_names, on_change=clean_skills)
 
     gen_spacing(3)
     cols = st.columns(2)
