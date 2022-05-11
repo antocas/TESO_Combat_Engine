@@ -9,9 +9,7 @@ from src.config.races_names import races_names
 from src.config.weapon_names import weapon_names
 from src.mc.character import Character
 
-def gen_spacing(n_of_spaces=3):
-    for _ in range(n_of_spaces):
-        st.text("")
+from src.common.visual_utils import gen_spacing
 
 def block_load_data():
     st.session_state['character_loaded'] = not st.session_state['character_loaded']

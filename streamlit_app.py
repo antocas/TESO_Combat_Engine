@@ -1,5 +1,6 @@
 import streamlit as st
 
+from src.common.visual_utils import gen_spacing
 from src.visual_components.skill_card import generate_skill_card
 from src.visual_components.skill_card import generate_skills_icons
 from src.visual_components.dummy_card import generate_dummy_card
@@ -48,7 +49,6 @@ if __name__ == '__main__':
 
     if 'Skills' == sidebar_block_option:
         generate_skill_card()
-        generate_skills_icons()
 
     if 'Dummy' == sidebar_block_option:
         generate_dummy_card()
