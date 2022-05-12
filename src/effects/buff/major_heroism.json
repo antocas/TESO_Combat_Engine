@@ -1,0 +1,9 @@
+{
+    "name": "Major Heroism",
+    "effect": "3 Ultimate/1.5 Seconds",
+    "value": "3",
+    "timer": "1.5",
+    "increase": true,
+    "target": "Self",
+    "benefit": "ultimate"
+}

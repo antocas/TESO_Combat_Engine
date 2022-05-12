@@ -1,3 +1,5 @@
+""" Races names """
+
 races_names = sorted(["Argonian",
 "Breton",
 "Dark Elf",

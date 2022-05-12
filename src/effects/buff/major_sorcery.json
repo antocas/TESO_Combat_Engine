@@ -1,0 +1,9 @@
+{
+    "name": "Major Sorcery",
+    "effect": "20% Spell Damage Increase",
+    "value": "20%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "spell damage"
+}

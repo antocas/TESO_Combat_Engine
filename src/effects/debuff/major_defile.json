@@ -1,0 +1,9 @@
+{
+    "name": "Major Defile",
+    "effect": "Reduces Target's Healing Taken by 16%",
+    "value": "16%",
+    "timer": 0,
+    "increase": false,
+    "target": "Target",
+    "benefit": "healing taken"
+}

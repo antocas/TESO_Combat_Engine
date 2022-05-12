@@ -1,0 +1,9 @@
+{
+    "name": "Major Brittle",
+    "effect": "Target takes 20% more Critical Damage",
+    "value": "20%",
+    "timer": 0,
+    "increase": true,
+    "target": "Target",
+    "benefit": "critical damage"
+}

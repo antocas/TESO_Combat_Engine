@@ -1,0 +1,9 @@
+{
+    "name": "Major Maim",
+    "effect": "Reduces Target's Damage done by 10%",
+    "value": "10%",
+    "timer": 0,
+    "increase": false,
+    "target": "Target",
+    "benefit": "damage done"
+}

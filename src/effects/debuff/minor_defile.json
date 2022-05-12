@@ -1,0 +1,9 @@
+{
+    "name": "Minor Defile",
+    "effect": "Reduces Target's Healing Taken by 8%",
+    "value": "8%",
+    "timer": 0,
+    "increase": false,
+    "target": "Target",
+    "benefit": "healing taken"
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Minor Brutality",
+    "effect": "10% Damage Increase",
+    "value": "10%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "damage"
+}

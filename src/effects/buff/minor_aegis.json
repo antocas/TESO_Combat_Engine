@@ -1,0 +1,9 @@
+{
+    "name": "Minor Aegis",
+    "effect": "Reduces Damage Taken from PvE Monsters by 5%",
+    "value": "5%",
+    "timer": 0,
+    "increase": false,
+    "target": "Self",
+    "benefit": "damage taken"
+}

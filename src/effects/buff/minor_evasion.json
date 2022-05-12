@@ -1,0 +1,9 @@
+{
+    "name": "Minor Evasion",
+    "effect": "Reduces AOE Damage Taken by 10%",
+    "value": "10%",
+    "timer": 0,
+    "increase": false,
+    "target": "Self",
+    "benefit": "aoe damage taken"
+}

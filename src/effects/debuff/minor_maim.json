@@ -1,0 +1,9 @@
+{
+    "name": "Minor Maim",
+    "effect": "Reduces Target's Damage done by 5%",
+    "value": "5%",
+    "timer": 0,
+    "increase": false,
+    "target": "Target",
+    "benefit": "damage done"
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Major Evasion",
+    "effect": "Reduces AOE Damage Taken by 20%",
+    "value": "20%",
+    "timer": 0,
+    "increase": false,
+    "target": "Self",
+    "benefit": "aoe damage taken"
+}

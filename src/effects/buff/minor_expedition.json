@@ -1,0 +1,9 @@
+{
+    "name": "Minor Expedition",
+    "effect": "Speed Increase by 15%",
+    "value": "15%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "speed"
+}

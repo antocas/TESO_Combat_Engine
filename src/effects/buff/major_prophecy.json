@@ -1,0 +1,9 @@
+{
+    "name": "Major Prophecy",
+    "effect": "12% Spell Critical Increase",
+    "value": "12%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "spell critical"
+}

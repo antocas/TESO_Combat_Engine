@@ -1,0 +1,9 @@
+{
+    "name": "Major Resolve",
+    "effect": "5948 Physical/Spell Resistance",
+    "value": "5948",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": ["physical resistance", "spell resistance"]
+}

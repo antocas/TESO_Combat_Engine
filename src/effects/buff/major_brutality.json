@@ -1,0 +1,9 @@
+{
+    "name": "Major Brutality",
+    "effect": "20% Weapon Damage Increase",
+    "value": "20%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "weapon damage"
+}

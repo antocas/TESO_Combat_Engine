@@ -1,0 +1,9 @@
+{
+    "name": "Minor Prophecy",
+    "effect": "6% Spell Critical Increase",
+    "value": "6%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "spell critical"
+}

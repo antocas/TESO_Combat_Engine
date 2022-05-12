@@ -1,5 +1,5 @@
 """ Model for buffs and debuffs """
-from src.mc import effects
+from src.models import effects
 
 minor_breach = effects.Effect(
     name = 'Minor breach',

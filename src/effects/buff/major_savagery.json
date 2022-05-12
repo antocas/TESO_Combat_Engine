@@ -1,0 +1,9 @@
+{
+    "name": "Major Savagery",
+    "effect": "10% Weapon Critical Increase",
+    "value": "10%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "weapon critical"
+}

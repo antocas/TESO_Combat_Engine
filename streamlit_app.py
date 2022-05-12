@@ -1,12 +1,12 @@
 import streamlit as st
 
 from src.common.visual_utils import gen_spacing
-from src.visual_components.skill_card import generate_skill_card
-from src.visual_components.skill_card import generate_skills_icons
-from src.visual_components.dummy_card import generate_dummy_card
-from src.visual_components.character_card import generate_character_card
+from src.visual.skill_card import generate_skill_card
+from src.visual.skill_card import generate_skills_icons
+from src.visual.dummy_card import generate_dummy_card
+from src.visual.character_card import generate_character_card
 
-from src.mc.combat_simulator import main_combat
+from src.models.combat_simulator import main_combat
 
 def sidebar_block():
     config = {}

@@ -1,0 +1,9 @@
+{
+    "name": "Major Intellect",
+    "effect": "30% Magicka Recovery Increase",
+    "value": "30%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "magicka recovery"
+}

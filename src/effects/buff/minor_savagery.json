@@ -1,0 +1,9 @@
+{
+    "name": "Minor Savagery",
+    "effect": "6% Weapon Critical Increase",
+    "value": "6%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "weapon critical"
+}

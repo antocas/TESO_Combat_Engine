@@ -1,0 +1,9 @@
+{
+    "name": "Major Courage",
+    "effect": "Increases Spell/Weapon Damage by 430",
+    "value": "430",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": ["spell damage", "weapon damage"]
+}

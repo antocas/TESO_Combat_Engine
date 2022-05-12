@@ -1,0 +1,9 @@
+{
+    "name": "Minor Fortitude",
+    "effect": "15% Health Recovery Increase",
+    "value": "15%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "health recovery"
+}

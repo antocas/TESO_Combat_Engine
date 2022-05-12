@@ -1,5 +1,5 @@
 """ Models based on attacks """
-from src.mc import attack
+from src.models import attack
 from src.instances.model_debuffs import *
 
 light_attack = attack.Attack(

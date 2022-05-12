@@ -1,0 +1,9 @@
+{
+    "name": "Major Expedition",
+    "effect": "Speed Increase by 30%",
+    "value": "30%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "speed"
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Major Breach",
+    "effect": "5948 Resistance Debuff",
+    "value": "5948",
+    "timer": 0,
+    "increase": false,
+    "target": "Target",
+    "benefit": "Damage Taken"
+}

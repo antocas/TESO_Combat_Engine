@@ -1,0 +1,9 @@
+{
+    "name": "Minor Brittle",
+    "effect": "Target takes 10% more Critical Damage",
+    "value": "10%",
+    "timer": 0,
+    "increase": true,
+    "target": "Target",
+    "benefit": "critical damage"
+}

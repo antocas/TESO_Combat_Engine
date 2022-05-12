@@ -1,0 +1,9 @@
+{
+    "name": "Minor Berserk",
+    "effect": "5% Damage Done Increase",
+    "value": "5%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "damage done"
+}

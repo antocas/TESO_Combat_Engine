@@ -1,0 +1,9 @@
+{
+    "name": "Minor Force",
+    "effect": "10% Critical Damage Increase",
+    "value": "10%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "critical damage"
+}

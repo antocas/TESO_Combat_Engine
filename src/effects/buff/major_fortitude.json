@@ -1,0 +1,9 @@
+{
+    "name": "Major Fortitude",
+    "effect": "30% Health Recovery Increase",
+    "value": "30%",
+    "timer": 0,
+    "increase": true,
+    "target": "Self",
+    "benefit": "health recovery"
+}
