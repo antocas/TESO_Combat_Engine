@@ -41,7 +41,7 @@ def dps_metric():
 
 if __name__ == '__main__':
     st.set_page_config(page_title="Combatest", page_icon='⚔️', layout="wide")
-    dps_metric()
+    # dps_metric()
     sidebar_block_option = sidebar_block()
 
     if 'Character' == sidebar_block_option:

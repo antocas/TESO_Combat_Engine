@@ -2,6 +2,7 @@
     "name": "Minor Breach",
     "effect": "2974 Resistance Debuff",
     "value": "2974",
+    "mode": "fixed",
     "timer": 0,
     "increase": false,
     "target": "Target",

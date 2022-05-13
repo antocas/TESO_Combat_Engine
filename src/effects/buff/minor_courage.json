@@ -2,6 +2,7 @@
     "name": "Minor Courage",
     "effect": "Increases Spell/Weapon Damage by 215",
     "value": "215",
+    "mode": "fixed",
     "timer": 0,
     "increase": true,
     "target": "Self",

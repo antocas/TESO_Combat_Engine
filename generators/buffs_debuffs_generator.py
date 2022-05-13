@@ -10,7 +10,7 @@ raw_page = requests.get('https://eso-u.com/articles/buffs_and_debuffs_the_majorm
 soup = bs(raw_page.content, 'lxml')
 
 tables = soup.find_all("table")
-buff = True
+buff = 'buff'
 for table in tables[2:]:
     rows = table.find_all("tr")
     for row in rows[1:]:
@@ -27,7 +27,7 @@ for table in tables[2:]:
                 effect = effect.replace('(', '').replace(')', '')
                 filename = name.lower().replace(' ', '_')
                 
-                value = re.findall(r'\d+\%?', effect)
+                value = re.findall(r'\d+', effect)
                 if len(value) == 1:
                     value = value[0]
                 elif len(value) == 2:
@@ -36,6 +36,10 @@ for table in tables[2:]:
                 else:
                     value = ''
 
+                if '%' in effect:
+                    mode = "percent"
+                else:
+                    mode = "fixed"
                 if 'reduces' in effect.lower():
                     increase = False
                 if 'target' in effect.lower():
@@ -45,11 +49,12 @@ for table in tables[2:]:
                     'name': name,
                     'effect': effect,
                     'value': value,
+                    "mode": mode,
                     'timer': timer,
                     'increase': increase,
                     'target': target,
                     'benefit': ''
                 }
-                with open(f'src/effects/{filename}.json', 'w+', encoding='utf-8') as f:
+                with open(f'src/effects/{buff}/{filename}.json', 'w+', encoding='utf-8') as f:
                     json.dump(eff, f)
-    buff = not buff
+    buff = 'debuff'

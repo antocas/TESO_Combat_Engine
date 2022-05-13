@@ -1,7 +1,8 @@
 {
     "name": "Minor Endurance",
     "effect": "15% Stamina Recovery Increase",
-    "value": "15%",
+    "value": "15",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

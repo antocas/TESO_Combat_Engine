@@ -1,7 +1,8 @@
 {
     "name": "Minor Expedition",
     "effect": "Speed Increase by 15%",
-    "value": "15%",
+    "value": "15",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

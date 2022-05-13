@@ -1,7 +1,8 @@
 {
     "name": "Minor Berserk",
     "effect": "5% Damage Done Increase",
-    "value": "5%",
+    "value": "5",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

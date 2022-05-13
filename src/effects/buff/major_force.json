@@ -1,7 +1,8 @@
 {
     "name": "Major Force",
     "effect": "20% Critical Damage Increase",
-    "value": "20%",
+    "value": "20",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

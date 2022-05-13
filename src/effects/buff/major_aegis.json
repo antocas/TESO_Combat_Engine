@@ -1,7 +1,8 @@
 {
     "name": "Major Aegis",
     "effect": "Reduces Damage Taken from PvE Monsters by 10%",
-    "value": "10%",
+    "value": "10",
+    "mode": "percent",
     "timer": 0,
     "increase": false,
     "target": "Self",

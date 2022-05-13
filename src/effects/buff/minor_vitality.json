@@ -1,7 +1,8 @@
 {
     "name": "Minor Vitality",
     "effect": "8% Healing Received",
-    "value": "8%",
+    "value": "8",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

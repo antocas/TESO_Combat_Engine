@@ -1,7 +1,8 @@
 {
     "name": "Major Endurance",
     "effect": "30% Stamina Recovery Increase",
-    "value": "30%",
+    "value": "30",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

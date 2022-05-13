@@ -1,7 +1,8 @@
 {
     "name": "Major Expedition",
     "effect": "Speed Increase by 30%",
-    "value": "30%",
+    "value": "30",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

@@ -1,7 +1,8 @@
 {
     "name": "Major Slayer",
     "effect": "10% Damage Done Increase to PvE Monsters",
-    "value": "10%",
+    "value": "10",
+    "mode": "percent",
     "timer": 0,
     "increase": true,
     "target": "Self",

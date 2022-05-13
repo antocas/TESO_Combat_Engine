@@ -2,6 +2,7 @@
     "name": "Major Cowardice",
     "effect": "Reduces Target's Weapon and Spell Damage by 430",
     "value": "430",
+    "mode": "percent",
     "timer": 0,
     "increase": false,
     "target": "Target",

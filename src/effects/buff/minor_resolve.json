@@ -2,6 +2,7 @@
     "name": "Minor Resolve",
     "effect": "2974 Physical/Spell Resistance",
     "value": "2974",
+    "mode": "fixed",
     "timer": 0,
     "increase": true,
     "target": "Self",

@@ -2,6 +2,7 @@
     "name": "Minor Heroism",
     "effect": "1 Ultimate/1.5 Seconds",
     "value": "1",
+    "mode": "percent",
     "timer": 1.5,
     "increase": true,
     "target": "Self",

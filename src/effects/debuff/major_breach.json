@@ -2,6 +2,7 @@
     "name": "Major Breach",
     "effect": "5948 Resistance Debuff",
     "value": "5948",
+    "mode": "fixed",
     "timer": 0,
     "increase": false,
     "target": "Target",
