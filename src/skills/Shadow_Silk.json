@@ -82,5 +82,12 @@
     "rawDescription": "Hurl webs to ensnare your foes, reducing the Movement Speed of enemies in the area by <<1>> and dealing <<2>>. After <<3>> the webs explode, dealing <<4>> to enemies within.\n\nA ranged ally can activate the |cffffffBlack Widows|r synergy, dealing <<5>> to them and summoning a spider to attack for <<6>>. The spider bites enemies for <<7>> and can poison them for <<8>> over <<9>>.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": [],
+    "tick1": null,
+    "duration1": null,
+    "after1": null,
+    "synergy1": false,
+    "sloteable1": false
 }

@@ -82,5 +82,17 @@
     "rawDescription": "Flash through the shadows and ambush an enemy, dealing <<1>> and afflicting them with <<2>> for <<3>>, increasing their damage taken by <<4>>.\n\nAlso grants you Empower for <<5>>, increasing the damage of your Light and Heavy Attacks by <<6>>.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": [
+        {
+            "effect": "minor vulnerability",
+            "duration": 10000
+        }
+    ],
+    "tick1": null,
+    "duration1": null,
+    "after1": null,
+    "synergy1": false,
+    "sloteable1": false
 }

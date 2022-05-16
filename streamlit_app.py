@@ -1,3 +1,7 @@
+""" Main app, streamlit runner """
+
+import os
+import json
 import streamlit as st
 
 from src.common.visual_utils import gen_spacing
@@ -10,8 +14,12 @@ from src.models.combat_simulator import main_combat
 
 def sidebar_block():
     config = {}
-    # options['']
-    return st.sidebar.selectbox("Options", ('Character', 'Skills', 'Dummy'))
+
+    langs = [ s.replace('.json', '') for s in os.listdir('src/languages') ]
+
+    config['options'] = st.sidebar.selectbox("Options", ('Character', 'Skills', 'Dummy'))
+    config['language'] = st.sidebar.selectbox("Languages", langs)
+    return config
 
 def dps_metric():
     columns = st.columns([2, 1, 2, 2, 2])
@@ -43,15 +51,18 @@ if __name__ == '__main__':
     st.set_page_config(page_title="Combatest", page_icon='⚔️', layout="wide")
     # dps_metric()
     sidebar_block_option = sidebar_block()
+    language = sidebar_block_option['language']
+    with open(f'src/languages/{language}.json', 'r', encoding='utf-8') as f:
+        st.session_state['language_tags'] = json.load(f)
 
-    if 'Character' == sidebar_block_option:
+    if 'Character' == sidebar_block_option['options']:
         generate_character_card()
 
-    if 'Skills' == sidebar_block_option:
+    if 'Skills' == sidebar_block_option['options']:
         generate_skill_card()
 
-    if 'Dummy' == sidebar_block_option:
+    if 'Dummy' == sidebar_block_option['options']:
         generate_dummy_card()
 
-    if st.sidebar.button('Refesh data'):
+    if st.sidebar.button(st.session_state['language_tags']['refresh_data']):
         st.experimental_rerun()

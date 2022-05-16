@@ -82,5 +82,7 @@
     "rawDescription": "Bolster your defenses, gaining a damage shield that absorbs up to <<1>> damage for <<2>>. \n\nWhile the shield persists, you are healed for <<3>> Health the next time a harmful Direct Damage projectile hits you. This effect can occur once per cast.\n\nThis ability scales off your Max Health.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": []
 }

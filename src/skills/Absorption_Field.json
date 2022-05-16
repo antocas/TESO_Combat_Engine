@@ -82,5 +82,7 @@
     "rawDescription": "Create a globe of magic suppression for <<1>>, removing and preventing all enemy area of effect abilities from occurring in the area.\n\nEnemies within the globe are stunned, while enemy players will be silenced rather than stunned.\n\nThe globe also heals you and your allies for <<2>> Health every <<3>>.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": []
 }

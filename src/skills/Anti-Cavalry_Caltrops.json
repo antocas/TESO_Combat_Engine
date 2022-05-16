@@ -82,5 +82,12 @@
     "rawDescription": "Hurl a ball of caltrops that scatter over the target area, dealing <<1>> every <<2>> to enemies inside, and reducing their Movement Speed by <<3>>.\n\nThe caltrops rapidly drain the Mount Stamina of any enemy in the area.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": [],
+    "tick1": 1000,
+    "duration1": 1000,
+    "after1": 1000,
+    "synergy1": false,
+    "sloteable1": false
 }

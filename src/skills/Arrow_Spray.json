@@ -82,5 +82,12 @@
     "rawDescription": "Fire a burst of arrows in one shot, dealing <<1>> to enemies in front of you.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": [],
+    "tick1": null,
+    "duration1": null,
+    "after1": null,
+    "synergy1": false,
+    "sloteable1": false
 }

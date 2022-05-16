@@ -82,5 +82,12 @@
     "rawDescription": "Summon an expanding beam of pure sunlight to doom an enemy, dealing <<1>> to them and copying all their damage taken from you for <<2>> and releasing |cffffff50|r% of it as additional Magic Damage to them.\n\nMaximum copied damage: <<3>>. This value scales off your Spell Damage.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": [],
+    "tick1": null,
+    "duration1": null,
+    "after1": null,
+    "synergy1": false,
+    "sloteable1": false
 }

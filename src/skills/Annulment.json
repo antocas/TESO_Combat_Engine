@@ -82,5 +82,7 @@
     "rawDescription": "Convert a portion of your Magicka into a protective ward, gaining a damage shield that absorbs <<1>> damage for <<2>>. Damage shield strength capped at |cffffff50|r% of your Max Health.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": []
 }

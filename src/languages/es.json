@@ -1,6 +1,7 @@
 {
     "name": "Nombre",
     "class_name": "Clase",
+    "race": "Raza",
     "max_health": "Vida máxima",
     "spell_damage": "Daño de hechizo",
     "weapon_damage": "Daño de arma",
@@ -12,7 +13,18 @@
     "max_stamina": "Vitalidad máxima",
     "spell_penetration": "Penetración de hechizo",
     "physical_penetration": "Penetración física",
+    "spell_resistance": "Resistencia de hechizo",
+    "physical_resistance": "Resistencia fisica",
+    "critical_resistance": "Resistencia crítica",
+    "health_recovery": "Regeneración de vida",
+    "magicka_recovery": "Regeneración de magicka",
+    "stamina_recovery": "Regeneración de stamina",
+
     "dps": "DPS",
     "time_minutes": "Tiempo (minutos)",
-    "time_seconds": "Tiempo (segundos)"
+    "time_seconds": "Tiempo (segundos)",
+
+    "refresh_data": "Refrescar datos",
+    "save_data": "Guardar datos",
+    "load_data": "Cargar datos"
 }

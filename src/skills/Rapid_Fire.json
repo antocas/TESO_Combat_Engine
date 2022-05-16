@@ -82,5 +82,12 @@
     "rawDescription": "Unleash a barrage of arrows at an enemy, dealing <<1>> over <<2>>. \n\nYou can move at full speed and are immune to all disabling effects while channeling this attack.",
     "rawTooltip": "",
     "rawCoef": "",
-    "coefTypes": ""
+    "coefTypes": "",
+    "buffs": [],
+    "debuffs": [],
+    "tick1": null,
+    "duration1": null,
+    "after1": null,
+    "synergy1": false,
+    "sloteable1": false
 }
