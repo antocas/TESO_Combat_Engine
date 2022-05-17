@@ -26,5 +26,6 @@
 
     "refresh_data": "Refrescar datos",
     "save_data": "Guardar datos",
-    "load_data": "Cargar datos"
+    "load_data": "Cargar datos",
+    "rotation_title": "Rotación por prioridad de habilidades"
 }

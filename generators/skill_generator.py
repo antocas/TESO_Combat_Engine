@@ -3,6 +3,7 @@
 import os
 import re
 import json
+from cv2 import split
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -29,12 +30,38 @@ def print_progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1,
     if iteration == total:
         print()
 
-
-
-def extract_against_raw(coef_string:str, rawDescription:str):
+def extract_against_raw(coef_string:str, raw_description:str):
     """ New attempt to extract info """
-    print(coef_string, rawDescription)
-    return None
+    print(coef_string)
+    results = []
+    tmp = ''
+    split_coef = coef_string.replace('.', '').replace('\n', '').replace('  ', ' ').split(' ')
+    split_raw = raw_description.replace('.', '').replace('\n', '').replace('  ', ' ').split(' ')
+
+    len_max = max(len(split_coef), len(split_raw))
+    len_min = min(len(split_coef), len(split_raw))
+    c_len = 0
+    r_len = 0
+    jump = True
+    while c_len < len_max-1 and r_len < len_max-1:
+        # print(len_max, len_min, c_len, r_len, split_coef[c_len], split_raw[r_len])
+
+        if split_coef[c_len] == split_raw[r_len]:
+            c_len = c_len + 1
+            r_len = r_len + 1
+            jump = True
+            if tmp != '':
+                results.append(tmp[1:])
+                tmp = ''
+        else:
+            tmp = tmp + ' ' + split_coef[c_len]
+            if c_len < len_max-1:
+                c_len = c_len + 1
+            if jump:
+                if r_len < len_min-1:
+                    jump = False
+                    r_len = r_len + 1
+    return results
 
 def extract_buff_and_debuff(split:str):
     """ Prepara los buffs y debuffs para la estructura de datos general """
@@ -151,6 +178,10 @@ for iter, skill in enumerate(skills):
     if skill_dict.get('coefDescription'):
         data_extracted = extractor(skill_dict['coefDescription'])
         skill_dict.update(data_extracted)
+
+
+    print(extract_against_raw(skill_dict.get('description'), skill_dict.get('rawDescription')))
+    continue
     # i_ = i_+ 1
     # if i_ == 50:
     #     break

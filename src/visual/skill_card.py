@@ -1,5 +1,3 @@
-24129140
-
 import os
 import re
 import json
@@ -25,7 +23,6 @@ def generate_skills_icons(skills_type='skills_available'):
     if st.session_state.get('skills_selected'):
         images_cols = st.columns(10)
         i = 0
-        print(st.session_state['skills_selected'][skills_type])
         for skill_name in st.session_state['skills_selected'][skills_type]:
             with images_cols[i]:
                 img = st.session_state['skills_available'][skill_name].image
@@ -90,7 +87,7 @@ def generate_skill_card():
         st.error('First, you need to create a character')
         return None
 
-    # * Check if skills are loaded, and load them
+    #  * Check if skills are loaded, and load them
     if not st.session_state.get('skills_available'):
         st.session_state['skills_available'] = {}
         st.session_state['passives_available'] = {}

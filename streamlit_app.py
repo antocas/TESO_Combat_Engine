@@ -8,6 +8,7 @@ from src.common.visual_utils import gen_spacing
 from src.visual.skill_card import generate_skill_card
 from src.visual.skill_card import generate_skills_icons
 from src.visual.dummy_card import generate_dummy_card
+from src.visual.rotation_card import generate_rotation_card
 from src.visual.character_card import generate_character_card
 
 from src.models.combat_simulator import main_combat
@@ -17,7 +18,7 @@ def sidebar_block():
 
     langs = [ s.replace('.json', '') for s in os.listdir('src/languages') ]
 
-    config['options'] = st.sidebar.selectbox("Options", ('Character', 'Skills', 'Dummy'))
+    config['options'] = st.sidebar.selectbox("Options", ('Character', 'Skills', 'Rotation', 'Dummy'))
     config['language'] = st.sidebar.selectbox("Languages", langs)
     return config
 
@@ -50,6 +51,7 @@ def dps_metric():
 if __name__ == '__main__':
     st.set_page_config(page_title="Combatest", page_icon='⚔️', layout="wide")
     # dps_metric()
+    
     sidebar_block_option = sidebar_block()
     language = sidebar_block_option['language']
     with open(f'src/languages/{language}.json', 'r', encoding='utf-8') as f:
@@ -60,6 +62,9 @@ if __name__ == '__main__':
 
     if 'Skills' == sidebar_block_option['options']:
         generate_skill_card()
+
+    if 'Rotation' == sidebar_block_option['options']:
+        generate_rotation_card()
 
     if 'Dummy' == sidebar_block_option['options']:
         generate_dummy_card()

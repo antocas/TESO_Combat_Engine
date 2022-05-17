@@ -21,7 +21,8 @@ class Skill:
             skill_coef_spell_damage = float(self.attributes[f'b{n_coef}'])
             spell_damage = int(character.spell_damage)
             self.attributes[f'userCoef{n_coef}'] = (skill_coef_max_magicka * max_magicka + skill_coef_spell_damage * spell_damage)
-    
+            self.attributes[f'userCoef{n_coef}'] = self.attributes[f'userCoef{n_coef}'] + int(self.attributes[f'userCoef{n_coef}']*(3.3/100))
+
     @property
     def skill_id(self):
         return self.attributes['id']    

@@ -26,5 +26,6 @@
 
     "refresh_data": "Refresh data",
     "save_data": "Save data",
-    "load_data": "Load data"
+    "load_data": "Load data",
+    "rotation_title": "Rotation ordered by priority"
 }
