@@ -1,25 +1,31 @@
+# pylint: disable=line-too-long
+""" Skill Card """
+
+import json
 import os
 import re
-import json
 
-from src.config.class_names import class_names
-from src.models.skill import Skill
 import streamlit as st
+from src.models.skill import Skill
+
 
 def load_data_from_storage(skill_name):
+    """ Load data from a file """
     file_name = f'src/skills/{skill_name}.json'.replace(' ', '_')
     skill = {}
-    with open(file_name, 'r+', encoding='utf-8') as f:
-        skill = json.load(f)
+    with open(file_name, 'r+', encoding='utf-8') as file_name:
+        skill = json.load(file_name)
     return skill
 
 def clean_skills():
+    """ Clean skills """
     try:
         del st.session_state['skills_available']
-    except:
+    except KeyError:
         st.error('No skills loaded')
 
 def generate_skills_icons(skills_type='skills_available'):
+    """ Load icons """
     if st.session_state.get('skills_selected'):
         images_cols = st.columns(10)
         i = 0
@@ -30,36 +36,35 @@ def generate_skills_icons(skills_type='skills_available'):
             i = i + 1
 
 def generate_skill_in_columns(skills_type='skills_available'):
+    """ Order in columns all skills """
     ordered_skills = {}
     if st.session_state.get(skills_type):
         skills_selected = set()
-        for k, v in st.session_state[skills_type].items():
-            if not ordered_skills.get(v.skill_type):
-                ordered_skills[v.skill_type] = {}
-            if not ordered_skills[v.skill_type].get(v.skill_line):
-                ordered_skills[v.skill_type][v.skill_line] = []
-            ordered_skills[v.skill_type][v.skill_line].append(v)
+        for _, value in st.session_state[skills_type].items():
+            if not ordered_skills.get(value.skill_type):
+                ordered_skills[value.skill_type] = {}
+            if not ordered_skills[value.skill_type].get(value.skill_line):
+                ordered_skills[value.skill_type][value.skill_line] = []
+            ordered_skills[value.skill_type][value.skill_line].append(value)
 
         formated_skills_selectors = ['Class', 'Weapon', 'Guild', 'Craft']
         for selector in formated_skills_selectors:
             # * Exponemos las habilidades en n buscadores
-            try:
-                class_names = ordered_skills[selector].keys()
-            except:
-                break
+            class_names = ordered_skills[selector].keys()
             columns = st.columns(len(class_names))
             i = 0
             for name in sorted(class_names):
                 with columns[i]:
-                    skills_from_class = [ skill.name for skill in ordered_skills[selector][name] ]
-                    p = st.multiselect(name, skills_from_class)
-                    p = set(p)
-                    skills_selected.update(p)
+                    skills_from_class = [skill.name for skill in ordered_skills[selector][name]]
+                    sel = st.multiselect(name, skills_from_class)
+                    sel = set(sel)
+                    skills_selected.update(sel)
                 i = i+1
         st.session_state['skills_selected'][skills_type] = list(skills_selected)
 
 def filter_skills():
-    skills_names = [ s.replace('.json', '').replace('_', ' ') for s in os.listdir('src/skills') ]
+    """ Filter skills """
+    skills_names = [s.replace('.json', '').replace('_', ' ') for s in os.listdir('src/skills')]
     for skill_name in skills_names:
         skill = load_data_from_storage(skill_name)
         # * Hablidades de arma
@@ -82,6 +87,7 @@ def filter_skills():
                 st.session_state['character_passives_available'][skill_name] = Skill(skill)
 
 def generate_skill_card():
+    """ Skill card """
     # * Check character exists
     if not st.session_state.get('character'):
         st.error('First, you need to create a character')
@@ -101,14 +107,14 @@ def generate_skill_card():
 
         # * Filter out necessary skills
         filter_skills()
-    
+
     # * TEMPORAL
     st.session_state['skills_available'] = {
         **st.session_state['weapon_skills_available'],
         **st.session_state['miscelaneo_skills_available'],
         **st.session_state['character_skills_available']
     }
-    
+
     st.session_state['passives_available'] = {
         **st.session_state['weapon_passives_available'],
         **st.session_state['miscelaneo_passives_available'],
@@ -141,3 +147,4 @@ def generate_skill_card():
 
     st.header('Passives')
     generate_skill_in_columns(skills_type='passives_available')
+    return None

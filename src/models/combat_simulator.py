@@ -1,56 +1,73 @@
+# pylint: disable=line-too-long
 """ Main for testing """
 import random
 from src.models.dummy import Dummy
 from src.models.character import Character
-from src.models import attack
+from src.models.attack import Attack
 from src.models import combat_queue
 
-from src.instances.model_attack import *
-
-import streamlit as st
-
-def main_combat(dummy:Dummy, character:Character):
+def main_combat(character: Character, dummy: Dummy):
+    """ Main simulation thread """
     queue = combat_queue.QueueAttack()
-    initial_health = dummy.health
     seconds = 0
     channeling_time = 1
 
-    circular = [barbed_trap, wall_of_elements, mystic_orb, blazing_spear, degeneration, puncturing_sweep]
-    dummy.set_debuff(minor_breach)
+    round = 1
+    while dummy.health > 0:
+        print('*******************', round, '*******************')
 
-    while dummy.attributes["health_bar"] > 0:
-        queue.add_attack(light_attack)
-        for to_renovate in circular:
-            if not queue.in_queue(to_renovate._name):
-                # print(seconds, to_renovate._name)
-                queue.add_attack(to_renovate)
+        # Renovamos la rotacion
+        for to_renovate in character.rotation:
+            if not queue.in_queue(to_renovate):
+                skill = character.get_skill(to_renovate)
+                for attack in Attack.skill_to_attack(skill):
+                    queue.add_attack(attack)
                 break
-        
-        # DAMAGE = 5000
-        CRIT_PROB = character.spell_critical
-        MAX_CRIT = character.spell_critical
-        PENETRATION = character.spell_penetration
-        # PENETRATION = 18200
 
-        dummy.apply_debuffs()
-        
-        # RONDA DE ATAQUES
-        for name, attack in queue._attacks.items():
+        # Ronda de debuffs
+
+
+        # Ronda de ataque
+        for name, attack in queue.next_attack():
+            index = int(name.split(' ')[-1])
+            max_resource = max(int(character.max_magicka), int(character.max_stamina))
+            resource_damage = max(int(character.spell_damage), int(character.weapon_damage))
+            attack.calculate_damage(max_resource, resource_damage, index=index)
+            attack.decrease_attack_duration()
+
+            # Daño con penetracion de armadura
+            dummy.hit_dummy(attack.value, int(character.spell_penetration))
+
+            if attack.duration <= 0:
+                queue.remove_attack(name)
+
             print(name)
-            DAMAGE = attack._value
-            if random.random() <= CRIT_PROB:
-                DAMAGE += DAMAGE*MAX_CRIT
-            dummy.hit_dummy(DAMAGE, PENETRATION)
-            # TEST
-            queue.decrease_attack_duration(attack._name, channeling_time)
-        print('*'*200)
-        dummy.reset_resistances()
-        queue.clear_attacks()
-        seconds = seconds + channeling_time
 
-    combat_minutes = seconds//60
-    combat_seconds = seconds%60
-    
-    st.session_state['dps'] = initial_health//seconds
-    st.session_state['time_minutes'] = combat_minutes
-    st.session_state['time_seconds'] = combat_seconds
+        queue.clear_attacks()
+        print("Dummy health:", dummy.health)
+        round = round + 1
+    #     # DAMAGE = 5000
+    #     crit_prob = character.spell_critical
+    #     max_crit = character.spell_critical
+    #     penetration = character.spell_penetration
+    #     # penetration = 18200
+
+    #     dummy.apply_debuffs()
+
+    #     # RONDA DE ATAQUES
+    #     for name, atk in queue.attacks.items():
+    #         print(name)
+    #         damage = atk.value
+    #         if random.random() <= crit_prob:
+    #             damage += damage*max_crit
+    #         dummy.hit_dummy(damage, penetration)
+    #         # TEST
+    #         queue.decrease_attack_duration(atk.name, channeling_time)
+    #     print('*'*200)
+    #     dummy.reset_resistances()
+    #     queue.clear_attacks()
+    #     seconds = seconds + channeling_time
+
+    # combat_minutes = seconds//60
+    # combat_seconds = seconds%60
+    # return {"total": seconds, "minutes": combat_minutes, "seconds": combat_seconds}
