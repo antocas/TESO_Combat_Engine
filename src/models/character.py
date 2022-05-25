@@ -109,6 +109,11 @@ class Character:
         return self.attributes.get("spell_critical") or 0
 
     @property
+    def weapon_critical(self):
+        """ Return spell critical """
+        return self.attributes.get("weapon_critical") or 0
+
+    @property
     def spell_penetration(self):
         """ Return spell penetration """
         return self.attributes.get("spell_penetration") or 0
@@ -127,3 +132,8 @@ class Character:
     def rotation(self):
         """ Return rotation """
         return self.attributes.get("rotation") or []
+
+    @property
+    def critical_chance(self):
+        """ Return critical chance """
+        return self.attributes.get("critical_chance") or []

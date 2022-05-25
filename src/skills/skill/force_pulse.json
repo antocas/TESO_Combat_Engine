@@ -85,16 +85,10 @@
     "coefTypes": "",
     "buffs": [],
     "debuffs": [],
-    "type_of_damage3": "flame damage",
-    "tick3": null,
-    "duration3": null,
-    "after3": null,
-    "synergy3": false,
-    "sloteable3": false,
-    "type_of_damage4": "magic damage",
-    "tick4": null,
-    "duration4": null,
-    "after4": null,
-    "synergy4": false,
-    "sloteable4": false
+    "type_of_damage_4": "magic damage",
+    "tick_4": 0,
+    "duration_4": 0,
+    "after_4": 0,
+    "synergy_4": false,
+    "sloteable_4": false
 }

@@ -85,10 +85,10 @@
     "coefTypes": "",
     "buffs": [],
     "debuffs": [],
-    "type_of_damage3": "physical damage",
-    "tick3": null,
-    "duration3": null,
-    "after3": null,
-    "synergy3": false,
-    "sloteable3": false
+    "type_of_damage_3": "physical damage",
+    "tick_3": 0,
+    "duration_3": 20000,
+    "after_3": 0,
+    "synergy_3": false,
+    "sloteable_3": false
 }

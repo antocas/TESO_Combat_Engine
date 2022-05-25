@@ -85,10 +85,10 @@
     "coefTypes": "",
     "buffs": [],
     "debuffs": [],
-    "type_of_damage3": "frost damage",
-    "tick3": 1000,
-    "duration3": 1000,
-    "after3": 1000,
-    "synergy3": false,
-    "sloteable3": false
+    "type_of_damage_3": "frost damage",
+    "tick_3": 1000,
+    "duration_3": 5000,
+    "after_3": 0,
+    "synergy_3": false,
+    "sloteable_3": false
 }

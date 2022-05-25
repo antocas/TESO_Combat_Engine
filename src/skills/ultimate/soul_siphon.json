@@ -90,10 +90,10 @@
         }
     ],
     "debuffs": [],
-    "type_of_damage3": "magic damage",
-    "tick3": null,
-    "duration3": null,
-    "after3": null,
-    "synergy3": true,
-    "sloteable3": false
+    "type_of_damage_3": "magic damage",
+    "tick_3": 0,
+    "duration_3": 4000,
+    "after_3": 0,
+    "synergy_3": true,
+    "sloteable_3": false
 }

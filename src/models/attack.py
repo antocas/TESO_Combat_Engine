@@ -29,6 +29,11 @@ class Attack:
 
             yield attack
 
+    def __str__(self) -> str:
+        """ Return string """
+        as_string = f"Name: {self.__attributes__['name']}, Duration: {self.__attributes__['duration']}"
+        return as_string
+
     def as_dict(self):
         """ Return dict """
         return self.__attributes__
@@ -56,7 +61,7 @@ class Attack:
     @property
     def duration(self):
         """ Duration """
-        return self.__attributes__["duration"]
+        return int(self.__attributes__["duration"])
 
     @property
     def buffs(self):
@@ -74,14 +79,43 @@ class Attack:
         value = (skill_coef_max_resource * max_resource + skill_coef_resource_damage * resource_damage)
         self.__attributes__['value'] = min(int(value), cap)
 
-    def decrease_attack_duration(self):
+    def decrease_attack_duration(self, seconds: int):
         """ Remove from queue """
-        # duration = [key for key in self.__attributes__.keys() if key.startswith('duration')]
-        # max_duration = 0
-        # for
-        self.__attributes__['duration'] = self.__attributes__['duration'] - 1000
+        self.__attributes__['last_attack'] = seconds
+
+        key = [key for key in self.__attributes__.keys() if key.startswith('duration_')]
+        if key and self.__attributes__.get(key[0]) is not None:
+            # Si tiene duracion propia del coef
+            key = key[0]
+            duration = int(self.__attributes__[key]) - 1000
+            self.__attributes__[key] = duration
+            self.__attributes__['duration'] = duration
+        else:
+            self.__attributes__['duration'] = self.__attributes__['duration'] - 1000
 
     def decrease_attack_delay(self, ):
         """ If an attack is delayed, decrease the delay """
         after = [after for after in self.__attributes__.keys() if after.startswith('after')][0]
         self.__attributes__[after] = int(self.__attributes__[after]) - 1000
+
+    def make_critical(self, critical_damage: float):
+        """ Make a critical attack """
+        self.__attributes__['value'] = int(self.__attributes__['value'] * (1+critical_damage))
+
+    def can_be_used(self, seconds: int):
+        """ Can be used? """
+        last_attack = self.__attributes__.get('last_attack')
+        key = [key for key in self.__attributes__.keys() if key.startswith('tick_')]
+        if key and self.__attributes__.get(key[0]) is not None:
+            key = key[0]
+        else:
+            return True
+        if last_attack is None:
+            return True
+        else:
+            return (seconds - last_attack) >= self.__attributes__[key]
+
+    def causes_damage(self):
+        """ Returns true if has some sort of damage type """
+        key = [key for key in self.__attributes__.keys() if key.startswith('type_of_damage_')]
+        return bool( len(key) )

@@ -27,6 +27,7 @@ class Dummy:
         mitigation = self.__calculate_mitigation__(armor)
         total_damage = int(damage * (1 - mitigation))
         self.attributes["health"] = self.attributes["health"] - total_damage
+        return total_damage
 
     def __calculate_mitigation__(self, armor):
         """ Calculate mitigation """

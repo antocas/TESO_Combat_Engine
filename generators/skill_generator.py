@@ -8,6 +8,9 @@ import os
 import re
 import sys
 import json
+
+from multiprocessing import Pool
+
 import requests
 from bs4 import BeautifulSoup as bs
 
@@ -36,11 +39,17 @@ def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, lengt
 
 def extract_against_raw(coef_string: str, raw_description: str):
     """ New attempt to extract info """
-    print(coef_string)
-    results = []
-    tmp = ''
-    split_coef = coef_string.replace('.', '').replace('\n', '').replace('  ', ' ').split(' ')
-    split_raw = raw_description.replace('.', '').replace('\n', '').replace('  ', ' ').split(' ')
+    pre_coef = re.sub(' +', ' ', coef_string)
+    pre_raw = re.sub('\n', ' ', raw_description)
+    pre_raw = re.sub(' +', ' ', pre_raw)
+    print('Coef:', pre_coef, '\n')
+    print("Raw:", pre_raw, '\n')
+
+    results = {}
+    tmp_coef = ''
+    tmp_raw = ''
+    split_coef = pre_coef.split(' ')
+    split_raw = pre_raw.split(' ')
 
     len_max = max(len(split_coef), len(split_raw))
     len_min = min(len(split_coef), len(split_raw))
@@ -54,11 +63,14 @@ def extract_against_raw(coef_string: str, raw_description: str):
             c_len = c_len + 1
             r_len = r_len + 1
             jump = True
-            if tmp != '':
-                results.append(tmp[1:])
-                tmp = ''
+            if tmp_coef != '':
+                data = { re.findall(r'<<\d+>>', tmp_raw)[0]: tmp_coef[1:] }
+                results.update(data)
+                tmp_coef = ''
+                tmp_raw = ''
         else:
-            tmp = tmp + ' ' + split_coef[c_len]
+            tmp_coef = tmp_coef + ' ' + split_coef[c_len]
+            tmp_raw = tmp_raw + ' ' + split_raw[r_len]
             if c_len < len_max-1:
                 c_len = c_len + 1
             if jump:
@@ -79,7 +91,6 @@ def extract_effect(phrase: str, type_of_effect: str):
             effs = ' '.join(eff[0])
             effects.append(effs)
     return effects
-
 
 def extractor(coef_string: str):
     """ Extract info from coef_string """
@@ -117,7 +128,6 @@ def extractor(coef_string: str):
             multiplier = 1000 if 'second' in tick_time[0] else 3600
             tmp_data['tick_time'] = int(float(re.findall(r'\d+\.?\d*', tick_time[0])[0])*multiplier)
         if duration:
-            # print(duration)
             multiplier = 1000 if 'second' in duration[0] else 3600
             tmp_data['duration'] = int(float(re.findall(r'\d+\.?\d*', duration[0])[0])*multiplier)
         if after:
@@ -137,14 +147,31 @@ def extractor(coef_string: str):
                 'duration': tmp_data.get('duration')
             })
 
-        if type_of_damage:
+        # DD o AoT
+        if len(type_of_damage) == 1:
             number_type = re.findall(r'\d+', type_of_damage[-1])[0]
-            data[f'type_of_damage{number_type}'] = type_of_damage[0][3:]
-            data[f'tick{number_type}'] = tmp_data.get('tick_time')
-            data[f'duration{number_type}'] = tmp_data.get('tick_time')
-            data[f'after{number_type}'] = tmp_data.get('tick_time')
-            data[f'synergy{number_type}'] = bool(synergy)
-            data[f'sloteable{number_type}'] = bool(slotable_benfit)
+            data[f'type_of_damage_{number_type}'] = type_of_damage[0][3:]
+            data[f'tick_{number_type}'] = tmp_data.get('tick_time') or 0
+            data[f'duration_{number_type}'] = tmp_data.get('duration') or 0
+            data[f'after_{number_type}'] = tmp_data.get('after') or 0
+            data[f'synergy_{number_type}'] = bool(synergy) or False
+            data[f'sloteable_{number_type}'] = bool(slotable_benfit) or False
+        # DD y AoT
+        if len(type_of_damage) == 2:
+            number_type = None
+            for i in range(2):
+                number_type = re.findall(r'\d+', type_of_damage[i])[0]
+                data[f'type_of_damage_{number_type}'] = type_of_damage[i][3:]
+                data[f'tick_{number_type}'] = 0
+                data[f'duration_{number_type}'] = 0
+                data[f'after_{number_type}'] = 0
+                data[f'synergy_{number_type}'] = False
+                data[f'sloteable_{number_type}'] = False
+            data[f'tick_{number_type}'] = tmp_data.get('tick_time') or 0
+            data[f'duration_{number_type}'] = tmp_data.get('duration') or 0
+            data[f'after_{number_type}'] = tmp_data.get('after') or 0
+            data[f'synergy_{number_type}'] = bool(synergy)
+            data[f'sloteable_{number_type}'] = bool(slotable_benfit)
 
     return data
 
@@ -171,40 +198,37 @@ def get_skill(skill_id):
     skill_dict.update(data_extracted)
     return skill_dict
 
+def mp_get_skill(skill_id):
+    """ Extract info from one skill """
+    skill_dict = get_skill(skill_id)
+    sk_name = skill_dict['name'].lower()
+    if skill_dict['isPassive'] == "1":
+        slot_pass = 'passive'
+    elif int(skill_dict['cost']) <= 500:
+        slot_pass = 'ultimate'
+    else:
+        slot_pass = 'skill'
+    file_name = f'src/skills/{slot_pass}/{sk_name}.json'
+    with open(file_name.replace(' ', '_'), 'w+', encoding='utf-8') as file_:
+        json.dump(skill_dict, file_, indent=4)
 
-def all_skills():
+def mp_all_skills():
     """ Loop for all skills """
+    pool = Pool(8)
+
     raw_page = requests.get('https://esoitem.uesp.net/viewSkills.php')
     soup = bs(raw_page.content, 'lxml')
 
     skills = soup.find_all("div", {"class": "esovsAbilityBlockHover"})
-    i_iter = 0
-    for index, skill in enumerate(skills):
-        skill_id = skill.get('skillid')
-        skill_dict = get_skill(skill_id)
-        # print(extract_against_raw(skill_dict.get('description'), skill_dict.get('rawDescription')))
-        # continue
-        # i_iter = i_iter+ 1
-        # if i_iter == 50:
-        #     break
-        # print('*************************************************************************************************\n')
-        sk_name = skill_dict['name'].lower()
-        if skill_dict['isPassive'] == "1":
-            slot_pass = 'passive'
-        elif int(skill_dict['cost']) <= 500:
-            slot_pass = 'ultimate'
-        else:
-            slot_pass = 'skill'
-        file_name = f'src/skills/{slot_pass}/{sk_name}.json'
-        with open(file_name.replace(' ', '_'), 'w+', encoding='utf-8') as file_:
-            json.dump(skill_dict, file_, indent=4)
-
-        print_progress_bar(index, 1473)
-        i_iter = index
-    print(i_iter)
+    skills_ids = [skill_id.get('skillid') for skill_id in skills]
+    pool.map(mp_get_skill, skills_ids)
 
 if __name__=='__main__':
-    if len(sys.argv) == 2:
+    if len(sys.argv) == 3:
+        skill = get_skill(sys.argv[-1])
+        txt = skill['coefDescription'] if skill['coefDescription'] != '' else skill['description']
+        print(extract_against_raw(txt, skill['rawDescription']))
+    elif len(sys.argv) == 2:
         print(get_skill(sys.argv[-1]))
     else:
-        all_skills()
+        mp_all_skills()

@@ -33,7 +33,7 @@ class QueueAttack:
         keys = self._attacks.keys()
         exits_some = False
         for key in keys:
-            if key.startswith(name):
+            if key.lower().startswith(name):
                 exits_some = True
                 break
 
