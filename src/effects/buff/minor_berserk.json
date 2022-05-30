@@ -1,10 +1,11 @@
 {
-    "name": "Minor Berserk",
-    "effect": "5% Damage Done Increase",
+    "name": "Minor berserk",
+    "effect": "5% damage done increase",
     "value": "5",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "damage done"
+    "stat_affected": [
+        "damage done"
+    ]
 }

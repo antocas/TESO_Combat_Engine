@@ -87,7 +87,7 @@
     "debuffs": [
         {
             "effect": "minor vulnerability",
-            "duration": 10000
+            "duration": "10000"
         }
     ],
     "type_of_damage_1": "bleed damage",
@@ -98,7 +98,7 @@
     "sloteable_1": false,
     "type_of_damage_2": "bleed damage",
     "tick_2": 2000,
-    "duration_2": 10000,
+    "duration_2": "10000",
     "after_2": 0,
     "synergy_2": false,
     "sloteable_2": false

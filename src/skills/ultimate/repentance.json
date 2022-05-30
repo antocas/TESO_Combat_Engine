@@ -86,15 +86,15 @@
     "buffs": [
         {
             "effect": "minor intellect",
-            "duration": null
+            "duration": "0"
         },
         {
             "effect": "minor endurance",
-            "duration": null
+            "duration": "0"
         },
         {
             "effect": "minor fortitude",
-            "duration": null
+            "duration": "0"
         }
     ],
     "debuffs": []

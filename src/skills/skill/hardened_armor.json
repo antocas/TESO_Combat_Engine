@@ -92,7 +92,7 @@
     "debuffs": [],
     "type_of_damage_2": "magic damage",
     "tick_2": 0,
-    "duration_2": 6000,
+    "duration_2": 0,
     "after_2": 0,
     "synergy_2": false,
     "sloteable_2": false

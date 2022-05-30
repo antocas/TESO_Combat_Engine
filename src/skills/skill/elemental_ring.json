@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "minor protection",
-            "duration": null
+            "duration": "0"
         }
     ],
     "debuffs": [],

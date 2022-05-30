@@ -86,11 +86,11 @@
     "buffs": [
         {
             "effect": "major savagery",
-            "duration": 10000
+            "duration": "4000"
         },
         {
             "effect": "major prophecy",
-            "duration": 10000
+            "duration": "4000"
         }
     ],
     "debuffs": [

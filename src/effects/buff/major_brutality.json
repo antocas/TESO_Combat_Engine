@@ -1,10 +1,11 @@
 {
-    "name": "Major Brutality",
-    "effect": "20% Weapon Damage Increase",
+    "name": "Major brutality",
+    "effect": "20% weapon damage increase",
     "value": "20",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "weapon damage"
+    "stat_affected": [
+        "weapon damage"
+    ]
 }

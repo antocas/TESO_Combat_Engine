@@ -1,10 +1,11 @@
 {
-    "name": "Minor Prophecy",
-    "effect": "6% Spell Critical Increase",
+    "name": "Minor prophecy",
+    "effect": "6% spell critical increase",
     "value": "6",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "spell critical"
+    "stat_affected": [
+        "spell critical"
+    ]
 }

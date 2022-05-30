@@ -87,7 +87,7 @@
     "debuffs": [
         {
             "effect": "major defile",
-            "duration": null
+            "duration": "6000"
         }
     ]
 }

@@ -1,10 +1,11 @@
 {
-    "name": "Major Prophecy",
-    "effect": "12% Spell Critical Increase",
+    "name": "Major prophecy",
+    "effect": "12% spell critical increase",
     "value": "12",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "spell critical"
+    "stat_affected": [
+        "spell critical"
+    ]
 }

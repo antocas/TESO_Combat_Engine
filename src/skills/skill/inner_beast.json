@@ -93,14 +93,14 @@
     "sloteable_1": false,
     "type_of_damage_2": "magic damage",
     "tick_2": 0,
-    "duration_2": 0,
+    "duration_2": 3000,
     "after_2": 0,
     "synergy_2": false,
     "sloteable_2": false,
     "type_of_damage_3": "magic damage",
     "tick_3": 0,
-    "duration_3": 3000,
+    "duration_3": 0,
     "after_3": 0,
-    "synergy_3": true,
+    "synergy_3": false,
     "sloteable_3": false
 }

@@ -1,10 +1,11 @@
 {
-    "name": "Major Fortitude",
-    "effect": "30% Health Recovery Increase",
+    "name": "Major fortitude",
+    "effect": "30% health recovery increase",
     "value": "30",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "health recovery"
+    "stat_affected": [
+        "health recovery"
+    ]
 }

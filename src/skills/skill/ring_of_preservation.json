@@ -86,11 +86,11 @@
     "buffs": [
         {
             "effect": "minor protection",
-            "duration": 8000
+            "duration": "8000"
         },
         {
             "effect": "minor endurance",
-            "duration": 8000
+            "duration": "8000"
         }
     ],
     "debuffs": []

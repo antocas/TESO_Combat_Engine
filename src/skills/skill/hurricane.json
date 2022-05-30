@@ -86,15 +86,15 @@
     "buffs": [
         {
             "effect": "major expedition",
-            "duration": 20000
+            "duration": "20000"
         },
         {
             "effect": "major resolve",
-            "duration": 20000
+            "duration": "20000"
         },
         {
             "effect": "minor expedition",
-            "duration": 20000
+            "duration": "20000"
         }
     ],
     "debuffs": [],

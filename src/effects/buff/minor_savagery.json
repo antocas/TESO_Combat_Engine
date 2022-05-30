@@ -1,10 +1,11 @@
 {
-    "name": "Minor Savagery",
-    "effect": "6% Weapon Critical Increase",
+    "name": "Minor savagery",
+    "effect": "6% weapon critical increase",
     "value": "6",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "weapon critical"
+    "stat_affected": [
+        "weapon critical"
+    ]
 }

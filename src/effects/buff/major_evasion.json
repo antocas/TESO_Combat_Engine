@@ -1,10 +1,11 @@
 {
-    "name": "Major Evasion",
-    "effect": "Reduces AOE Damage Taken by 20%",
+    "name": "Major evasion",
+    "effect": "reduces aoe damage taken by 20%",
     "value": "20",
     "mode": "percent",
-    "timer": 0,
     "increase": false,
     "target": "Self",
-    "benefit": "aoe damage taken"
+    "stat_affected": [
+        "damage taken"
+    ]
 }

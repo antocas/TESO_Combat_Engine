@@ -90,7 +90,7 @@
         },
         {
             "effect": "major expedition",
-            "duration": 4000
+            "duration": "0"
         }
     ],
     "debuffs": []

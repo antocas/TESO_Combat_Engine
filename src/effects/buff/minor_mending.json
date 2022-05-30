@@ -1,10 +1,11 @@
 {
-    "name": "Minor Mending",
-    "effect": "8% Healing Done Increase",
+    "name": "Minor mending",
+    "effect": "8% healing done increase",
     "value": "8",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "healing done"
+    "stat_affected": [
+        "healing done"
+    ]
 }

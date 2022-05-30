@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "minor resolve",
-            "duration": 3000
+            "duration": "3000"
         }
     ],
     "debuffs": []

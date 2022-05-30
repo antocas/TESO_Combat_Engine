@@ -1,10 +1,11 @@
 {
-    "name": "Minor Aegis",
-    "effect": "Reduces Damage Taken from PvE Monsters by 5%",
+    "name": "Minor aegis",
+    "effect": "reduces damage taken from pve monsters by 5%",
     "value": "5",
     "mode": "percent",
-    "timer": 0,
     "increase": false,
     "target": "Self",
-    "benefit": "damage taken"
+    "stat_affected": [
+        "damage taken"
+    ]
 }

@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "minor force",
-            "duration": 15000
+            "duration": 18000
         }
     ],
     "debuffs": [],
@@ -98,7 +98,7 @@
     "sloteable_1": false,
     "type_of_damage_2": "bleed damage",
     "tick_2": 0,
-    "duration_2": 15000,
+    "duration_2": 18000,
     "after_2": 0,
     "synergy_2": false,
     "sloteable_2": false

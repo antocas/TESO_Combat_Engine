@@ -1,10 +1,11 @@
 {
-    "name": "Major Vitality",
-    "effect": "16% Healing Received",
+    "name": "Major vitality",
+    "effect": "16% healing received",
     "value": "16",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "healing received"
+    "stat_affected": [
+        "healing received"
+    ]
 }

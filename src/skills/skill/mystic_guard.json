@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "minor vitality",
-            "duration": null
+            "duration": "0"
         }
     ],
     "debuffs": []

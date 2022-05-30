@@ -1,51 +1,62 @@
 """ Effect class """
 
+import json
+
 class Effect:
     """ Effect class """
-    def __init__(self, **kwargs):
+    def __init__(self, kwargs: dict, duration: int):
         """ Effect class """
-        self._name = kwargs.get('name')
-        self._value = kwargs.get('value')
-        self._stat_affected = kwargs.get('stat_affected')
-        self._mode = kwargs.get('mode') # Porcentaje o fijo
-        self._duration = kwargs.get('duration') # Tiempo del efecto
-        self._type = kwargs.get('type') # Buff o debuff -> pinta inutil
+        self.__attributes__ = kwargs
+        self.__attributes__['duration'] = duration
 
     def __str__(self) -> str:
         """ Str effect """
-        string = f'Name: {self._name}\nValue: {self._value}\nStat affected {self.stat_affected}\nMode: {self._mode}\nDuration: {self._duration}\nType: {self._type}\n'
+        string = f'Name: {self.__attributes__["name"]}\nValue: {self.__attributes__["value"]}\nStat affected {self.__attributes__["stat_affected"]}\nMode: {self.__attributes__["mode"]}\nDuration: {self.__attributes__["duration"]}\nType: {self.__attributes__["type"]}\n'
         return string
 
     def decrease_duration(self):
-        self._duration -= 1
+        """ Decrease duration """
+        self.__attributes__["duration"] -= 1000
 
-    # function to get value of _name
-    def get_name(self):
-        return self._name
-    
-    # function to get value of _value
-    def get_value(self):
-        return self._value
-    
-    # function to get value of _stat_affected
-    def get_stat_affected(self):
-        return self._stat_affected
+    @classmethod
+    def open_as_effect(cls, name: str, effect_type: str, duration=9999999999):
+        """ Open effect """
+        effect_name = name.lower().replace(' ', '_')
+        with open(f"src/effects/{effect_type}/{effect_name}.json", 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        return Effect(data, duration)
 
-    # function to get value of _mode
-    def get_mode(self):
-        return self._mode
+    @property
+    def name(self):
+        """ Return name """
+        return self.__attributes__["name"]
 
-    # function to get value of _duration
-    def get_duration(self):
-        return self._duration
-    
-    # function to get value of _type
-    def get_type(self):
-        return self._type
+    @property
+    def value(self):
+        """ Return value """
+        return self.__attributes__["value"]
 
-    name = property(get_name)
-    value = property(get_value)
-    stat_affected = property(get_stat_affected)
-    mode = property(get_mode)
-    duration = property(get_duration)
-    type = property(get_type)
+    @property
+    def mode(self):
+        """ Return mode """
+        return self.__attributes__["mode"]
+
+    @property
+    def duration(self):
+        """ Return duration """
+        return self.__attributes__["duration"]
+
+    @property
+    def increase(self):
+        """ Return increase """
+        return self.__attributes__["increase"]
+
+    @property
+    def target(self):
+        """ Return target """
+        return self.__attributes__["target"]
+
+    @property
+    def stat_affected(self):
+        """ Return stat_affected """
+        return self.__attributes__["stat_affected"]

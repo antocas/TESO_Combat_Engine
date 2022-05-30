@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "major expedition",
-            "duration": null
+            "duration": "0"
         }
     ],
     "debuffs": []

@@ -81,6 +81,16 @@ class Skill:
         """ Return number of coeficients """
         return self.attributes['numCoefVars']
 
+    @property
+    def buffs(self):
+        """ Return buffs """
+        return self.attributes['buffs']
+
+    @property
+    def debuffs(self):
+        """ Return debuffs """
+        return self.attributes['debuffs']
+
     def get_index_attributes(self, index):
         """ Return type_of_damage """
         data = {}

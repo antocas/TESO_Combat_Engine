@@ -1,10 +1,11 @@
 {
-    "name": "Major Mending",
-    "effect": "16% Healing Done Increase",
+    "name": "Major mending",
+    "effect": "16% healing done increase",
     "value": "16",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "healing done"
+    "stat_affected": [
+        "healing done"
+    ]
 }

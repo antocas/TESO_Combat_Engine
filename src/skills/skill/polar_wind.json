@@ -87,7 +87,7 @@
     "debuffs": [],
     "type_of_damage_3": "frost damage",
     "tick_3": 1000,
-    "duration_3": 5000,
+    "duration_3": "0",
     "after_3": 0,
     "synergy_3": false,
     "sloteable_3": false

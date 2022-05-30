@@ -1,10 +1,11 @@
 {
-    "name": "Major Force",
-    "effect": "20% Critical Damage Increase",
+    "name": "Major force",
+    "effect": "20% critical damage increase",
     "value": "20",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "critical damage"
+    "stat_affected": [
+        "critical damage"
+    ]
 }

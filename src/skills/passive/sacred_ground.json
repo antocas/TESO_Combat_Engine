@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "minor mending",
-            "duration": null
+            "duration": "0"
         }
     ],
     "debuffs": []

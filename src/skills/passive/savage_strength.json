@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "major resolve",
-            "duration": null
+            "duration": "0"
         }
     ],
     "debuffs": []

@@ -1,10 +1,11 @@
 {
-    "name": "Minor Intellect",
-    "effect": "15% Magicka Recovery Increase",
+    "name": "Minor intellect",
+    "effect": "15% magicka recovery increase",
     "value": "15",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "magicka recovery"
+    "stat_affected": [
+        "magicka recovery"
+    ]
 }

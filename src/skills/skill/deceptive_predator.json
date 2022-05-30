@@ -90,7 +90,7 @@
         },
         {
             "effect": "minor evasion",
-            "duration": 6000
+            "duration": "6000"
         }
     ],
     "debuffs": []

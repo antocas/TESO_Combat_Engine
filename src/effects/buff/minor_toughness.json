@@ -1,10 +1,11 @@
 {
-    "name": "Minor Toughness",
-    "effect": "Increases Max Health by 10%",
+    "name": "Minor toughness",
+    "effect": "increases max health by 10%",
     "value": "10",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "max health"
+    "stat_affected": [
+        "max health"
+    ]
 }

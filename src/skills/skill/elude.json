@@ -86,11 +86,11 @@
     "buffs": [
         {
             "effect": "major evasion",
-            "duration": null
+            "duration": "16000"
         },
         {
             "effect": "major expedition",
-            "duration": null
+            "duration": "16000"
         }
     ],
     "debuffs": []

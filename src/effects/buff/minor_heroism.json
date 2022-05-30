@@ -1,10 +1,11 @@
 {
-    "name": "Minor Heroism",
-    "effect": "1 Ultimate/1.5 Seconds",
-    "value": "1",
-    "mode": "percent",
-    "timer": 1.5,
+    "name": "Minor heroism",
+    "effect": "1 ultimate and 1.5 seconds",
+    "value": "",
+    "mode": "fixed",
     "increase": true,
     "target": "Self",
-    "benefit": "ultimate"
+    "stat_affected": [
+        "ultimate"
+    ]
 }

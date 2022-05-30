@@ -87,7 +87,7 @@
     "debuffs": [
         {
             "effect": "major defile",
-            "duration": 6000
+            "duration": "0"
         }
     ],
     "type_of_damage_1": "magic damage",

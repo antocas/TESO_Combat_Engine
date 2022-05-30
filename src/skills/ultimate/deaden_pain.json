@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "major protection",
-            "duration": 2000
+            "duration": "0"
         }
     ],
     "debuffs": []

@@ -1,10 +1,12 @@
 # pylint: disable=line-too-long
 """ Main for testing """
+import json
 import random
 from src.models.dummy import Dummy
 from src.models.character import Character
 from src.models.attack import Attack
 from src.models import combat_queue
+from src.models.effects import Effect
 
 def main_combat(character: Character, dummy: Dummy):
     """ Main simulation thread """
@@ -14,19 +16,24 @@ def main_combat(character: Character, dummy: Dummy):
 
     while dummy.health > 0:
         print('*******************', seconds//1000, '*******************')
-
+        latest_skill = None
         # Renovamos la rotacion
         for to_renovate in character.rotation:
             if not queue.in_queue(to_renovate.lower()):
                 # Pasamos el nombre en minuscula
-                skill = character.get_skill(to_renovate)
-                for attack in Attack.skill_to_attack(skill):
+                latest_skill = character.get_skill(to_renovate)
+                for attack in Attack.skill_to_attack(latest_skill):
                     queue.add_attack(attack)
                 print('Ataca!!', to_renovate)
                 break
 
         # Ronda de debuffs
-
+        dummy.apply_debuffs()
+        # ! Ronda de inserción de nuevos debuffs
+        for debuff in latest_skill.debuffs:
+            # Hay que cargar los debuffs en un buffer desde los JSON para que esto sea medianamente rapido y agil, buen finde!
+            debuff = Effect.open_as_effect(debuff.effect, 'debuff', debuff.duration)
+            dummy.set_debuff(debuff)
 
         # Ronda de ataque
         total = 0

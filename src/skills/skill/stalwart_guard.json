@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "minor force",
-            "duration": null
+            "duration": "0"
         }
     ],
     "debuffs": []

@@ -1,1 +1,14 @@
-{"name": "Iron Atronach", "health": 21000000, "base_resistance": 18200, "buffs": ["Major savagery", "Minor intellect"], "debuffs": []}
+{
+    "name": "Iron Atronach",
+    "health": 21000000,
+    "base_resistance": 18200,
+    "buffs": [
+    ],
+    "debuffs": [
+        "Major Breach",
+        "Minor Breach",
+        "Minor Vulnerability",
+        "Major Vulnerability",
+        "Minor Brittle"
+    ]
+}

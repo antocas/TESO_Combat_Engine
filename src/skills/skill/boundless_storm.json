@@ -86,7 +86,7 @@
     "buffs": [
         {
             "effect": "major resolve",
-            "duration": 30000
+            "duration": "30000"
         },
         {
             "effect": "major expedition",

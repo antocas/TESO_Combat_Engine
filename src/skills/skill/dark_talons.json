@@ -93,8 +93,8 @@
     "sloteable_1": false,
     "type_of_damage_2": "flame damage",
     "tick_2": 0,
-    "duration_2": 4000,
+    "duration_2": 0,
     "after_2": 0,
-    "synergy_2": true,
+    "synergy_2": false,
     "sloteable_2": false
 }

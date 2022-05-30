@@ -92,18 +92,25 @@ def extract_effect(phrase: str, type_of_effect: str):
             effects.append(effs)
     return effects
 
-def extractor(coef_string: str):
+def extractor(skill_dict: dict):
     """ Extract info from coef_string """
-    splitted = coef_string.split('. ')
+    if skill_dict.get('coefDescription') and skill_dict['coefDescription'] != '':
+        coef_string = skill_dict['coefDescription']
+    else:
+        coef_string = skill_dict['description']
+
+    splitted = coef_string.split('$')
+    splitted_by_dolar = [splitted[0]]+[ '$'+c for c in splitted[1:] ]
+    splitted_flatted = [ c for sub in splitted_by_dolar for c in re.split(r'\. +', sub) ]
 
     data = {
         'buffs': [],
         'debuffs': []
     }
-    tmp_data = {}
 
-    for selected_split in splitted:
+    for selected_split in splitted_flatted:
         split = selected_split.lower()
+        tmp_data = {}
         if split == '':
             continue
 
@@ -135,20 +142,23 @@ def extractor(coef_string: str):
             multiplier = 1000 if 'second' in after[0] else 3600
             tmp_data['after'] = int(float(re.findall(r'\d+\.?\d*', after[0])[0])*multiplier)
 
+        if tmp_data.get('tick_time') and tmp_data['tick_time'] != 0:
+            if (tmp_data.get('duration') and tmp_data['duration'] == 0) or tmp_data.get('duration') is None:
+                tmp_data['duration'] = skill_dict['duration']
+
         # Separamos los DATOS
         for buff in buffs:
             data['buffs'].append({
                 'effect': buff,
-                'duration': tmp_data.get('duration')
+                'duration': tmp_data.get('duration') or skill_dict['duration']
             })
         for debuff in debuffs:
             data['debuffs'].append({
                 'effect': debuff,
-                'duration': tmp_data.get('duration')
+                'duration': tmp_data.get('duration') or skill_dict['duration']
             })
 
-        # DD o AoT
-        if len(type_of_damage) == 1:
+        if type_of_damage:
             number_type = re.findall(r'\d+', type_of_damage[-1])[0]
             data[f'type_of_damage_{number_type}'] = type_of_damage[0][3:]
             data[f'tick_{number_type}'] = tmp_data.get('tick_time') or 0
@@ -156,22 +166,31 @@ def extractor(coef_string: str):
             data[f'after_{number_type}'] = tmp_data.get('after') or 0
             data[f'synergy_{number_type}'] = bool(synergy) or False
             data[f'sloteable_{number_type}'] = bool(slotable_benfit) or False
-        # DD y AoT
-        if len(type_of_damage) == 2:
-            number_type = None
-            for i in range(2):
-                number_type = re.findall(r'\d+', type_of_damage[i])[0]
-                data[f'type_of_damage_{number_type}'] = type_of_damage[i][3:]
-                data[f'tick_{number_type}'] = 0
-                data[f'duration_{number_type}'] = 0
-                data[f'after_{number_type}'] = 0
-                data[f'synergy_{number_type}'] = False
-                data[f'sloteable_{number_type}'] = False
-            data[f'tick_{number_type}'] = tmp_data.get('tick_time') or 0
-            data[f'duration_{number_type}'] = tmp_data.get('duration') or 0
-            data[f'after_{number_type}'] = tmp_data.get('after') or 0
-            data[f'synergy_{number_type}'] = bool(synergy)
-            data[f'sloteable_{number_type}'] = bool(slotable_benfit)
+
+    # if int(skill_dict['numCoefVars']) > 1:
+    #     calculated = False
+    #     damages = [f'a{key}' for key in range(1, int(skill_dict['numCoefVars'])+1)]
+    #     for damage in damages:
+    #         if data.get(f'duration_{damage}') and (int(data[f'duration_{damage}'])) > 0:
+    #             calculated = True
+    #             print(data)
+    #     if not calculated:
+    #         dot = ''
+    #         a_value = 100
+    #         for damage in damages:
+    #             if float(skill_dict[damage]) < float(a_value):
+    #                 a_value = skill_dict[damage]
+    #                 dot = damage
+    #         dot = dot[1:]
+    #         dur = f'duration_{dot}'
+    #         tick = f'tick_{dot}'
+    #         after = f'after_{dot}'
+    #         try:
+    #             data[dur] = int(skill_dict['duration']) if int(data[dur]) == 0 else int(data[dur])
+    #             data[tick] = int(skill_dict['tickTime']) if int(data[tick]) == 0 else int(data[tick])
+    #             data[after] = int(skill_dict['startTime']) if int(data[after]) == 0 else data[after]
+    #         except KeyError as e:
+    #             print(f"{e}, {skill_dict['name']}")
 
     return data
 
@@ -191,10 +210,8 @@ def get_skill(skill_id):
             value = f'https:{img_link}'
         skill_dict[table_id] = value
 
-    if skill_dict.get('coefDescription') and skill_dict['coefDescription'] != '':
-        data_extracted = extractor(skill_dict['coefDescription'])
-    else:
-        data_extracted = extractor(skill_dict['description'])
+    data_extracted = extractor(skill_dict)
+
     skill_dict.update(data_extracted)
     return skill_dict
 
@@ -214,21 +231,20 @@ def mp_get_skill(skill_id):
 
 def mp_all_skills():
     """ Loop for all skills """
-    pool = Pool(8)
+    with Pool(8) as pool:
+        raw_page = requests.get('https://esoitem.uesp.net/viewSkills.php')
+        soup = bs(raw_page.content, 'lxml')
 
-    raw_page = requests.get('https://esoitem.uesp.net/viewSkills.php')
-    soup = bs(raw_page.content, 'lxml')
-
-    skills = soup.find_all("div", {"class": "esovsAbilityBlockHover"})
-    skills_ids = [skill_id.get('skillid') for skill_id in skills]
-    pool.map(mp_get_skill, skills_ids)
+        skills = soup.find_all("div", {"class": "esovsAbilityBlockHover"})
+        skills_ids = [skill_id.get('skillid') for skill_id in skills]
+        pool.map(mp_get_skill, skills_ids)
 
 if __name__=='__main__':
-    if len(sys.argv) == 3:
-        skill = get_skill(sys.argv[-1])
-        txt = skill['coefDescription'] if skill['coefDescription'] != '' else skill['description']
-        print(extract_against_raw(txt, skill['rawDescription']))
-    elif len(sys.argv) == 2:
-        print(get_skill(sys.argv[-1]))
+    if len(sys.argv) == 2:
+        elements = ["41711", "27167", "42529", "36234", "42747"]
+        for element in elements:
+            r = get_skill(element)
+            to_print = json.dumps(r, indent=4)
+            print(to_print)
     else:
         mp_all_skills()

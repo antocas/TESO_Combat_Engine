@@ -90,11 +90,11 @@
         },
         {
             "effect": "major sorcery",
-            "duration": 6000
+            "duration": "0"
         },
         {
             "effect": "major brutality",
-            "duration": 6000
+            "duration": "0"
         }
     ],
     "debuffs": []

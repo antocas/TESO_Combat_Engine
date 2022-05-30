@@ -1,10 +1,11 @@
 {
-    "name": "Minor Breach",
-    "effect": "2974 Resistance Debuff",
+    "name": "Minor breach",
+    "effect": "2974 resistance debuff",
     "value": "2974",
     "mode": "fixed",
-    "timer": 0,
-    "increase": false,
-    "target": "Target",
-    "benefit": "resistance"
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "resistance debuff"
+    ]
 }

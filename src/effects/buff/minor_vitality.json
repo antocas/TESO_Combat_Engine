@@ -1,10 +1,11 @@
 {
-    "name": "Minor Vitality",
-    "effect": "8% Healing Received",
+    "name": "Minor vitality",
+    "effect": "8% healing received",
     "value": "8",
     "mode": "percent",
-    "timer": 0,
     "increase": true,
     "target": "Self",
-    "benefit": "healing received"
+    "stat_affected": [
+        "healing received"
+    ]
 }

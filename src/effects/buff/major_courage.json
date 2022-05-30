@@ -1,10 +1,12 @@
 {
-    "name": "Major Courage",
-    "effect": "Increases Spell/Weapon Damage by 430",
+    "name": "Major courage",
+    "effect": "increases spell and weapon damage by 430",
     "value": "430",
-    "timer": 0,
     "mode": "fixed",
     "increase": true,
     "target": "Self",
-    "benefit": ["spell damage", "weapon damage"]
+    "stat_affected": [
+        "weapon damage",
+        "spell damage"
+    ]
 }

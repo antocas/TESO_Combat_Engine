@@ -86,11 +86,11 @@
     "buffs": [
         {
             "effect": "major savagery",
-            "duration": 4000
+            "duration": "5000"
         },
         {
             "effect": "major prophecy",
-            "duration": 4000
+            "duration": "5000"
         },
         {
             "effect": "minor berserk",
