@@ -95,5 +95,8 @@
     "duration_3": 0,
     "after_3": 0,
     "synergy_3": false,
-    "sloteable_3": false
+    "sloteable_3": false,
+    "a3_scaled": 0.141312,
+    "b3_scaled": 1.48248,
+    "c3_scaled": -3.53342
 }

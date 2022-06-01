@@ -96,10 +96,16 @@
     "after_1": 0,
     "synergy_1": false,
     "sloteable_1": false,
+    "a1_scaled": 0.0369403,
+    "b1_scaled": 0.387955,
+    "c1_scaled": -1.39501,
     "type_of_damage_2": "magic damage",
     "tick_2": 2000,
     "duration_2": "18000",
     "after_2": 0,
     "synergy_2": false,
-    "sloteable_2": false
+    "sloteable_2": false,
+    "a2_scaled": 0.01847015,
+    "b2_scaled": 0.1939775,
+    "c2_scaled": -0.697505
 }

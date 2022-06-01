@@ -5,5 +5,7 @@
     "mode": "percent",
     "increase": true,
     "target": "Self",
-    "stat_affected": []
+    "stat_affected": [
+        "weapon damage"
+    ]
 }

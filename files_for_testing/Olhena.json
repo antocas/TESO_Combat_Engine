@@ -5,7 +5,7 @@
     "second_bar": "Destruction Staff",
     "health": 23196,
     "spell_damage": 2936,
-    "physical_damage": 3356,
+    "weapon_damage": 3356,
     "max_magicka": 30197,
     "spell_critical": 58.6,
     "weapon_critical": 58.6,
@@ -32,11 +32,22 @@
         "Emperor"
     ],
     "rotation": [
+        "Barbed trap",
+        "Purifying light",
         "Blazing spear",
         "Unstable Wall of Elements",
         "Solar barrage",
-        "Barbed trap",
-        "Purifying light",
         "Puncturing Sweep"
-    ]
+    ],
+    "buffs": [
+        "Major Force",
+        "Major Courage",
+        "Minor Brutality",
+        "Minor Savagery",
+        "Minor Prophecy",
+        "Minor Sorcery",
+        "Minor Berserk",
+        "Minor Toughness"
+    ],
+    "debuffs": []
 }

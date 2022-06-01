@@ -96,10 +96,16 @@
     "after_1": 0,
     "synergy_1": false,
     "sloteable_1": false,
+    "a1_scaled": 0.0967224,
+    "b1_scaled": 1.01719,
+    "c1_scaled": 0.0525424,
     "type_of_damage_2": "disease damage",
     "tick_2": 0,
     "duration_2": 10000,
     "after_2": 0,
     "synergy_2": false,
-    "sloteable_2": false
+    "sloteable_2": false,
+    "a2_scaled": 0.009722680000000001,
+    "b2_scaled": 0.10149300000000001,
+    "c2_scaled": -0.688103
 }

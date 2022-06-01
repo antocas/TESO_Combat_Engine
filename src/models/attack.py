@@ -4,13 +4,6 @@ class Attack:
     """ Class Attack """
     def __init__(self, kwargs):
         self.__attributes__ = kwargs
-        # self._name = kwargs.get('name')
-        # self._value = kwargs.get('value')
-        # self._type = kwargs.get('type')
-        # self._cast_time = kwargs.get('cast_time')
-        # self._duration = kwargs.get('duration')
-        # self._buffs = kwargs.get('bufs')
-        # self._debuffs = kwargs.get('debufs')
 
     @classmethod
     def skill_to_attack(cls, skill: Skill):
@@ -76,7 +69,8 @@ class Attack:
     def calculate_damage(self, max_resource, resource_damage, cap: int=1000000, index: int=1):
         skill_coef_max_resource = float(self.__attributes__[f'a{index}'])
         skill_coef_resource_damage = float(self.__attributes__[f'b{index}'])
-        value = (skill_coef_max_resource * max_resource + skill_coef_resource_damage * resource_damage)
+        skill_rectification = float(self.__attributes__[f'c{index}'])
+        value = (skill_coef_max_resource * max_resource + skill_coef_resource_damage * resource_damage - skill_rectification)
         self.__attributes__['value'] = min(int(value), cap)
 
     def decrease_attack_duration(self, seconds: int):
@@ -119,3 +113,7 @@ class Attack:
         """ Returns true if has some sort of damage type """
         key = [key for key in self.__attributes__.keys() if key.startswith('type_of_damage_')]
         return bool( len(key) )
+
+    def increase_damage(self, damage_increase: float):
+        """ Increase damage """
+        self.__attributes__['value'] = int(self.__attributes__['value'] * (1+damage_increase))

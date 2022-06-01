@@ -97,6 +97,12 @@ class Skill:
         for key, value in self.attributes.items():
             if key.endswith(index):
                 data[key] = value
+        try:
+            data[f"a{index}"] = self.attributes[f"a{index}_scaled"]
+            data[f"b{index}"] = self.attributes[f"b{index}_scaled"]
+            data[f"c{index}"] = self.attributes[f"c{index}_scaled"]
+        except KeyError:
+            pass
         return data
 
     def get_calculated_damage(self):

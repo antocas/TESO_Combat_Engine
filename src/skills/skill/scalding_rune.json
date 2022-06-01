@@ -91,10 +91,16 @@
     "after_1": 0,
     "synergy_1": false,
     "sloteable_1": false,
+    "a1_scaled": 0.206494,
+    "b1_scaled": 2.16974,
+    "c1_scaled": -1.567298,
     "type_of_damage_2": "flame damage",
     "tick_2": 0,
     "duration_2": 12000,
     "after_2": 0,
     "synergy_2": false,
-    "sloteable_2": false
+    "sloteable_2": false,
+    "a2_scaled": 0.01431305,
+    "b2_scaled": 0.14882966666666667,
+    "c2_scaled": -1.7703833333333332
 }

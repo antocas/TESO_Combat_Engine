@@ -90,5 +90,8 @@
     "duration_1": 0,
     "after_1": 0,
     "synergy_1": false,
-    "sloteable_1": false
+    "sloteable_1": false,
+    "a1_scaled": 0.1547344,
+    "b1_scaled": 1.626876,
+    "c1_scaled": 0.745984
 }

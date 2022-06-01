@@ -38,10 +38,10 @@ class Dummy:
         total_damage = int(damage * (1 - mitigation))
         if not critical_damage:
             # * Increase damage received by debuffs
-            total_damage = total_damage * (1 + self.damage_taken)
+            total_damage = int(total_damage * (1 + self.damage_taken))
         else:
             # * Increase critical damage received by debuffs
-            total_damage = total_damage * (1 + self.critical_damage_taken)
+            total_damage = int(total_damage * (1 + self.critical_damage_taken))
         self.attributes["health"] = self.attributes["health"] - total_damage
         return total_damage
 
@@ -66,13 +66,12 @@ class Dummy:
         self.damage_taken  = 0
         self.critical_damage_taken = 0
         remove = []
-        print("Debufos:", self.attributes['debuffs'])
         for name, debuff in self.attributes['debuffs'].items():
             # ! Daño recibido
             if 'damage taken' in debuff.stat_affected:
-                self.damage_taken = self.damage_taken + int(debuff.value)
+                self.damage_taken = self.damage_taken + int(debuff.value)/100.0
             if 'critical damage' in debuff.stat_affected:
-                self.critical_damage_taken = self.critical_damage_taken + int(debuff.value)
+                self.critical_damage_taken = self.critical_damage_taken + int(debuff.value)/100.0
             if 'resistance debuff' in debuff.stat_affected:
                 self.attributes["spell_resistance"] = max(0, self.attributes["spell_resistance"] - int(debuff.value))
                 self.attributes["physical_resistance"] = max(0, self.attributes["physical_resistance"] - int(debuff.value))

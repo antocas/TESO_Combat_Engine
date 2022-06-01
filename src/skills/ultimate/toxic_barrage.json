@@ -91,10 +91,16 @@
     "after_1": 0,
     "synergy_1": false,
     "sloteable_1": false,
+    "a1_scaled": 0.5506583806818182,
+    "b1_scaled": 5.777755681818181,
+    "c1_scaled": -14.362926136363635,
     "type_of_damage_2": "poison damage",
     "tick_2": 0,
     "duration_2": 8000,
     "after_2": 0,
     "synergy_2": false,
-    "sloteable_2": false
+    "sloteable_2": false,
+    "a2_scaled": 0.14206214488636362,
+    "b2_scaled": 1.4925355113636363,
+    "c2_scaled": -3.2967684659090906
 }

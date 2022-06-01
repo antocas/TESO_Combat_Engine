@@ -91,10 +91,16 @@
     "after_1": 0,
     "synergy_1": false,
     "sloteable_1": false,
+    "a1_scaled": 0.0929562,
+    "b1_scaled": 0.976125,
+    "c1_scaled": -0.865827,
     "type_of_damage_2": "bleed damage",
     "tick_2": 0,
     "duration_2": 7000,
     "after_2": 0,
     "synergy_2": false,
-    "sloteable_2": false
+    "sloteable_2": false,
+    "a2_scaled": 0.013765714285714286,
+    "b2_scaled": 0.14394142857142858,
+    "c2_scaled": -2.3266285714285715
 }

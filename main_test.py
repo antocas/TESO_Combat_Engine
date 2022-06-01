@@ -12,4 +12,4 @@ with open('files_for_testing/Olhena.json', encoding='utf-8') as f:
 with open('files_for_testing/Iron Atronach.json', encoding='utf-8') as f:
     dummy = Dummy(load(f)) # Load dummy and passives from json
 
-main_combat(character, dummy)
+print(main_combat(character, dummy))

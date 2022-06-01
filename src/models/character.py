@@ -3,11 +3,15 @@
 from copy import deepcopy
 
 from json import load, dumps
+import re
 from src.models.skill import Skill
-
+from src.models.effects import Effect
 class Character:
     """ Character """
     def __init__(self, atributes):
+        tmp_buffs = {}
+        tmp_debuffs = {}
+
         self.attributes = atributes
         self.attributes['skills'] = {}
         self.attributes['passives'] = {}
@@ -16,6 +20,13 @@ class Character:
             self.__load_skills__()
         if self.attributes.get('passives_available'):
             self.__load_passives__()
+        for buff in self.attributes['buffs']:
+            tmp_buffs[buff] = Effect.open_as_effect(buff, 'buff')
+        for debuff in self.attributes['debuffs']:
+            tmp_debuffs[debuff] = Effect.open_as_effect(debuff, 'debuff')
+        self.attributes['buffs'] = tmp_buffs
+        self.attributes['debuffs'] = tmp_debuffs
+
         # Apply buffs
         self.apply_buffs()
 
@@ -48,14 +59,25 @@ class Character:
 
     def apply_buffs(self):
         """ Apply buffs to the character """
-        for passive in self.attributes['passives']:
-            continue
-            print(passive)
-        return None
-
-    def next_attack(self):
-        """ Return next attack """
-        return None
+        self._damage_done = 0
+        self._critical_damage_done = 0
+        self._weapon_damage_added = 0
+        self._spell_damage_added = 0
+        self._weapon_critical_added = 0
+        self._spell_critical_added = 0
+        for _, buff in self.attributes['buffs'].items():
+            if "critical damage" in buff.stat_affected:
+                self._critical_damage_done = self._critical_damage_done + int(buff.value)
+            if "damage done" in buff.stat_affected:
+                self._damage_done = self._damage_done + int(buff.value)
+            if "weapon damage" in buff.stat_affected:
+                self._weapon_damage_added = self._weapon_damage_added + int(buff.value)
+            if "spell damage" in buff.stat_affected:
+                self._spell_damage_added = self._spell_damage_added + int(buff.value)
+            if "weapon critical" in buff.stat_affected:
+                self._weapon_critical_added = self._weapon_critical_added + int(buff.value)
+            if "spell critical" in buff.stat_affected:
+                self._spell_critical_added = self._spell_critical_added + int(buff.value)
 
     def savable(self):
         """ Converts into small dict, db friendly """
@@ -66,6 +88,7 @@ class Character:
 
     def apply_passives(self):
         """ Apply passives """
+        # ! Probablemente sea sencillo coger las pasivas y chutarlas a la parte de los buffs
         return None
 
     def get_skill(self, skill_name: str):
@@ -96,22 +119,33 @@ class Character:
     @property
     def spell_damage(self):
         """ Return spell damage """
-        return self.attributes.get("spell_damage") or 0
+        return self.attributes["spell_damage"] + self._spell_damage_added
 
     @property
     def weapon_damage(self):
         """ Return weapon damage """
-        return self.attributes.get("weapon_damage") or 0
+        return self.attributes["weapon_damage"] + self._weapon_damage_added
 
     @property
     def spell_critical(self):
         """ Return spell critical """
-        return self.attributes.get("spell_critical") or 0
+        return self.attributes["spell_critical"] + self._spell_critical_added + self.critical_damage_done
 
     @property
     def weapon_critical(self):
         """ Return spell critical """
-        return self.attributes.get("weapon_critical") or 0
+        return self.attributes["weapon_critical"] + self._weapon_critical_added + self.critical_damage_done
+
+    @property
+    def damage_done(self):
+        """ Return damage added from buffs """
+        return self._damage_done/100.0
+
+    @property
+    def critical_damage_done(self):
+        """ Return critical damage added from buffs """
+        return self._critical_damage_done/100.0
+
 
     @property
     def spell_penetration(self):

@@ -137,6 +137,7 @@ def extractor(skill_dict: dict):
         if duration:
             multiplier = 1000 if 'second' in duration[0] else 3600
             tmp_data['duration'] = int(float(re.findall(r'\d+\.?\d*', duration[0])[0])*multiplier)
+
         if after:
             # print(after)
             multiplier = 1000 if 'second' in after[0] else 3600
@@ -146,17 +147,24 @@ def extractor(skill_dict: dict):
             if (tmp_data.get('duration') and tmp_data['duration'] == 0) or tmp_data.get('duration') is None:
                 tmp_data['duration'] = skill_dict['duration']
 
+        if duration and 'over' in duration[0]:
+            tmp_data['duration_over'] = tmp_data["duration"]/multiplier
+        else:
+            tmp_data['duration_over'] = 1
+
         # Separamos los DATOS
         for buff in buffs:
-            data['buffs'].append({
-                'effect': buff,
-                'duration': tmp_data.get('duration') or skill_dict['duration']
-            })
+            if buff != 'n and':
+                data['buffs'].append({
+                    'effect': buff,
+                    'duration': tmp_data.get('duration') or skill_dict['duration']
+                })
         for debuff in debuffs:
-            data['debuffs'].append({
-                'effect': debuff,
-                'duration': tmp_data.get('duration') or skill_dict['duration']
-            })
+            if debuff != 'n and':
+                data['debuffs'].append({
+                    'effect': debuff,
+                    'duration': tmp_data.get('duration') or skill_dict['duration']
+                })
 
         if type_of_damage:
             number_type = re.findall(r'\d+', type_of_damage[-1])[0]
@@ -166,32 +174,11 @@ def extractor(skill_dict: dict):
             data[f'after_{number_type}'] = tmp_data.get('after') or 0
             data[f'synergy_{number_type}'] = bool(synergy) or False
             data[f'sloteable_{number_type}'] = bool(slotable_benfit) or False
-
-    # if int(skill_dict['numCoefVars']) > 1:
-    #     calculated = False
-    #     damages = [f'a{key}' for key in range(1, int(skill_dict['numCoefVars'])+1)]
-    #     for damage in damages:
-    #         if data.get(f'duration_{damage}') and (int(data[f'duration_{damage}'])) > 0:
-    #             calculated = True
-    #             print(data)
-    #     if not calculated:
-    #         dot = ''
-    #         a_value = 100
-    #         for damage in damages:
-    #             if float(skill_dict[damage]) < float(a_value):
-    #                 a_value = skill_dict[damage]
-    #                 dot = damage
-    #         dot = dot[1:]
-    #         dur = f'duration_{dot}'
-    #         tick = f'tick_{dot}'
-    #         after = f'after_{dot}'
-    #         try:
-    #             data[dur] = int(skill_dict['duration']) if int(data[dur]) == 0 else int(data[dur])
-    #             data[tick] = int(skill_dict['tickTime']) if int(data[tick]) == 0 else int(data[tick])
-    #             data[after] = int(skill_dict['startTime']) if int(data[after]) == 0 else data[after]
-    #         except KeyError as e:
-    #             print(f"{e}, {skill_dict['name']}")
-
+            tick_time = data[f'tick_{number_type}'] or int(skill_dict['tickTime']) or 1000
+            over_time = tmp_data['duration_over'] or 1
+            data[f'a{number_type}_scaled'] = float(skill_dict[f"a{number_type}"])/over_time * (1000/float(tick_time))
+            data[f'b{number_type}_scaled'] = float(skill_dict[f"b{number_type}"])/over_time * (1000/float(tick_time))
+            data[f'c{number_type}_scaled'] = float(skill_dict[f"c{number_type}"])/over_time * (1000/float(tick_time))
     return data
 
 def get_skill(skill_id):

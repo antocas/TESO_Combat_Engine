@@ -91,10 +91,16 @@
     "after_1": 0,
     "synergy_1": false,
     "sloteable_1": false,
+    "a1_scaled": 0.0155638,
+    "b1_scaled": 0.162558,
+    "c1_scaled": -2.18341,
     "type_of_damage_2": "shock damage",
     "tick_2": 2000,
     "duration_2": 10000,
     "after_2": 0,
     "synergy_2": false,
-    "sloteable_2": false
+    "sloteable_2": false,
+    "a2_scaled": 0.01291655,
+    "b2_scaled": 0.1354425,
+    "c2_scaled": -0.4268885
 }
