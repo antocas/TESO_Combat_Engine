@@ -5,12 +5,12 @@ import json
 
 def whiles_regex(passive_description):
     """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
-    while_pattern = r'(while)(.*?)( in combat| ability slotted)'
-    while_combat = re.findall(while_pattern, passive_description, re.IGNORECASE)
-    if while_combat:
-        return while_combat
+    while_pattern = r'(while)(.*? )(in combat|ability slotted|negative effect)'
+    while_options = re.findall(while_pattern, passive_description, re.IGNORECASE)
+    if len(while_options) > 0:
+        return [option[-1] for option in while_options]
     else:
-        return ''
+        return None
 
 def restores_regex(passive_description):
     """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
@@ -53,7 +53,6 @@ def extract_benefits(passive_description):
         if 'increase' in phrase:
             pattern = r'increase.*by \d+%?'
             p = re.findall(pattern, phrase)
-            print(phrase, p)
     return ''
 
 
@@ -67,7 +66,7 @@ for passive_name in os.listdir('src/skills/passive'):
         data["weapon_dependent"] = weapon_dependent_regex(passive["descHeader"])
         data["armor_dependent"] = armor_dependent_regex(passive["description"])
         data["ability_slotted_dependent"] = ability_slotted_dependent_regex(passive["description"])
-        data["in_combat"] = whiles_regex(passive['description'])
+        data["while"] = whiles_regex(passive['description'])
         data["restores"] = restores_regex(passive['description'])
         data["benefits"] = extract_benefits(passive['description'])
         print(data)
