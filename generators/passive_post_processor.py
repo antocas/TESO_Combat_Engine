@@ -7,7 +7,10 @@ def whiles_regex(passive_description):
     """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
     while_pattern = r'(while)(.*?)( in combat| ability slotted)'
     while_combat = re.findall(while_pattern, passive_description, re.IGNORECASE)
-    return bool(while_combat)
+    if while_combat:
+        return while_combat
+    else:
+        return ''
 
 def restores_regex(passive_description):
     """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
