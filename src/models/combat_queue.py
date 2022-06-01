@@ -1,6 +1,6 @@
 """ Queue for attacks """
 from copy import deepcopy
-from src.models import attack
+from src.models.attack import Attack
 
 class QueueAttack:
     """ Queue for attacks """
@@ -10,18 +10,16 @@ class QueueAttack:
         self._to_remove = []
 
     def __str__(self):
-        at = [ name for name, attack in self._attacks.items() ]
-        return ', '.join(at)
+        attacks = [name for name, attack in self._attacks.items()]
+        return ', '.join(attacks)
 
-    def add_attack(self, attack:attack.Attack):
+    def add_attack(self, attack: Attack):
         """ Add to queue """
-        self._attacks[attack._name] = deepcopy(attack)
+        self._attacks[attack.name] = deepcopy(attack)
 
-    def decrease_attack_duration(self, attack_name:str, channeling_time:int=1):
-        """ Remove from queue """
-        self._attacks[attack_name]._duration = self._attacks[attack_name]._duration - channeling_time
-        if self._attacks[attack_name]._duration == 0:
-            self._to_remove.append(attack_name)
+    def remove_attack(self, name: str):
+        """ Remove attack from queue """
+        self._to_remove.append(name)
 
     def clear_attacks(self):
         """ Remove those attacks which finished recently """
@@ -30,6 +28,23 @@ class QueueAttack:
             name = self._to_remove.pop()
             del self._attacks[name]
 
-    def in_queue(self, name):
+    def in_queue(self, name: str):
         """ Checks if some attack it's in queue """
-        return name in self._attacks
+        keys = self._attacks.keys()
+        exits_some = False
+        for key in keys:
+            if key.lower().startswith(name):
+                exits_some = True
+                break
+
+        return exits_some
+
+    def next_attack(self):
+        """ Returns the next attack """
+        for key, value in self._attacks.items():
+            yield (key, value)
+
+    @property
+    def attacks(self):
+        """ Return attack in queue """
+        return self._attacks

@@ -58,3 +58,8 @@ node_modules
 .coverage
 .python-version
 src/MC/__pycache__/dummy.cpython-38.pyc
+
+traza*txt
+src/skills
+src/champion
+src/effects

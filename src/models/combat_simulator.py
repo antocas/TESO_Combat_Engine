@@ -1,56 +1,82 @@
+# pylint: disable=line-too-long
 """ Main for testing """
+import json
 import random
 from src.models.dummy import Dummy
 from src.models.character import Character
-from src.models import attack
+from src.models.attack import Attack
 from src.models import combat_queue
+from src.models.effects import Effect
+from src.models.skill import Skill
 
-from src.instances.model_attack import *
-
-import streamlit as st
-
-def main_combat(dummy:Dummy, character:Character):
+def main_combat(character: Character, dummy: Dummy):
+    """ Main simulation thread """
+    with open('src/skills/light_attack.json', 'r', encoding='utf-8') as file:
+        json_skill = json.load(file)
+        load_light_attack = Skill(json_skill)
+        for l_a in Attack.skill_to_attack(load_light_attack):
+            light_attack = l_a
     queue = combat_queue.QueueAttack()
+    seconds = 1000
     initial_health = dummy.health
-    seconds = 0
-    channeling_time = 1
 
-    circular = [barbed_trap, wall_of_elements, mystic_orb, blazing_spear, degeneration, puncturing_sweep]
-    dummy.set_debuff(minor_breach)
-
-    while dummy.attributes["health_bar"] > 0:
+    while dummy.health > 0:
+        print('*******************', seconds//1000, '*******************')
+        latest_skill = None
         queue.add_attack(light_attack)
-        for to_renovate in circular:
-            if not queue.in_queue(to_renovate._name):
-                # print(seconds, to_renovate._name)
-                queue.add_attack(to_renovate)
+        # Renovamos la rotacion
+        for to_renovate in character.rotation:
+            if not queue.in_queue(to_renovate.lower()):
+                # Pasamos el nombre en minuscula
+                latest_skill = character.get_skill(to_renovate)
+                for attack in Attack.skill_to_attack(latest_skill):
+                    queue.add_attack(attack)
+                print('Añadido el ataque:', to_renovate)
                 break
-        
-        # DAMAGE = 5000
-        CRIT_PROB = character.spell_critical
-        MAX_CRIT = character.spell_critical
-        PENETRATION = character.spell_penetration
-        # PENETRATION = 18200
 
+
+        # Ronda de debuffs
         dummy.apply_debuffs()
-        
-        # RONDA DE ATAQUES
-        for name, attack in queue._attacks.items():
-            print(name)
-            DAMAGE = attack._value
-            if random.random() <= CRIT_PROB:
-                DAMAGE += DAMAGE*MAX_CRIT
-            dummy.hit_dummy(DAMAGE, PENETRATION)
-            # TEST
-            queue.decrease_attack_duration(attack._name, channeling_time)
-        print('*'*200)
-        dummy.reset_resistances()
-        queue.clear_attacks()
-        seconds = seconds + channeling_time
+        # ! Ronda de inserción de nuevos debuffs
+        for debuff in latest_skill.debuffs:
+            # Hay que cargar los debuffs en un buffer desde los JSON para que esto sea medianamente rapido y agil, buen finde!
+            try:
+                debuff = Effect.open_as_effect(debuff.effect, 'debuff', debuff.duration)
+                dummy.set_debuff(debuff)
+            except AttributeError:
+                continue
+        character.apply_buffs()
 
+        # Ronda de ataque
+        total = 0
+        for name, attack in queue.next_attack():
+            if attack.can_be_used(seconds) and attack.causes_damage():
+                index = int(name.split(' ')[-1])
+                max_resource = max(int(character.max_magicka), int(character.max_stamina))
+                resource_damage = max(int(character.spell_damage), int(character.weapon_damage))
+                attack.calculate_damage(max_resource, resource_damage, index=index)
+                attack.increase_damage(character.damage_done)
+
+                critical = random.randint(0, 100) <= character.critical_chance//219.12
+                if critical:
+                    max_critical = max(character.spell_critical, character.weapon_critical)/100.0
+                    attack.make_critical(max_critical)
+                    attack.increase_damage(character.critical_damage_done)
+                # Daño con penetracion de armadura
+                received = dummy.hit_dummy(attack.value, int(character.spell_penetration), critical_damage=critical)
+                total = total + received
+                print(f"{attack}, DMG: {received}, Critical: {critical}")
+
+            attack.decrease_attack_duration(seconds)
+            if attack.duration <= 0:
+                queue.remove_attack(name)
+                print("Removed:", name)
+
+        queue.clear_attacks()
+        print("Dummy health:", dummy.health, "Total damage this round:", total)
+        seconds = seconds + 1000
+
+    seconds = seconds//1000
     combat_minutes = seconds//60
     combat_seconds = seconds%60
-    
-    st.session_state['dps'] = initial_health//seconds
-    st.session_state['time_minutes'] = combat_minutes
-    st.session_state['time_seconds'] = combat_seconds
+    return {"dps": initial_health//seconds, "total": seconds, "minutes": combat_minutes, "seconds": combat_seconds}

@@ -1,15 +1,22 @@
+# pylint: disable=import-error
+# pylint: disable=line-too-long
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-arguments
 """ Skill generator """
 
 import os
 import re
+import sys
 import json
-from cv2 import split
+
+from multiprocessing import Pool
+
 import requests
 from bs4 import BeautifulSoup as bs
 
 
 # Print iterations progress
-def print_progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', print_end = "\r"):
+def print_progress_bar(iteration, total, prefix='', suffix='', decimals=1, length=100, fill='█', print_end="\r"):
     """
     Call in a loop to create terminal progress bar
     @params:
@@ -23,20 +30,26 @@ def print_progress_bar(iteration, total, prefix = '', suffix = '', decimals = 1,
         print_end    - Optional  : end character (e.g. "\r", "\r\n") (Str)
     """
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
-    filledLength = int(length * iteration // total)
-    bar = fill * filledLength + '-' * (length - filledLength)
-    print(f'\r{prefix} |{bar}| {percent}% {suffix}', end = print_end)
+    filled_length = int(length * iteration // total)
+    progress_bar = fill * filled_length + '-' * (length - filled_length)
+    print(f'\r{prefix} |{progress_bar}| {percent}% {suffix}', end=print_end)
     # Print New Line on Complete
     if iteration == total:
         print()
 
-def extract_against_raw(coef_string:str, raw_description:str):
+def extract_against_raw(coef_string: str, raw_description: str):
     """ New attempt to extract info """
-    print(coef_string)
-    results = []
-    tmp = ''
-    split_coef = coef_string.replace('.', '').replace('\n', '').replace('  ', ' ').split(' ')
-    split_raw = raw_description.replace('.', '').replace('\n', '').replace('  ', ' ').split(' ')
+    pre_coef = re.sub(' +', ' ', coef_string)
+    pre_raw = re.sub('\n', ' ', raw_description)
+    pre_raw = re.sub(' +', ' ', pre_raw)
+    print('Coef:', pre_coef, '\n')
+    print("Raw:", pre_raw, '\n')
+
+    results = {}
+    tmp_coef = ''
+    tmp_raw = ''
+    split_coef = pre_coef.split(' ')
+    split_raw = pre_raw.split(' ')
 
     len_max = max(len(split_coef), len(split_raw))
     len_min = min(len(split_coef), len(split_raw))
@@ -50,11 +63,14 @@ def extract_against_raw(coef_string:str, raw_description:str):
             c_len = c_len + 1
             r_len = r_len + 1
             jump = True
-            if tmp != '':
-                results.append(tmp[1:])
-                tmp = ''
+            if tmp_coef != '':
+                data = { re.findall(r'<<\d+>>', tmp_raw)[0]: tmp_coef[1:] }
+                results.update(data)
+                tmp_coef = ''
+                tmp_raw = ''
         else:
-            tmp = tmp + ' ' + split_coef[c_len]
+            tmp_coef = tmp_coef + ' ' + split_coef[c_len]
+            tmp_raw = tmp_raw + ' ' + split_raw[r_len]
             if c_len < len_max-1:
                 c_len = c_len + 1
             if jump:
@@ -63,107 +79,113 @@ def extract_against_raw(coef_string:str, raw_description:str):
                     r_len = r_len + 1
     return results
 
-def extract_buff_and_debuff(split:str):
+def extract_effect(phrase: str, type_of_effect: str):
     """ Prepara los buffs y debuffs para la estructura de datos general """
-    buff_names = [ s.replace('.json', '').replace('_', ' ').lower() for s in os.listdir('src/effects/buff') ]
-    debuff_names = [ s.replace('.json', '').replace('_', ' ').lower() for s in os.listdir('src/effects/debuff') ]
-    buffs = []
-    debuffs = []
-    for buff in buff_names:
-        b = buff.split(' ')
-        s = f'({b[0]}).*?({b[1]})'
-        buff = re.findall(s, split)
-        if buff:
-            buff = ' '.join(buff[0])
-            buffs.append(buff)
-    for debuff in debuff_names:
-        b = debuff.split(' ')
-        s = f'({b[0]}).*?({b[1]})'
-        debuff = re.findall(s, split)
-        if debuff:
-            debuff = ' '.join(debuff[0])
-            debuffs.append(debuff)
-    return buff, debuffs
+    effect_names = [s.replace('.json', '').replace('_', ' ').lower() for s in os.listdir(f'src/effects/{type_of_effect}')]
+    effects = []
+    for effect in effect_names:
+        splited_buff = effect.split(' ')
+        buff_pattern = f'({splited_buff[0]}).*?({splited_buff[1]})'
+        eff = re.findall(buff_pattern, phrase)
+        if eff:
+            effs = ' '.join(eff[0])
+            effects.append(effs)
+    return effects
 
-
-def extractor(coef_string:str):
+def extractor(skill_dict: dict):
     """ Extract info from coef_string """
-    splitted = coef_string.split('. ')
+    if skill_dict.get('coefDescription') and skill_dict['coefDescription'] != '':
+        coef_string = skill_dict['coefDescription']
+    else:
+        coef_string = skill_dict['description']
+
+    splitted = coef_string.split('$')
+    splitted_by_dolar = [splitted[0]]+[ '$'+c for c in splitted[1:] ]
+    splitted_flatted = [ c for sub in splitted_by_dolar for c in re.split(r'\. +', sub) ]
 
     data = {
         'buffs': [],
         'debuffs': []
     }
-    tmp_data = {}
 
-    for selected_split in splitted:
-        # print(selected_split)
+    for selected_split in splitted_flatted:
         split = selected_split.lower()
+        tmp_data = {}
         if split == '':
             continue
 
         # Cantidad y tipo de daño
-        type_of_damage = re.findall(r'\$\d+ .*? damage', split)
+        type_of_damage = re.findall(r'\$\d+ \w*? damage', split)
         # Cada cuanto se aplica
-        tick_time = [ ''.join(s) for s in re.findall(r'(every|each)( \d+\.?\d* )(second|minute)', split) ]
+        tick_time = [''.join(s) for s in re.findall(r'(every|each)( \d+\.?\d* )(second|minute)', split)]
         # Durante cuanto tiempo se aplica
-        duration = [ ''.join(s) for s in re.findall(r'(over|during|for)( \d+\.?\d* )(second|minute)', split) ]
+        duration = [''.join(s) for s in re.findall(r'(over|during|for)( \d+\.?\d* )(second|minute)', split)]
         # Tiempo tras el cual se produce algun efecto
-        after = [ ''.join(s) for s in re.findall(r'(after)( \d+\.?\d* )(second|minute)', split) ]
+        after = [''.join(s) for s in re.findall(r'(after)( \d+\.?\d* )(second|minute)', split)]
         # Slotable
         slotable_benfit = re.findall(r'while slotted', split)
         # Sinergiable
         synergy = re.findall(r'synergy', split)
         # BUFFS AND DEBUFFS
-        buffs, debuffs = extract_buff_and_debuff(split)
-        
+        buffs = extract_effect(split, 'buff')
+        debuffs = extract_effect(split, 'debuff')
+
         if tick_time:
             # print(tick_time)
             multiplier = 1000 if 'second' in tick_time[0] else 3600
             tmp_data['tick_time'] = int(float(re.findall(r'\d+\.?\d*', tick_time[0])[0])*multiplier)
         if duration:
-            # print(duration)
             multiplier = 1000 if 'second' in duration[0] else 3600
             tmp_data['duration'] = int(float(re.findall(r'\d+\.?\d*', duration[0])[0])*multiplier)
+
         if after:
             # print(after)
             multiplier = 1000 if 'second' in after[0] else 3600
             tmp_data['after'] = int(float(re.findall(r'\d+\.?\d*', after[0])[0])*multiplier)
-            print(coef_string)
-            print(after, tmp_data['after'])
+
+        if tmp_data.get('tick_time') and tmp_data['tick_time'] != 0:
+            if (tmp_data.get('duration') and tmp_data['duration'] == 0) or tmp_data.get('duration') is None:
+                tmp_data['duration'] = skill_dict['duration']
+
+        if duration and 'over' in duration[0]:
+            tmp_data['duration_over'] = tmp_data["duration"]/multiplier
+        else:
+            tmp_data['duration_over'] = 1
 
         # Separamos los DATOS
         for buff in buffs:
-            data['buffs'].append({
-                'effect': buff,
-                'duration': tmp_data.get('duration')
-            })
+            if buff != 'n and':
+                data['buffs'].append({
+                    'effect': buff,
+                    'duration': tmp_data.get('duration') or skill_dict['duration']
+                })
         for debuff in debuffs:
-            data['debuffs'].append({
-                'effect': debuff,
-                'duration': tmp_data.get('duration')
-            })
-        
+            if debuff != 'n and':
+                data['debuffs'].append({
+                    'effect': debuff,
+                    'duration': tmp_data.get('duration') or skill_dict['duration']
+                })
+
         if type_of_damage:
             number_type = re.findall(r'\d+', type_of_damage[-1])[0]
-            data[f'tick{number_type}'] = tmp_data.get('tick_time')
-            data[f'duration{number_type}'] = tmp_data.get('tick_time')
-            data[f'after{number_type}'] = tmp_data.get('tick_time')
-            data[f'synergy{number_type}'] = bool(synergy)
-            data[f'sloteable{number_type}'] = bool(slotable_benfit)
-        
-        return data
+            data[f'type_of_damage_{number_type}'] = type_of_damage[0][3:]
+            data[f'tick_{number_type}'] = tmp_data.get('tick_time') or 0
+            data[f'duration_{number_type}'] = tmp_data.get('duration') or 0
+            data[f'after_{number_type}'] = tmp_data.get('after') or 0
+            data[f'synergy_{number_type}'] = bool(synergy) or False
+            data[f'sloteable_{number_type}'] = bool(slotable_benfit) or False
+            tick_time = data[f'tick_{number_type}'] or int(skill_dict['tickTime']) or 1000
+            over_time = tmp_data['duration_over'] or 1
+            data[f'a{number_type}_scaled'] = float(skill_dict[f"a{number_type}"])/over_time * (1000/float(tick_time))
+            data[f'b{number_type}_scaled'] = float(skill_dict[f"b{number_type}"])/over_time * (1000/float(tick_time))
+            data[f'c{number_type}_scaled'] = float(skill_dict[f"c{number_type}"])/over_time * (1000/float(tick_time))
+    return data
 
-raw_page = requests.get('https://esoitem.uesp.net/viewSkills.php')
-soup = bs(raw_page.content, 'lxml')
+def get_skill(skill_id):
+    """ Extract info from one skill """
+    base_skill_url = 'https://esoitem.uesp.net/viewlog.php?action=view&record=minedSkills&id='
 
-base_skill_url = 'https://esoitem.uesp.net/viewlog.php?action=view&record=minedSkills&id='
-
-skills = soup.find_all("div", {"class": "esovsAbilityBlockHover"})
-i_ = 0
-
-for iter, skill in enumerate(skills):
-    url = base_skill_url + skill.get('skillid')
+    url = base_skill_url + skill_id
     skill_web_page = requests.get(url)
     table = bs(skill_web_page.content, 'lxml').find_all('tr')
     skill_dict = {}
@@ -175,20 +197,41 @@ for iter, skill in enumerate(skills):
             value = f'https:{img_link}'
         skill_dict[table_id] = value
 
-    if skill_dict.get('coefDescription'):
-        data_extracted = extractor(skill_dict['coefDescription'])
-        skill_dict.update(data_extracted)
+    data_extracted = extractor(skill_dict)
 
+    skill_dict.update(data_extracted)
+    return skill_dict
 
-    print(extract_against_raw(skill_dict.get('description'), skill_dict.get('rawDescription')))
-    continue
-    # i_ = i_+ 1
-    # if i_ == 50:
-    #     break
-    # print('*************************************************************************************************\n')
-    file_name = 'src/skills/'+skill_dict['name']+'.json'
-    with open(file_name.replace(' ', '_'), 'w+', encoding='utf-8') as f:
-        json.dump(skill_dict, f, indent=4)
-    print_progress_bar(iter, 1473)
-    i_ = iter
-print(i_)
+def mp_get_skill(skill_id):
+    """ Extract info from one skill """
+    skill_dict = get_skill(skill_id)
+    sk_name = skill_dict['name'].lower()
+    if skill_dict['isPassive'] == "1":
+        slot_pass = 'passive'
+    elif int(skill_dict['cost']) <= 500:
+        slot_pass = 'ultimate'
+    else:
+        slot_pass = 'skill'
+    file_name = f'src/skills/{slot_pass}/{sk_name}.json'
+    with open(file_name.replace(' ', '_'), 'w+', encoding='utf-8') as file_:
+        json.dump(skill_dict, file_, indent=4)
+
+def mp_all_skills():
+    """ Loop for all skills """
+    with Pool(8) as pool:
+        raw_page = requests.get('https://esoitem.uesp.net/viewSkills.php')
+        soup = bs(raw_page.content, 'lxml')
+
+        skills = soup.find_all("div", {"class": "esovsAbilityBlockHover"})
+        skills_ids = [skill_id.get('skillid') for skill_id in skills]
+        pool.map(mp_get_skill, skills_ids)
+
+if __name__=='__main__':
+    if len(sys.argv) == 2:
+        elements = ["41711", "27167", "42529", "36234", "42747"]
+        for element in elements:
+            r = get_skill(element)
+            to_print = json.dumps(r, indent=4)
+            print(to_print)
+    else:
+        mp_all_skills()
