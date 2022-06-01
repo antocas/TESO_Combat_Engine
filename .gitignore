@@ -59,7 +59,7 @@ node_modules
 .python-version
 src/MC/__pycache__/dummy.cpython-38.pyc
 
-traza*.txt
+traza*txt
 src/skills
 src/champion
 src/effects

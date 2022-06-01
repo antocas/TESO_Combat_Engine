@@ -1,9 +1,0 @@
-{
-    "name": "Minor Mangle",
-    "effect": "Reduces Target's Max Health by 10%, not applicable to elite mobs/bosses",
-    "value": "10",
-    "mode": "percent",
-    "timer": 0,
-    "increase": false,
-    "target": "Target"
-}

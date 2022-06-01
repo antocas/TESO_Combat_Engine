@@ -1,9 +1,0 @@
-{
-    "name": "Minor defile",
-    "effect": "reduces target's healing taken by 8%",
-    "value": "8",
-    "mode": "percent",
-    "increase": false,
-    "target": "Target",
-    "stat_affected": []
-}
