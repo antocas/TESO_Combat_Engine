@@ -1,11 +1,12 @@
 # pylint: disable=invalid-name
+# pylint: disable=multiple-statements
 """ Passive extractor, aims to reduce the scalability difficulty """
 import os
 import re
+import sys
 import json
 
 import colored
-DEBUG=0
 
 def whiles_regex(passive_description):
     """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
@@ -26,7 +27,7 @@ def weapon_dependent_regex(passive_descheader):
     while_pattern = r'(with )(.*?)( equipped)'
     while_combat = re.findall(while_pattern, passive_descheader)
     if while_combat:
-        return {while_combat[0][1].lower():True}
+        return {while_combat[0][1]:True}
     return {}
 
 def armor_dependent_regex(passive_description):
@@ -34,18 +35,25 @@ def armor_dependent_regex(passive_description):
     while_pattern = r'(each piece of |bonus based on the type of )(.*?)( equipped|\.| worn| does)'
     while_combat = re.findall(while_pattern, passive_description)
     if while_combat:
-        bonus = while_combat[0][1].lower() + ' bonus'
+        bonus = while_combat[0][1] + ' bonus'
         return {bonus:True}
     return {}
 
 def ability_slotted_dependent_regex(passive_description):
     """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
-    while_pattern = r'(for each )(.*?)( ability slotted)'
+    while_pattern = r'(for each |while you have a )(.*?)( ability)?( slotted| active)'
     while_combat = re.findall(while_pattern, passive_description)
     if while_combat:
-        return {while_combat[0][1].lower(): True}
+        return {while_combat[0][1]: True}
     return {}
 
+def ability_used_dependent_regex(passive_description):
+    """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
+    while_pattern = r'(when )(.*?)( with a )(.*?)( ability)'
+    while_combat = re.findall(while_pattern, passive_description)
+    if while_combat:
+        return {'ability_used': while_combat[0][3]}
+    return {}
 
 def extract_benefits_percent(passive_description):
     """ Extracts passive benefits from passive description """
@@ -53,7 +61,7 @@ def extract_benefits_percent(passive_description):
     passive_description = passive_description.replace(':', '.')
     passive_description = passive_description.replace('  ', '. ')
     phrases = passive_description.split('. ')
-    if DEBUG: print(colored.fg(2), phrases, colored.attr(0))
+
     for phrase in phrases:
         pattern = r'(increase|decrease|reduce)(s? )(.*?)(from |the |with |your )(.*?)( by )(\d+%?)'
         benefit = re.findall(pattern, phrase)
@@ -75,24 +83,34 @@ def extract_benefits_percent(passive_description):
                 inner_data.append(mid_step)
     return inner_data
 
+if __name__=='__main__':
+    DEBUG = bool(len(sys.argv) == 2 and sys.argv[1].lower() == 'debug')
+    new_keywords = set()
+    list_of_keywords = []
 
-for passive_name in os.listdir('src/skills/passive'):
-    with open(f"src/skills/passive/{passive_name}", "r", encoding="utf-8") as file:
-        passive = json.load(file)
+    for passive_name in os.listdir('src/skills/passive'):
+        with open(f"src/skills/passive/{passive_name}", "r", encoding="utf-8") as file:
+            passive = json.load(file)
 
-    data = passive
-    description = passive['description'].lower()
-    # description = re.sub(' +', ' ', description)
-    data.update(weapon_dependent_regex(passive["descHeader"]))
-    data.update(armor_dependent_regex(description))
-    data.update(ability_slotted_dependent_regex(description))
-    data.update(whiles_regex(description))
-    data.update(restores_regex(description))
-    benefits = extract_benefits_percent(description)
-    if benefits:
-        data['benefits'] = benefits
-    if DEBUG: print(colored.bg(147), passive['name'], colored.attr(0), description, data)
+        data = {}
+        description = passive['description'].lower()
+        # description = re.sub(' +', ' ', description)
+        data.update(weapon_dependent_regex(passive["descHeader"]))
+        data.update(armor_dependent_regex(description))
+        data.update(ability_slotted_dependent_regex(description))
+        data.update(whiles_regex(description))
+        data.update(restores_regex(description))
+        data.update(ability_used_dependent_regex(description))
+        benefits = extract_benefits_percent(description)
+        if benefits:
+            data['benefits'] = benefits
+        if DEBUG: print(colored.bg(147), passive['name'], colored.bg(32), description, colored.attr(0))
+        if (DEBUG and data): print(colored.bg(34), data, colored.attr(0))
+        if DEBUG: print("\n")
+        list_of_keywords = list_of_keywords + (list(data.keys()))
+        data.update(passive)
 
-    if not DEBUG:
-        with open(f"src/skills/passive/{passive_name}", "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4)
+        if not DEBUG:
+            with open(f"src/skills/passive/{passive_name}", "w", encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+    if not DEBUG: print(set(list_of_keywords))
