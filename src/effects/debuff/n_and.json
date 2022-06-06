@@ -1,0 +1,9 @@
+{
+    "name": "N and",
+    "effect": "a",
+    "value": "",
+    "mode": "fixed",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": []
+}

@@ -27,7 +27,7 @@ def weapon_dependent_regex(passive_descheader):
     while_pattern = r'(with )(.*?)( equipped)'
     while_combat = re.findall(while_pattern, passive_descheader)
     if while_combat:
-        return {while_combat[0][1]:True}
+        return {'depends_on_weapon': while_combat[0][1]}
     return {}
 
 def armor_dependent_regex(passive_description):
@@ -35,16 +35,15 @@ def armor_dependent_regex(passive_description):
     while_pattern = r'(each piece of |bonus based on the type of )(.*?)( equipped|\.| worn| does)'
     while_combat = re.findall(while_pattern, passive_description)
     if while_combat:
-        bonus = while_combat[0][1] + ' bonus'
-        return {bonus:True}
+        return {'armor_bonus': while_combat[0][1]}
     return {}
 
 def ability_slotted_dependent_regex(passive_description):
     """ Tries to simplify all while in combat, while in combat, while restoration staff equiped """
-    while_pattern = r'(for each |while you have a )(.*?)( ability)?( slotted| active)'
+    while_pattern = r'(for each |while you have a )(.*?)( ability)?( )(slotted|active)'
     while_combat = re.findall(while_pattern, passive_description)
     if while_combat:
-        return {while_combat[0][1]: True}
+        return {f'ability_{while_combat[0][4]}': while_combat[0][1]}
     return {}
 
 def ability_used_dependent_regex(passive_description):
@@ -95,7 +94,7 @@ if __name__=='__main__':
         data = {}
         description = passive['description'].lower()
         # description = re.sub(' +', ' ', description)
-        data.update(weapon_dependent_regex(passive["descHeader"]))
+        data.update(weapon_dependent_regex(passive["descHeader"].lower()))
         data.update(armor_dependent_regex(description))
         data.update(ability_slotted_dependent_regex(description))
         data.update(whiles_regex(description))
