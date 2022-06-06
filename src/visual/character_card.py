@@ -1,5 +1,7 @@
+# pylint: disable=line-too-long
+# pylint: disable=import-error
+""" Visual interface for character """
 import json
-from io import StringIO
 
 import streamlit as st
 
@@ -7,49 +9,33 @@ from src.visual.skill_card import clean_skills
 from src.config.class_names import class_names
 from src.config.races_names import races_names
 from src.config.weapon_names import weapon_names
-from src.models.character import Character
 
 from src.common.visual_utils import gen_spacing
 
-def block_load_data():
-    st.session_state['character_loaded'] = not st.session_state['character_loaded']
-
 def generate_character_card():
+    """ Main method """
     data = {}
     if st.session_state.get('character_loaded') is None:
         st.session_state['character_loaded'] = True
     if st.session_state.get('character'):
-        data = st.session_state['character'].attributes
-    
-    # * Load character from file
-    loading_character = st.sidebar.file_uploader(st.session_state['language_tags']['load_data'], on_change=block_load_data)
-    if loading_character:
-        stringio = StringIO(loading_character.getvalue().decode("utf-8"))
-        data = json.loads(stringio.read())
-        block_load_data()
+        data = st.session_state['character']
 
     # * All visual inputs
     data['name'] = st.text_input(st.session_state['language_tags']['name'], value = data.get('name') or "")
     cols = st.columns(2)
     with cols[0]:
-        try:
-            data['races'] = st.selectbox(st.session_state['language_tags']['race'], races_names, on_change=clean_skills, index=races_names.index(data.get('races')))
-        except:
-            data['races'] = st.selectbox(st.session_state['language_tags']['race'], races_names, on_change=clean_skills)
-        try:
-            data['main_bar'] = st.selectbox(st.session_state['language_tags']['main_bar'], weapon_names, on_change=clean_skills, index=weapon_names.index(data.get('main_bar')))
-        except Exception as e:
-            data['main_bar'] = st.selectbox(st.session_state['language_tags']['main_bar'], weapon_names, on_change=clean_skills)
+        races = races_names.index(data['races']) if data.get('races') else 0
+        data['races'] = st.selectbox(st.session_state['language_tags']['race'], races_names, on_change=clean_skills, index=races)
+
+        main_bar = weapon_names.index(data['main_bar']) if data.get('main_bar') else 0
+        data['main_bar'] = st.selectbox(st.session_state['language_tags']['main_bar'], weapon_names, on_change=clean_skills, index=main_bar)
 
     with cols[1]:
-        try:
-            data['class'] = st.selectbox(st.session_state['language_tags']['class_name'], class_names, on_change=clean_skills, index=class_names.index(data.get('class')))
-        except:
-            data['class'] = st.selectbox(st.session_state['language_tags']['class_name'], class_names, on_change=clean_skills)
-        try:
-            data['second_bar'] = st.selectbox(st.session_state['language_tags']['second_bar'], weapon_names, on_change=clean_skills, index=weapon_names.index(data.get('second_bar')))
-        except Exception as e:
-            data['second_bar'] = st.selectbox(st.session_state['language_tags']['second_bar'], weapon_names, on_change=clean_skills)
+        class_names_index = class_names.index(data['class']) if data.get('class') else 0
+        data['class_name'] = st.selectbox(st.session_state['language_tags']['class_name'], class_names, on_change=clean_skills, index=class_names_index)
+
+        second_bar = weapon_names.index(data['second_bar']) if data.get('second_bar') else 0
+        data['second_bar'] = st.selectbox(st.session_state['language_tags']['second_bar'], weapon_names, on_change=clean_skills, index=second_bar)
 
     gen_spacing(3)
     cols = st.columns(2)
@@ -76,8 +62,6 @@ def generate_character_card():
         data['physical_resistance'] = st.text_input(st.session_state['language_tags']['physical_resistance'], value = data.get('physical_resistance') or 0)
 
     # * Save character to a file
-    st.session_state['character'] = Character(data)
+    st.session_state['character'] = data
     st.sidebar.download_button(st.session_state['language_tags']['save_data'],
-        json.dumps(st.session_state['character'].as_dict()),
-        (st.session_state['character'].name+'.json')
-    )
+        json.dumps(data), f"{data['name']}.json")

@@ -18,7 +18,6 @@ def sidebar_block():
 
     langs = [ s.replace('.json', '') for s in os.listdir('src/languages') ]
 
-    config['options'] = st.sidebar.selectbox("Options", ('Character', 'Skills', 'Rotation', 'Dummy'))
     config['language'] = st.sidebar.selectbox("Languages", langs)
     return config
 
@@ -51,23 +50,21 @@ def dps_metric():
 if __name__ == '__main__':
     st.set_page_config(page_title="Combatest", page_icon='⚔️', layout="wide")
     # dps_metric()
-    
+
     sidebar_block_option = sidebar_block()
     language = sidebar_block_option['language']
     with open(f'src/languages/{language}.json', 'r', encoding='utf-8') as f:
         st.session_state['language_tags'] = json.load(f)
 
-    if 'Character' == sidebar_block_option['options']:
-        generate_character_card()
-
-    if 'Skills' == sidebar_block_option['options']:
-        generate_skill_card()
-
-    if 'Rotation' == sidebar_block_option['options']:
-        generate_rotation_card()
-
-    if 'Dummy' == sidebar_block_option['options']:
-        generate_dummy_card()
-
     if st.sidebar.button(st.session_state['language_tags']['refresh_data']):
         st.experimental_rerun()
+
+    st.title(st.session_state['language_tags']["instructions"]['header'])
+    st.subheader(st.session_state['language_tags']["instructions"]['subheader'])
+    st.markdown(st.session_state['language_tags']["instructions"]['body_1'])
+    st.markdown(st.session_state['language_tags']["instructions"]['body_2'])
+    st.markdown(st.session_state['language_tags']["instructions"]['body_3'])
+    st.markdown(st.session_state['language_tags']["instructions"]['body_4'])
+    st.markdown(st.session_state['language_tags']["instructions"]['body_5'])
+    st.markdown(st.session_state['language_tags']["instructions"]['body_6'])
+    st.markdown(st.session_state['language_tags']["instructions"]['body_7'])

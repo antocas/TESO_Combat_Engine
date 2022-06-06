@@ -68,7 +68,7 @@ def filter_skills():
     for skill_name in skills_names:
         skill = load_data_from_storage(skill_name)
         # * Hablidades de arma
-        if skill['skillLine'] == st.session_state['character'].main_bar or skill['skillLine'] == st.session_state['character'].second_bar:
+        if skill['skillLine'] == st.session_state['character']["main_bar"] or skill['skillLine'] == st.session_state['character']["second_bar"]:
             if skill['isPassive'] == "0":
                 st.session_state['weapon_skills_available'][skill_name] = Skill(skill)
             else:
@@ -80,7 +80,7 @@ def filter_skills():
             else:
                 st.session_state['miscelaneo_passives_available'][skill_name] = Skill(skill)
         # * De clase
-        if skill['classType'] == st.session_state['character'].class_name:
+        if skill['classType'] == st.session_state['character']["class_name"]:
             if skill['isPassive'] == "0":
                 st.session_state['character_skills_available'][skill_name] = Skill(skill)
             else:
