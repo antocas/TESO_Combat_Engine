@@ -2,7 +2,13 @@
     "instructions": {
         "header": "Bienvenido al sistema de simulación de combate para Elder Scrolls Online",
         "subheader": "En este apartado te enseñamos las nociones básicas para usar el simulador, a la par que se explicará brevemente el potencial uso de esta herramienta",
-        "body": "Como toda herramienta en desarrollo, existen muchos fallos por corregir, muchas características que añadir y muy poco tiempo para realizarlo correctamente, por tanto esto es un cocepto más que una utilidad a tener en cuenta (de momento).\nLa aplicación se divide en páginas, las cuales se deben rellenar para poder realizar la simulación. Los datos que se solicitan son necesarios para el cálculo de cada uno de los pasos en cada fase del combate.\nLa primera página es la de Personaje o Character, donde se solicitan las estadísticas del personaje que se desea probar.\nEn el apartado de Habilidades o Skills, se deben introducir las habilidades y pasivas con las que cuenta el personaje. Debido a la cantidad de recursos que nos ofrece el juego, se ha separado para mantener un orden y mayor claridad.\nEn la sección de Rotation o Rotación, asignaremos el orden en el que las habilidades se lanzan.\nLa sección de Dummy nos da la posibilidad de personalizar nuestro objetivo de pruebas.\nEn la página de DPS veremos un resumen de las características del personaje, del dummy y nos permitirá la ejecución de un combate."
+        "body_1": "Como toda herramienta en desarrollo, existen muchos fallos por corregir, muchas características que añadir y muy poco tiempo para realizarlo correctamente, por tanto esto es un concepto más que una utilidad a tener en cuenta (de momento). Si no aparece una barra lateral a la izquierda, prueba a usar el desplegable en la parte superior de la misma",
+        "body_2": "La aplicación se divide en páginas, las cuales se deben rellenar para poder realizar la simulación. Los datos que se solicitan son necesarios para el cálculo de cada uno de los pasos en cada fase del combate.",
+        "body_3": "La primera página es la de Personaje o Character, donde se solicitan las estadísticas del personaje que se desea probar.",
+        "body_4": "En el apartado de Habilidades o Skills, se deben introducir las habilidades y pasivas con las que cuenta el personaje. Debido a la cantidad de recursos que nos ofrece el juego, se ha separado para mantener un orden y mayor claridad.",
+        "body_5": "En la sección de Rotation o Rotación, asignaremos el orden en el que las habilidades se lanzan.",
+        "body_6": "La sección de Dummy nos da la posibilidad de personalizar nuestro objetivo de pruebas.",
+        "body_7": "En la página de DPS veremos un resumen de las características del personaje, del dummy y nos permitirá la ejecución de un combate."
     },
     "name": "Name",
     "class_name": "Class",

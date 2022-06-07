@@ -18,7 +18,7 @@ def sidebar_block():
 
     langs = [ s.replace('.json', '') for s in os.listdir('src/languages') ]
 
-    config['language'] = st.sidebar.selectbox("Languages", langs)
+    config['language'] = st.sidebar.selectbox("Languages", langs, index=0)
     return config
 
 def dps_metric():

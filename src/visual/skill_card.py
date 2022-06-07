@@ -5,9 +5,31 @@ import json
 import os
 import re
 
+import pandas as pd
 import streamlit as st
+from src.config.visual_config import keys_to_import
 from src.models.skill import Skill
 
+
+def load_skill_by_type(skill_type: str = 'skill'):
+    """ Load all skills sorted by type """
+    skills = None
+    base_path = "src/skills"
+    files = os.listdir(f"{base_path}/{skill_type}")
+    for file_name in files:
+        with open(f"{base_path}/{skill_type}/{file_name}", 'r', encoding='utf-8') as file:
+            skill_to_pandas = {}
+            skill = json.load(file)
+            for key, value in skill.items():
+                if key in keys_to_import:
+                    skill_to_pandas[key] = [value]
+
+            if skills is None:
+                skills = pd.DataFrame.from_dict(skill_to_pandas)
+            else:
+                prev_skill = pd.DataFrame.from_dict(skill_to_pandas)
+                skills = pd.concat([skills, prev_skill], axis=0, ignore_index = True)
+    return skills
 
 def load_data_from_storage(skill_name):
     """ Load data from a file """
@@ -88,6 +110,11 @@ def filter_skills():
 
 def generate_skill_card():
     """ Skill card """
+    st.table(load_skill_by_type('skill'))
+    st.table(load_skill_by_type('passive'))
+    st.table(load_skill_by_type('ultimate'))
+    return None
+
     # * Check character exists
     if not st.session_state.get('character'):
         st.error('First, you need to create a character')
@@ -108,18 +135,18 @@ def generate_skill_card():
         # * Filter out necessary skills
         filter_skills()
 
-    # * TEMPORAL
-    st.session_state['skills_available'] = {
-        **st.session_state['weapon_skills_available'],
-        **st.session_state['miscelaneo_skills_available'],
-        **st.session_state['character_skills_available']
-    }
+        # * TEMPORAL
+        st.session_state['skills_available'] = {
+            **st.session_state['weapon_skills_available'],
+            **st.session_state['miscelaneo_skills_available'],
+            **st.session_state['character_skills_available']
+        }
 
-    st.session_state['passives_available'] = {
-        **st.session_state['weapon_passives_available'],
-        **st.session_state['miscelaneo_passives_available'],
-        **st.session_state['character_passives_available'],
-    }
+        st.session_state['passives_available'] = {
+            **st.session_state['weapon_passives_available'],
+            **st.session_state['miscelaneo_passives_available'],
+            **st.session_state['character_passives_available'],
+        }
 
     st.header('Skills')
     generate_skill_in_columns(skills_type='skills_available')

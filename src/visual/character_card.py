@@ -63,5 +63,3 @@ def generate_character_card():
 
     # * Save character to a file
     st.session_state['character'] = data
-    st.sidebar.download_button(st.session_state['language_tags']['save_data'],
-        json.dumps(data), f"{data['name']}.json")
