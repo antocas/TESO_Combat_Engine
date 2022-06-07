@@ -23,7 +23,7 @@ def effect_column_selector(buff:bool=True):
 def generate_dummy_card():
     data = {}
     if st.session_state.get('dummy'):
-        data = st.session_state['dummy'].as_dict()
+        data = st.session_state['dummy']
 
     # * Base card
     data['name'] = st.text_input("Name", value = data.get('name') or "Iron Atronach")
@@ -40,13 +40,4 @@ def generate_dummy_card():
         data['debuffs'] = effect_column_selector(buff=False)
 
     # * Save dummy in session state
-    st.session_state['dummy'] = Dummy(data)
-    loading_dummy = st.sidebar.file_uploader('Load dummy')
-
-    st.sidebar.download_button('Save dummy',
-        json.dumps(st.session_state['dummy'].as_dict()),
-        (st.session_state['dummy'].as_dict()['name']+'.json')
-    )
-    if loading_dummy:
-        stringio = StringIO(loading_dummy.getvalue().decode("utf-8"))
-        st.session_state['dummy'] = Dummy(json.loads(stringio.read()))
+    st.session_state['dummy'] = data
