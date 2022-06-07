@@ -1,4 +1,6 @@
 # pylint: disable=line-too-long
+# pylint: disable=invalid-name
+# pylint: disable=import-error
 """ Skill Card """
 
 import json
@@ -31,20 +33,12 @@ def load_skill_by_type(skill_type: str = 'skill'):
                 skills = pd.concat([skills, prev_skill], axis=0, ignore_index = True)
     return skills
 
-def load_data_from_storage(skill_name):
-    """ Load data from a file """
-    file_name = f'src/skills/{skill_name}.json'.replace(' ', '_')
-    skill = {}
-    with open(file_name, 'r+', encoding='utf-8') as file_name:
-        skill = json.load(file_name)
-    return skill
-
 def clean_skills():
     """ Clean skills """
     try:
         del st.session_state['skills_available']
     except KeyError:
-        st.error('No skills loaded')
+        pass
 
 def generate_skills_icons(skills_type='skills_available'):
     """ Load icons """
@@ -57,121 +51,85 @@ def generate_skills_icons(skills_type='skills_available'):
                 st.image(img)
             i = i + 1
 
-def generate_skill_in_columns(skills_type='skills_available'):
-    """ Order in columns all skills """
-    ordered_skills = {}
-    if st.session_state.get(skills_type):
-        skills_selected = set()
-        for _, value in st.session_state[skills_type].items():
-            if not ordered_skills.get(value.skill_type):
-                ordered_skills[value.skill_type] = {}
-            if not ordered_skills[value.skill_type].get(value.skill_line):
-                ordered_skills[value.skill_type][value.skill_line] = []
-            ordered_skills[value.skill_type][value.skill_line].append(value)
+def generate_skill_in_columns(df_skills, key:str):
+    """ Generate all necessary selectors for the type of skills dessired """
+    df = df_skills
+    df = df.sort_values(['id'])
+    branchs = df['skillLine'].unique()
 
-        formated_skills_selectors = ['Class', 'Weapon', 'Guild', 'Craft']
-        for selector in formated_skills_selectors:
-            # * Exponemos las habilidades en n buscadores
-            class_names = ordered_skills[selector].keys()
-            columns = st.columns(len(class_names))
-            i = 0
-            for name in sorted(class_names):
-                with columns[i]:
-                    skills_from_class = [skill.name for skill in ordered_skills[selector][name]]
-                    sel = st.multiselect(name, skills_from_class)
-                    sel = set(sel)
-                    skills_selected.update(sel)
-                i = i+1
-        st.session_state['skills_selected'][skills_type] = list(skills_selected)
+    needed_cols = branchs.shape[0]
+    if needed_cols == 0:
+        return None
+    cols = st.columns(needed_cols)
+    skills_by_col = {}
+    for index, col in enumerate(cols):
+        with col:
+            branch_name = branchs[index]
+            branch = df[df['skillLine'] == branch_name]
+            skill_names = []
+            for _, row in branch.iterrows():
+                skill_names.append(row['name'])
+            skills_by_col[branch_name] = skill_names
+            selected = st.multiselect(branch_name, skill_names, key=key)
+            skills_by_col[branch_name] = selected
+    return skills_by_col
 
-def filter_skills():
+def filter_skill(to_filter, skill_type='', skill_line='', class_type=''):
     """ Filter skills """
-    skills_names = [s.replace('.json', '').replace('_', ' ') for s in os.listdir('src/skills')]
-    for skill_name in skills_names:
-        skill = load_data_from_storage(skill_name)
-        # * Hablidades de arma
-        if skill['skillLine'] == st.session_state['character']["main_bar"] or skill['skillLine'] == st.session_state['character']["second_bar"]:
-            if skill['isPassive'] == "0":
-                st.session_state['weapon_skills_available'][skill_name] = Skill(skill)
-            else:
-                st.session_state['weapon_passives_available'][skill_name] = Skill(skill)
-        # * Crafteo y guilds
-        if skill['skillType'] == "Craft" or skill['skillType'] == "Guild":
-            if skill['isPassive'] == "0":
-                st.session_state['miscelaneo_skills_available'][skill_name] = Skill(skill)
-            else:
-                st.session_state['miscelaneo_passives_available'][skill_name] = Skill(skill)
-        # * De clase
-        if skill['classType'] == st.session_state['character']["class_name"]:
-            if skill['isPassive'] == "0":
-                st.session_state['character_skills_available'][skill_name] = Skill(skill)
-            else:
-                st.session_state['character_passives_available'][skill_name] = Skill(skill)
+    filtered = to_filter
+    if skill_type != '':
+        filtered = filtered[filtered['skillType'] == skill_type]
+    if skill_line != '':
+        filtered = filtered[filtered['skillLine'] == skill_line]
+    if class_type != '':
+        filtered = filtered[filtered['classType'] == class_type]
+    return filtered
 
 def generate_skill_card():
     """ Skill card """
-    st.table(load_skill_by_type('skill'))
-    st.table(load_skill_by_type('passive'))
-    st.table(load_skill_by_type('ultimate'))
-    return None
+    if st.session_state.get('skills_available') is None:
+        st.session_state['skills_available'] = load_skill_by_type('skill')
+    if st.session_state.get('passives_available') is None:
+        st.session_state['passives_available'] = load_skill_by_type('passive')
+    if st.session_state.get('ultimates_available') is None:
+        st.session_state['ultimates_available'] = load_skill_by_type('ultimate')
 
     # * Check character exists
     if not st.session_state.get('character'):
         st.error('First, you need to create a character')
         return None
 
-    #  * Check if skills are loaded, and load them
-    if not st.session_state.get('skills_available'):
-        st.session_state['skills_available'] = {}
-        st.session_state['passives_available'] = {}
-        st.session_state['skills_selected'] = {}
-        st.session_state['weapon_skills_available'] = {}
-        st.session_state['weapon_passives_available'] = {}
-        st.session_state['miscelaneo_skills_available'] = {}
-        st.session_state['miscelaneo_passives_available'] = {}
-        st.session_state['character_skills_available'] = {}
-        st.session_state['character_passives_available'] = {}
+    skill_class = filter_skill(st.session_state['skills_available'], skill_type='Class', class_type=st.session_state['character']['class_name'])
+    skill_main_weapon = filter_skill(st.session_state['skills_available'], skill_line=st.session_state['character']["main_bar"])
+    skill_second_weapon = filter_skill(st.session_state['skills_available'], skill_line=st.session_state['character']["second_bar"])
+    skill_guild = filter_skill(st.session_state['skills_available'], skill_type='Guild')
 
-        # * Filter out necessary skills
-        filter_skills()
+    passive_class = filter_skill(st.session_state['passives_available'], skill_type='Class', class_type=st.session_state['character']['class_name'])
+    passive_main_weapon = filter_skill(st.session_state['passives_available'], skill_line=st.session_state['character']["main_bar"])
+    passive_second_weapon = filter_skill(st.session_state['passives_available'], skill_line=st.session_state['character']["second_bar"])
+    passive_guild = filter_skill(st.session_state['passives_available'], skill_type='Guild')
 
-        # * TEMPORAL
-        st.session_state['skills_available'] = {
-            **st.session_state['weapon_skills_available'],
-            **st.session_state['miscelaneo_skills_available'],
-            **st.session_state['character_skills_available']
-        }
+    ultimate_class = filter_skill(st.session_state['ultimates_available'], skill_type='Class', class_type=st.session_state['character']['class_name'])
+    ultimate_main_weapon = filter_skill(st.session_state['ultimates_available'], skill_line=st.session_state['character']["main_bar"])
+    ultimate_second_weapon = filter_skill(st.session_state['ultimates_available'], skill_line=st.session_state['character']["second_bar"])
+    ultimate_guild = filter_skill(st.session_state['ultimates_available'], skill_type='Guild')
 
-        st.session_state['passives_available'] = {
-            **st.session_state['weapon_passives_available'],
-            **st.session_state['miscelaneo_passives_available'],
-            **st.session_state['character_passives_available'],
-        }
+    selected_skills = {}
 
     st.header('Skills')
-    generate_skill_in_columns(skills_type='skills_available')
-
-    # * Show (as expandible) selected skills
-    for skill_name in st.session_state['skills_selected']['skills_available']:
-        cols = st.columns((1, 11))
-        with cols[0]:
-            # Icon
-            img = st.session_state['skills_available'][skill_name].image
-            st.image(img)
-        with cols[1]:
-            with st.expander(skill_name):
-                # Substitude $1 and alike for {}
-                coef_description = re.sub(r'\$\d', '{}', st.session_state['skills_available'][skill_name].coef_description)
-                if coef_description == '':
-                    st.caption(st.session_state['skills_available'][skill_name].description)
-                else:
-                    # Calculate damage
-                    st.session_state['skills_available'][skill_name].calculate_coefs(st.session_state['character'])
-                    # Damage
-                    damage = st.session_state['skills_available'][skill_name].get_calculated_damage()
-                    # Format output text
-                    st.caption(coef_description.format(*damage))
-
+    selected_skills['class skills'] = generate_skill_in_columns(skill_class, 'class skills')
+    selected_skills['main bar skills'] = generate_skill_in_columns(skill_main_weapon, 'main bar skills')
+    selected_skills['second bar skills'] = generate_skill_in_columns(skill_second_weapon, 'second bar skills')
+    selected_skills['guild skills'] = generate_skill_in_columns(skill_guild, 'guild skills')
     st.header('Passives')
-    generate_skill_in_columns(skills_type='passives_available')
+    selected_skills['class skills passives'] = generate_skill_in_columns(passive_class, 'class skills passives')
+    selected_skills['main bar passives'] = generate_skill_in_columns(passive_main_weapon, 'main bar passives')
+    selected_skills['second bar passives'] = generate_skill_in_columns(passive_second_weapon, 'second bar passives')
+    selected_skills['guild skills passives'] = generate_skill_in_columns(passive_guild, 'guild skills passives')
+    st.header('Ultimate')
+    selected_skills['class skills ultimate'] = generate_skill_in_columns(ultimate_class, 'class skills ultimate')
+    selected_skills['main bar ultimate'] = generate_skill_in_columns(ultimate_main_weapon, 'main bar ultimate')
+    selected_skills['second bar ultimate'] = generate_skill_in_columns(ultimate_second_weapon, 'second bar ultimate')
+    selected_skills['guild skills ultimate'] = generate_skill_in_columns(ultimate_guild, 'guild skills ultimate')
+
     return None

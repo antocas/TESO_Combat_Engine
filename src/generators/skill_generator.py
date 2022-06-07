@@ -205,10 +205,10 @@ def get_skill(skill_id):
 def mp_get_skill(skill_id):
     """ Extract info from one skill """
     skill_dict = get_skill(skill_id)
-    sk_name = skill_dict['name'].lower()
+    sk_name = f"{skill_dict['id']}_{skill_dict['name'].lower()}"
     if skill_dict['isPassive'] == "1":
         slot_pass = 'passive'
-    elif int(skill_dict['cost']) <= 500:
+    elif skill_dict['mechanic'] == "Ultimate" and int(skill_dict['cost']) > 0 and int(skill_dict['cost']) <= 500:
         slot_pass = 'ultimate'
     else:
         slot_pass = 'skill'
@@ -224,6 +224,7 @@ def mp_all_skills():
 
         skills = soup.find_all("div", {"class": "esovsAbilityBlockHover"})
         skills_ids = [skill_id.get('skillid') for skill_id in skills]
+        print("Starting")
         pool.map(mp_get_skill, skills_ids)
 
 if __name__=='__main__':
