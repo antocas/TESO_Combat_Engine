@@ -218,7 +218,7 @@ def mp_get_skill(skill_id):
 
 def mp_all_skills():
     """ Loop for all skills """
-    with Pool(8) as pool:
+    with Pool(2) as pool:
         raw_page = requests.get('https://esoitem.uesp.net/viewSkills.php')
         soup = bs(raw_page.content, 'lxml')
 
