@@ -208,7 +208,7 @@ def mp_get_skill(skill_id):
     sk_name = f"{skill_dict['id']}_{skill_dict['name'].lower()}"
     if skill_dict['isPassive'] == "1":
         slot_pass = 'passive'
-    elif skill_dict['mechanic'] == "Ultimate" and int(skill_dict['cost']) > 0 and int(skill_dict['cost']) <= 500:
+    elif (skill_dict['mechanic'] == "Ultimate" or skill_dict['mechanic'] == "Adrenaline") and (int(skill_dict['cost']) > 0 and int(skill_dict['cost']) <= 500):
         slot_pass = 'ultimate'
     else:
         slot_pass = 'skill'
@@ -218,7 +218,7 @@ def mp_get_skill(skill_id):
 
 def mp_all_skills():
     """ Loop for all skills """
-    with Pool(2) as pool:
+    with Pool(8) as pool:
         raw_page = requests.get('https://esoitem.uesp.net/viewSkills.php')
         soup = bs(raw_page.content, 'lxml')
 
