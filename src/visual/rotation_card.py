@@ -9,6 +9,7 @@ def generate_rotation_card():
     cols = st.columns(6)
     main_abilities = set()
     second_abilities = set()
+    list_of_skills = []
 
     if st.session_state.get('skills_selected'):
         with cols[0]:
@@ -30,9 +31,14 @@ def generate_rotation_card():
             main_ultimate = st.selectbox('main ultimate', st.session_state['skills_selected']['ultimate'])
             second_ultimate = st.selectbox('second ultimate', st.session_state['skills_selected']['ultimate'])
 
-        list_of_skills = list(main_abilities) + list(second_abilities) + [main_ultimate] + [second_ultimate]
+        if None not in main_abilities:
+            list_of_skills += list(main_abilities)
+        if None not in second_abilities:
+            list_of_skills += list(second_abilities)
+        if main_ultimate is not None:
+            list_of_skills += [main_ultimate]
+        if second_ultimate is not None:
+            list_of_skills += [second_ultimate]
         order = st.multiselect("Orden de habilidades", list_of_skills)
-        if order is None:
-            order = []
         st.session_state['rotation_selected'] = order
         st.write(', '.join(order))
