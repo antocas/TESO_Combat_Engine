@@ -3,27 +3,33 @@ import json
 from io import StringIO
 import streamlit as st
 
-from collections import OrderedDict
-
 def generate_rotation_card():
     st.title(st.session_state['language_tags']["rotation_title"], anchor='center')
     selected = []
-    if st.session_state.get('skills_selected'):
-        if st.session_state['skills_selected'].get('skills_available'):
-            min_rotation_buttons = min(10, len(st.session_state['skills_selected']['skills_available']))
-            skills_available = st.session_state['skills_selected']['skills_available']
-            for i in range(min_rotation_buttons):
-                selected.append(st.selectbox(f'Selector {i+1}', skills_available))
-    # st.session_state.['rotation'] = list(OrderedDict.fromkeys(selected))
-    
-    # * Save dummy in session state
-    # st.session_state['dummy'] = Dummy(data)
-    # loading_dummy = st.sidebar.file_uploader('Load dummy')
+    cols = st.columns(6)
+    main_abilities = set()
+    second_abilities = set()
 
-    # st.sidebar.download_button('Save dummy',
-    #     json.dumps(st.session_state['dummy'].as_dict()),
-    #     (st.session_state['dummy'].as_dict()['name']+'.json')
-    # )
-    # if loading_dummy:
-    #     stringio = StringIO(loading_dummy.getvalue().decode("utf-8"))
-    #     st.session_state['dummy'] = Dummy(json.loads(stringio.read()))
+    with cols[0]:
+        main_abilities.add(st.selectbox('main bar #1', st.session_state['skills_selected']['skills']))
+        second_abilities.add(st.selectbox('second bar #1', st.session_state['skills_selected']['skills']))
+    with cols[1]:
+        main_abilities.add(st.selectbox('main bar #2', st.session_state['skills_selected']['skills']))
+        second_abilities.add(st.selectbox('second bar #2', st.session_state['skills_selected']['skills']))
+    with cols[2]:
+        main_abilities.add(st.selectbox('main bar #3', st.session_state['skills_selected']['skills']))
+        second_abilities.add(st.selectbox('second bar #3', st.session_state['skills_selected']['skills']))
+    with cols[3]:
+        main_abilities.add(st.selectbox('main bar #4', st.session_state['skills_selected']['skills']))
+        second_abilities.add(st.selectbox('second bar #4', st.session_state['skills_selected']['skills']))
+    with cols[4]:
+        main_abilities.add(st.selectbox('main bar #5', st.session_state['skills_selected']['skills']))
+        second_abilities.add(st.selectbox('second bar #5', st.session_state['skills_selected']['skills']))
+    with cols[5]:
+        main_ultimate = st.selectbox('main ultimate', st.session_state['skills_selected']['ultimate'])
+        second_ultimate = st.selectbox('second ultimate', st.session_state['skills_selected']['ultimate'])
+
+    list_of_skills = list(main_abilities) + list(second_abilities) + [main_ultimate] + [second_ultimate]
+    order = st.multiselect("Orden de habilidades", list_of_skills)
+    st.session_state['rotation_selected'] = order
+    st.write(', '.join(order))
