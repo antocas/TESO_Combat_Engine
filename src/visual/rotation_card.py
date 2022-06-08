@@ -31,5 +31,7 @@ def generate_rotation_card():
 
     list_of_skills = list(main_abilities) + list(second_abilities) + [main_ultimate] + [second_ultimate]
     order = st.multiselect("Orden de habilidades", list_of_skills)
+    if order == None:
+        order = []
     st.session_state['rotation_selected'] = order
     st.write(', '.join(order))
