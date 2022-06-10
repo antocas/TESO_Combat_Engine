@@ -9,6 +9,8 @@ from src.visual.skill_card import clean_skills
 from src.config.class_names import class_names
 from src.config.races_names import races_names
 from src.config.weapon_names import weapon_names
+from src.config.buff_names import buff_names
+from src.config.debuff_names import debuff_names
 
 from src.utils.visual_utils import gen_spacing
 
@@ -51,6 +53,7 @@ def generate_character_card():
             data['magicka_recovery'] = st.text_input(language_tags['magicka_recovery'], value = data.get('magicka_recovery') or 514)
             data['health_recovery'] = st.text_input(language_tags['health_recovery'], value = data.get('health_recovery') or 309)
             data['stamina_recovery'] = st.text_input(language_tags['stamina_recovery'], value = data.get('stamina_recovery') or 514)
+
     gen_spacing(2)
     with st.expander(language_tags['damage']):
         cols = st.columns(2)
@@ -62,6 +65,7 @@ def generate_character_card():
             data['weapon_damage'] = st.text_input(language_tags['weapon_damage'], value = data.get('physical_damage') or 1000)
             data['weapon_critical'] = st.text_input(language_tags['weapon_critical'], value = data.get('physical_critical') or 10)
             data['weapon_penetration'] = st.text_input(language_tags['physical_penetration'], value = data.get('physical_penetration') or 0)
+
     gen_spacing(2)
     with st.expander(language_tags['resistance']):
         cols = st.columns(2)
@@ -71,5 +75,9 @@ def generate_character_card():
         with cols[1]:
             data['physical_resistance'] = st.text_input(language_tags['physical_resistance'], value = data.get('physical_resistance') or 0)
 
+    gen_spacing(2)
+    with st.expander('BUFFS & DEBUFFS - NO TAG'):
+        data['buffs'] = st.multiselect('Buffs', buff_names)
+        data['debuffs'] = st.multiselect('Debuffs', debuff_names)
     # * Save character to a file
     st.session_state['character'] = data

@@ -16,6 +16,9 @@ def generate_rotation_card():
         skills_keys = [key for key in st.session_state['skills_selected'].keys() if key.endswith('skills')]
         skills_selected = [skill for skill_type in skills_keys for skill in st.session_state['skills_selected'][skill_type]]
 
+        passives_keys = [key for key in st.session_state['skills_selected'].keys() if key.endswith('passives')]
+        passives_selected = [skill for skill_type in passives_keys for skill in st.session_state['skills_selected'][skill_type]]
+
         ultimate_keys = [key for key in st.session_state['skills_selected'].keys() if key.endswith('ultimate')]
         ultimate_selected = [skill for skill_type in ultimate_keys for skill in st.session_state['skills_selected'][skill_type]]
 
@@ -49,3 +52,7 @@ def generate_rotation_card():
         order = st.multiselect("Orden de habilidades", list_of_skills)
         st.session_state['rotation_selected'] = order
         st.write(', '.join(order))
+
+        st.session_state['character']['skills_available'] = skills_selected + ultimate_selected
+        st.session_state['character']['passives_available'] = passives_selected
+        st.session_state['character']['rotation'] = order

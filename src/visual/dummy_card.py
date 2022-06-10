@@ -3,24 +3,13 @@ import json
 from io import StringIO
 import streamlit as st
 
+from src.config.buff_names import buff_names
+from src.config.debuff_names import debuff_names
+
 from src.models.dummy import Dummy
 
-def effect_column_selector(buff:bool=True):
-    """ Selector """
-    if buff:
-        title = 'Buff'
-        folder_path = 'src/effects/buff'
-    else:
-        title = 'Debuff'
-        folder_path = 'src/effects/debuff'
-    files = os.listdir(folder_path)
-    effect_names = [ s.replace('.json', '').replace('_', ' ').capitalize() for s in files ]
-    selected_effects = st.multiselect(title, effect_names)
-    for selected in selected_effects:
-        st.text(selected)
-    return selected_effects
-
 def generate_dummy_card():
+    """ Dummy card """
     data = {}
     if st.session_state.get('dummy'):
         data = st.session_state['dummy']
@@ -35,9 +24,9 @@ def generate_dummy_card():
 
     cols = st.columns(2)
     with cols[0]:
-        data['buffs'] = effect_column_selector(buff=True)
+        data['buffs'] = st.multiselect('Buff', buff_names)
     with cols[1]:
-        data['debuffs'] = effect_column_selector(buff=False)
+        data['debuffs'] = st.multiselect('Debuff', debuff_names)
 
     # * Save dummy in session state
     st.session_state['dummy'] = data
