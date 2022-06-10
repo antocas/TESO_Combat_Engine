@@ -4,8 +4,8 @@ import os
 import json
 import streamlit as st
 
-from src.common.visual_utils import gen_spacing
-from src.common.visual_utils import sidebar_block
+from src.utils.visual_utils import gen_spacing
+from src.utils.visual_utils import sidebar_block
 
 from src.visual.skill_card import generate_skill_card
 from src.visual.skill_card import generate_skills_icons
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     sidebar_block_option = sidebar_block()
     language = sidebar_block_option['language']
-    
+
 
     # if st.sidebar.button(st.session_state['language_tags']['refresh_data']):
     #     st.experimental_rerun()

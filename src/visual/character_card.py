@@ -10,7 +10,7 @@ from src.config.class_names import class_names
 from src.config.races_names import races_names
 from src.config.weapon_names import weapon_names
 
-from src.common.visual_utils import gen_spacing
+from src.utils.visual_utils import gen_spacing
 
 def generate_character_card():
     """ Main method """
