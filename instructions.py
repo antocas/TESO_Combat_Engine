@@ -5,6 +5,8 @@ import json
 import streamlit as st
 
 from src.common.visual_utils import gen_spacing
+from src.common.visual_utils import sidebar_block
+
 from src.visual.skill_card import generate_skill_card
 from src.visual.skill_card import generate_skills_icons
 from src.visual.dummy_card import generate_dummy_card
@@ -13,13 +15,7 @@ from src.visual.character_card import generate_character_card
 
 from src.models.combat_simulator import main_combat
 
-def sidebar_block():
-    config = {}
 
-    langs = [ s.replace('.json', '') for s in os.listdir('src/languages') ]
-
-    config['language'] = st.sidebar.selectbox("Languages", langs, index=0)
-    return config
 
 def dps_metric():
     columns = st.columns([2, 1, 2, 2, 2])
@@ -53,11 +49,10 @@ if __name__ == '__main__':
 
     sidebar_block_option = sidebar_block()
     language = sidebar_block_option['language']
-    with open(f'src/languages/{language}.json', 'r', encoding='utf-8') as f:
-        st.session_state['language_tags'] = json.load(f)
+    
 
-    if st.sidebar.button(st.session_state['language_tags']['refresh_data']):
-        st.experimental_rerun()
+    # if st.sidebar.button(st.session_state['language_tags']['refresh_data']):
+    #     st.experimental_rerun()
 
     st.title(st.session_state['language_tags']["instructions"]['header'])
     st.subheader(st.session_state['language_tags']["instructions"]['subheader'])

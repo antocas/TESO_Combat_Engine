@@ -1,4 +1,6 @@
 """ Common effects and utils """ 
+import os
+import json
 import streamlit as st
 
 def gen_spacing(n_of_spaces=3):
@@ -16,3 +18,14 @@ class BColors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
+
+def sidebar_block():
+    config = {}
+    langs = [ s.replace('.json', '') for s in os.listdir('src/languages') ]
+
+    config['language'] = st.sidebar.selectbox("Languages", langs, index=0)
+
+    with open(f"src/languages/{config['language']}.json", 'r', encoding='utf-8') as f:
+            st.session_state['language_tags'] = json.load(f)
+
+    return config
