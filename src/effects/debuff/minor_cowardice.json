@@ -1,0 +1,12 @@
+{
+    "name": "Minor cowardice",
+    "effect": "reduces target's weapon and spell damage by 215",
+    "value": "215",
+    "mode": "fixed",
+    "increase": false,
+    "target": "Target",
+    "stat_affected": [
+        "weapon damage",
+        "spell damage"
+    ]
+}

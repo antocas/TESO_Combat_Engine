@@ -36,7 +36,7 @@ def generate_character_card():
             data['main_bar'] = st.selectbox(language_tags['main_bar'], weapon_names, on_change=clean_skills, index=main_bar)
 
         with cols[1]:
-            class_names_index = class_names.index(data['class']) if data.get('class') else 0
+            class_names_index = class_names.index(data['class_name']) if data.get('class_name') else 0
             data['class_name'] = st.selectbox(language_tags['class_name'], class_names, on_change=clean_skills, index=class_names_index)
 
             second_bar = weapon_names.index(data['second_bar']) if data.get('second_bar') else 0
@@ -61,6 +61,7 @@ def generate_character_card():
             data['spell_damage'] = st.text_input(language_tags['spell_damage'], value = data.get('spell_damage') or 1000)
             data['spell_critical'] = st.text_input(language_tags['spell_critical'], value = data.get('spell_critical') or 10)
             data['spell_penetration'] = st.text_input(language_tags['spell_penetration'], value = data.get('spell_penetration') or 0)
+            data['critical_chance'] = st.text_input('CRITICAL CHANCE %', value = data.get('critical_chance')) or 0
         with cols[1]:
             data['weapon_damage'] = st.text_input(language_tags['weapon_damage'], value = data.get('physical_damage') or 1000)
             data['weapon_critical'] = st.text_input(language_tags['weapon_critical'], value = data.get('physical_critical') or 10)

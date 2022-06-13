@@ -1,0 +1,11 @@
+{
+    "name": "Minor breach",
+    "effect": "2974 resistance debuff",
+    "value": "2974",
+    "mode": "fixed",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "resistance debuff"
+    ]
+}

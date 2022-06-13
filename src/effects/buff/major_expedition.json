@@ -1,0 +1,9 @@
+{
+    "name": "Major expedition",
+    "effect": "speed increase by 30%",
+    "value": "30",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": []
+}

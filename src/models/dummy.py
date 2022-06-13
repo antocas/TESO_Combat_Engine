@@ -16,7 +16,7 @@ class Dummy:
             tmp_buffs[buff] = Effect.open_as_effect(buff, 'buff')
         for debuff in self.attributes['debuffs']:
             tmp_debuffs[debuff] = Effect.open_as_effect(debuff, 'debuff')
-        self.attributes['buffs'] = tmp_buffs
+        self._buffs = tmp_buffs
         self.attributes['debuffs'] = tmp_debuffs
         self.attributes["spell_resistance"] = kwargs.get('base_resistance')
         self.attributes["physical_resistance"] = kwargs.get('base_resistance')

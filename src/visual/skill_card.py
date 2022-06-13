@@ -126,25 +126,28 @@ def generate_skill_card():
     ultimate_guild = filter_skill(st.session_state['ultimates_available'], skill_type='Guild')
 
     skills_selected = {}
+
     st.header('Skills')
-    skills_selected['class skills'] = generate_skill_in_columns(skill_class, 'class skills', st.session_state['skills_selected'].get('class skills') or [])
-    skills_selected['main bar skills'] = generate_skill_in_columns(skill_main_weapon, 'main bar skills', st.session_state['skills_selected'].get('main bar skills') or [])
+    skills_selected['skills'] = generate_skill_in_columns(skill_class, 'class skills', st.session_state['skills_selected'].get('skills') or [])
+    skills_selected['skills'] += generate_skill_in_columns(skill_main_weapon, 'main bar skills', st.session_state['skills_selected'].get('skills') or [])
     if st.session_state['character']['main_bar'] != st.session_state['character']['second_bar']:
-        skills_selected['second bar skills'] = generate_skill_in_columns(skill_second_weapon, 'second bar skills', st.session_state['skills_selected'].get('second bar skills') or [])
-    skills_selected['guild skills'] = generate_skill_in_columns(skill_guild, 'guild skills', st.session_state['skills_selected'].get('guild skills') or [])
+        skills_selected['skills'] += generate_skill_in_columns(skill_second_weapon, 'second bar skills', st.session_state['skills_selected'].get('skills') or [])
+    skills_selected['skills'] += generate_skill_in_columns(skill_guild, 'guild skills', st.session_state['skills_selected'].get('skills') or [])
+
     st.header('Passives')
-    skills_selected['class passives'] = generate_skill_in_columns(passive_class, 'class passives', st.session_state['skills_selected'].get('class passives') or [])
-    skills_selected['main bar passives'] = generate_skill_in_columns(passive_main_weapon, 'main bar passives', st.session_state['skills_selected'].get('main bar passives') or [])
+    skills_selected['passives'] = generate_skill_in_columns(passive_class, 'class passives', st.session_state['skills_selected'].get('passives') or [])
+    skills_selected['passives'] += generate_skill_in_columns(passive_main_weapon, 'main bar passives', st.session_state['skills_selected'].get('passives') or [])
     if st.session_state['character']['main_bar'] != st.session_state['character']['second_bar']:
-        skills_selected['second bar passives'] = generate_skill_in_columns(passive_second_weapon, 'second bar passives', st.session_state['skills_selected'].get('second bar passives') or [])
-    skills_selected['guild passives'] = generate_skill_in_columns(passive_guild, 'guild passives', st.session_state['skills_selected'].get('guild passives') or [])
-    skills_selected['race passives'] = generate_skill_in_columns(passive_race, 'race passives', st.session_state['skills_selected'].get('race passives') or [])
+        skills_selected['passives'] += generate_skill_in_columns(passive_second_weapon, 'second bar passives', st.session_state['skills_selected'].get('passives') or [])
+    skills_selected['passives'] += generate_skill_in_columns(passive_guild, 'guild passives', st.session_state['skills_selected'].get('passives') or [])
+    skills_selected['passives'] += generate_skill_in_columns(passive_race, 'race passives', st.session_state['skills_selected'].get('passives') or [])
+
     st.header('Ultimate')
-    skills_selected['class ultimate'] = generate_skill_in_columns(ultimate_class, 'class skills ultimate', st.session_state['skills_selected'].get('class skills ultimate') or [])
-    skills_selected['main bar ultimate'] = generate_skill_in_columns(ultimate_main_weapon, 'main bar ultimate', st.session_state['skills_selected'].get('main bar ultimate') or [])
+    skills_selected['ultimate'] = generate_skill_in_columns(ultimate_class, 'class skills ultimate', st.session_state['skills_selected'].get('ultimate') or [])
+    skills_selected['ultimate'] += generate_skill_in_columns(ultimate_main_weapon, 'main bar ultimate', st.session_state['skills_selected'].get('ultimate') or [])
     if st.session_state['character']['main_bar'] != st.session_state['character']['second_bar']:
-        skills_selected['second bar ultimate'] = generate_skill_in_columns(ultimate_second_weapon, 'second bar ultimate', st.session_state['skills_selected'].get('second bar ultimate') or [])
-    skills_selected['guild ultimate'] = generate_skill_in_columns(ultimate_guild, 'guild skills ultimate', st.session_state['skills_selected'].get('guild skills ultimate') or [])
+        skills_selected['ultimate'] += generate_skill_in_columns(ultimate_second_weapon, 'second bar ultimate', st.session_state['skills_selected'].get('ultimate') or [])
+    skills_selected['ultimate'] += generate_skill_in_columns(ultimate_guild, 'guild skills ultimate', st.session_state['skills_selected'].get('ultimate') or [])
 
     st.session_state['skills_selected'] = skills_selected
 

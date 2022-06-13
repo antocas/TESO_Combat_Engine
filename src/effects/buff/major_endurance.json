@@ -1,0 +1,11 @@
+{
+    "name": "Major endurance",
+    "effect": "30% stamina recovery increase",
+    "value": "30",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "stamina recovery"
+    ]
+}

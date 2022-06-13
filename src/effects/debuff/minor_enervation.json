@@ -1,0 +1,11 @@
+{
+    "name": "Minor enervation",
+    "effect": "reduces target's critical damage by 12%",
+    "value": "12",
+    "mode": "percent",
+    "increase": false,
+    "target": "Target",
+    "stat_affected": [
+        "critical damage"
+    ]
+}

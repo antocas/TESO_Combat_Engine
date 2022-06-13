@@ -1,0 +1,11 @@
+{
+    "name": "Major slayer",
+    "effect": "10% damage done increase to pve monsters",
+    "value": "10",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "damage done"
+    ]
+}
