@@ -11,4 +11,11 @@ plain_dummy = deepcopy(st.session_state['dummy'])
 character = Character(plain_character) # Load character from json
 dummy = Dummy(plain_dummy) # Load dummy and passives from json
 
-print(main_combat(character, dummy))
+result = main_combat(character, dummy)
+cols = st.columns(3)
+with cols[0]:
+    st.metric('DPS', result['dps'])
+with cols[1]:
+    st.metric('Minutes', result['minutes'])
+with cols[2]:
+    st.metric('Seconds', result['seconds'])
