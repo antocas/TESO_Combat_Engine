@@ -160,12 +160,12 @@ class Character:
     @property
     def spell_critical(self):
         """ Return spell critical """
-        return int(self.attributes["spell_critical"]) + self._spell_critical_added + self.critical_damage_done
+        return float(self.attributes["spell_critical"]) + self._spell_critical_added + self.critical_damage_done
 
     @property
     def weapon_critical(self):
         """ Return spell critical """
-        return int(self.attributes["weapon_critical"]) + self._weapon_critical_added + self.critical_damage_done
+        return float(self.attributes["weapon_critical"]) + self._weapon_critical_added + self.critical_damage_done
 
     @property
     def damage_done(self):

@@ -59,7 +59,7 @@ def main_combat(character: Character, dummy: Dummy):
 
                 critical = random.randint(0, 100) <= character.critical_chance#//219.12
                 if critical:
-                    max_critical = max(character.spell_critical, character.weapon_critical)/100.0
+                    max_critical = max(float(character.spell_critical), float(character.weapon_critical))/100.0
                     attack.make_critical(max_critical)
                     attack.increase_damage(character.critical_damage_done)
                 # Daño con penetracion de armadura
