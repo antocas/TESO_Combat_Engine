@@ -1,0 +1,9 @@
+{
+    "name": "Major defile",
+    "effect": "reduces target's healing taken by 16%",
+    "value": "16",
+    "mode": "percent",
+    "increase": false,
+    "target": "Target",
+    "stat_affected": []
+}

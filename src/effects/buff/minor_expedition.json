@@ -1,0 +1,9 @@
+{
+    "name": "Minor expedition",
+    "effect": "speed increase by 15%",
+    "value": "15",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": []
+}

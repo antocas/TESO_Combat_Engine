@@ -1,0 +1,11 @@
+{
+    "name": "Major savagery",
+    "effect": "10% weapon critical increase",
+    "value": "10",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "weapon critical"
+    ]
+}

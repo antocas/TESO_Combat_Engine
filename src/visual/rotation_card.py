@@ -4,6 +4,7 @@ from io import StringIO
 import streamlit as st
 
 def generate_rotation_card():
+    """Rotation card""" 
     st.title(st.session_state['language_tags']["rotation_title"], anchor='center')
     selected = []
     cols = st.columns(6)
@@ -13,46 +14,37 @@ def generate_rotation_card():
 
 
     if st.session_state.get('skills_selected'):
-        skills_keys = [key for key in st.session_state['skills_selected'].keys() if key.endswith('skills')]
-        skills_selected = [skill for skill_type in skills_keys for skill in st.session_state['skills_selected'][skill_type]]
-
-        passives_keys = [key for key in st.session_state['skills_selected'].keys() if key.endswith('passives')]
-        passives_selected = [skill for skill_type in passives_keys for skill in st.session_state['skills_selected'][skill_type]]
-
-        ultimate_keys = [key for key in st.session_state['skills_selected'].keys() if key.endswith('ultimate')]
-        ultimate_selected = [skill for skill_type in ultimate_keys for skill in st.session_state['skills_selected'][skill_type]]
-
         with cols[0]:
-            main_abilities.add(st.selectbox('main bar #1', skills_selected))
-            second_abilities.add(st.selectbox('second bar #1', skills_selected))
+            main_abilities.add(st.selectbox('main bar #1', st.session_state['skills_selected'].get('skills')))
+            second_abilities.add(st.selectbox('second bar #1', st.session_state['skills_selected'].get('skills')))
         with cols[1]:
-            main_abilities.add(st.selectbox('main bar #2', skills_selected))
-            second_abilities.add(st.selectbox('second bar #2', skills_selected))
+            main_abilities.add(st.selectbox('main bar #2', st.session_state['skills_selected'].get('skills')))
+            second_abilities.add(st.selectbox('second bar #2', st.session_state['skills_selected'].get('skills')))
         with cols[2]:
-            main_abilities.add(st.selectbox('main bar #3', skills_selected))
-            second_abilities.add(st.selectbox('second bar #3', skills_selected))
+            main_abilities.add(st.selectbox('main bar #3', st.session_state['skills_selected'].get('skills')))
+            second_abilities.add(st.selectbox('second bar #3', st.session_state['skills_selected'].get('skills')))
         with cols[3]:
-            main_abilities.add(st.selectbox('main bar #4', skills_selected))
-            second_abilities.add(st.selectbox('second bar #4', skills_selected))
+            main_abilities.add(st.selectbox('main bar #4', st.session_state['skills_selected'].get('skills')))
+            second_abilities.add(st.selectbox('second bar #4', st.session_state['skills_selected'].get('skills')))
         with cols[4]:
-            main_abilities.add(st.selectbox('main bar #5', skills_selected))
-            second_abilities.add(st.selectbox('second bar #5', skills_selected))
+            main_abilities.add(st.selectbox('main bar #5', st.session_state['skills_selected'].get('skills')))
+            second_abilities.add(st.selectbox('second bar #5', st.session_state['skills_selected'].get('skills')))
         with cols[5]:
-            main_ultimate = st.selectbox('main ultimate', ultimate_selected)
-            second_ultimate = st.selectbox('second ultimate', ultimate_selected)
+            main_ultimate = st.selectbox('main ultimate', st.session_state['skills_selected'].get('ultimate'))
+            second_ultimate = st.selectbox('second ultimate', st.session_state['skills_selected'].get('ultimate'))
 
         if None not in main_abilities:
-            list_of_skills += list(main_abilities)
+            list_of_skills = list(main_abilities)
         if None not in second_abilities:
             list_of_skills += list(second_abilities)
         if main_ultimate is not None:
-            list_of_skills += [main_ultimate]
+            list_of_skills = [main_ultimate]
         if second_ultimate is not None:
             list_of_skills += [second_ultimate]
         order = st.multiselect("Orden de habilidades", list_of_skills)
         st.session_state['rotation_selected'] = order
         st.write(', '.join(order))
 
-        st.session_state['character']['skills_available'] = skills_selected + ultimate_selected
-        st.session_state['character']['passives_available'] = passives_selected
+        st.session_state['character']['skills_available'] = st.session_state['skills_selected'].get('skills') + st.session_state['skills_selected'].get('ultimate')
+        st.session_state['character']['passives_available'] = st.session_state['skills_selected'].get('passives')
         st.session_state['character']['rotation'] = order

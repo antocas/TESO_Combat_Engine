@@ -1,0 +1,12 @@
+{
+    "name": "Major courage",
+    "effect": "increases spell and weapon damage by 430",
+    "value": "430",
+    "mode": "fixed",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "weapon damage",
+        "spell damage"
+    ]
+}

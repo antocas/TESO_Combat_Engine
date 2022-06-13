@@ -1,0 +1,11 @@
+{
+    "name": "Minor endurance",
+    "effect": "15% stamina recovery increase",
+    "value": "15",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "stamina recovery"
+    ]
+}

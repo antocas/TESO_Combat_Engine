@@ -1,0 +1,9 @@
+{
+    "name": "Minor brutality",
+    "effect": "10% damage increase",
+    "value": "10",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": []
+}

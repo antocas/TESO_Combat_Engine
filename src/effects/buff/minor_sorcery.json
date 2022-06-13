@@ -1,0 +1,11 @@
+{
+    "name": "Minor sorcery",
+    "effect": "10% spell damage increase",
+    "value": "10",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "spell damage"
+    ]
+}
