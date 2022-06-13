@@ -1,0 +1,11 @@
+{
+    "name": "Major heroism",
+    "effect": "3 ultimate and 1.5 seconds",
+    "value": "",
+    "mode": "fixed",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "ultimate"
+    ]
+}

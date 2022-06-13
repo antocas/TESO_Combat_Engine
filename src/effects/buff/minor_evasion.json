@@ -1,0 +1,11 @@
+{
+    "name": "Minor evasion",
+    "effect": "reduces aoe damage taken by 10%",
+    "value": "10",
+    "mode": "percent",
+    "increase": false,
+    "target": "Self",
+    "stat_affected": [
+        "damage taken"
+    ]
+}

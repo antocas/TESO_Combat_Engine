@@ -1,0 +1,11 @@
+{
+    "name": "Major aegis",
+    "effect": "reduces damage taken from pve monsters by 10%",
+    "value": "10",
+    "mode": "percent",
+    "increase": false,
+    "target": "Self",
+    "stat_affected": [
+        "damage taken"
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Minor force",
+    "effect": "10% critical damage increase",
+    "value": "10",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "critical damage"
+    ]
+}

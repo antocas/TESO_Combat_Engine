@@ -1,0 +1,12 @@
+{
+    "name": "Major resolve",
+    "effect": "5948 physical and spell resistance",
+    "value": "5948",
+    "mode": "fixed",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "physical resistance",
+        "spell resistance"
+    ]
+}

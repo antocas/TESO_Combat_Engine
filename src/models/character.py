@@ -3,6 +3,7 @@
 from copy import deepcopy
 
 from json import load, dumps
+import os
 import re
 from src.models.skill import Skill
 from src.models.effects import Effect
@@ -24,7 +25,7 @@ class Character:
             tmp_buffs[buff] = Effect.open_as_effect(buff, 'buff')
         for debuff in self.attributes['debuffs']:
             tmp_debuffs[debuff] = Effect.open_as_effect(debuff, 'debuff')
-        self.attributes['buffs'] = tmp_buffs
+        self._buffs = tmp_buffs
         self.attributes['debuffs'] = tmp_debuffs
 
         # Apply buffs
@@ -39,23 +40,50 @@ class Character:
 
     def __load_skills__(self):
         """ Load skill from file """
+        list_of_skills = os.listdir('src/skills/skill')
+        print(list_of_skills)
         for skill_name in self.attributes['skills_available']:
             skill_file_name = skill_name.lower().replace(' ', '_')
-            for type_of_skill in ['ultimate', 'skill']:
+            skill_file_name = skill_file_name + '.json'
+            print(skill_file_name)
+            file_name = [name for name in list_of_skills if name.endswith(skill_file_name)]
+            print(file_name)
+            if len(file_name)>0:
                 try:
-                    with open(f'src/skills/{type_of_skill}/{skill_file_name}.json', 'r', encoding='utf-8') as file:
+                    with open(f'src/skills/skill/{file_name[0]}', 'r', encoding='utf-8') as file:
                         skill = load(file)
                         self.attributes['skills'][skill_name] = Skill(skill)
+                        print(self.attributes['skills'])
                 except FileNotFoundError:
                     continue
 
     def __load_passives__(self):
         """ Load skill from file """
-        for passive_name in self.attributes['passives_available']:
-            passive_file_name = passive_name.lower().replace(' ', '_')
-            with open(f'src/skills/passive/{passive_file_name}.json', 'r', encoding='utf-8') as file:
-                passive = load(file)
-                self.attributes['passives'][passive_name] = Skill(passive)
+        list_of_skills = os.listdir('src/skills/passive')
+        for skill_name in self.attributes['passives_available']:
+            skill_file_name = skill_name.lower().replace(' ', '_')
+            file_name = [name for name in list_of_skills if name.endswith(skill_file_name)]
+            if len(file_name)>0:
+                try:
+                    with open(f'src/skills/passives_available/{file_name[0]}', 'r', encoding='utf-8') as file:
+                        skill = load(file)
+                        self.attributes['passives'][skill_name] = Skill(skill)
+                except FileNotFoundError:
+                    continue
+
+    def __load_ultimates__(self):
+        """ Load skill from file """
+        list_of_skills = os.listdir('src/skills/ultimate')
+        for skill_name in self.attributes['skills_available']:
+            skill_file_name = skill_name.lower().replace(' ', '_')
+            file_name = [name for name in list_of_skills if name.endswith(skill_file_name)]
+            if len(file_name)>0:
+                try:
+                    with open(f'src/skills/ultimates_available/{file_name[0]}', 'r', encoding='utf-8') as file:
+                        skill = load(file)
+                        self.attributes['skills'][skill_name] = Skill(skill)
+                except FileNotFoundError:
+                    continue
 
     def apply_buffs(self):
         """ Apply buffs to the character """
@@ -65,7 +93,7 @@ class Character:
         self._spell_damage_added = 0
         self._weapon_critical_added = 0
         self._spell_critical_added = 0
-        for _, buff in self.attributes['buffs'].items():
+        for _, buff in self._buffs.items():
             if "critical damage" in buff.stat_affected:
                 self._critical_damage_done = self._critical_damage_done + int(buff.value)
             if "damage done" in buff.stat_affected:
@@ -82,6 +110,9 @@ class Character:
     def savable(self):
         """ Converts into small dict, db friendly """
         character = deepcopy(self.attributes)
+        skills = [skill['name'] for skill in character.attributes['skills']]
+        passives = [skill['name'] for skill in character.attributes['passives']]
+        print(skills, passives)
         del character['skills']
         del character['passives']
         return character
@@ -119,22 +150,22 @@ class Character:
     @property
     def spell_damage(self):
         """ Return spell damage """
-        return self.attributes["spell_damage"] + self._spell_damage_added
+        return int(self.attributes["spell_damage"]) + self._spell_damage_added
 
     @property
     def weapon_damage(self):
         """ Return weapon damage """
-        return self.attributes["weapon_damage"] + self._weapon_damage_added
+        return int(self.attributes["weapon_damage"]) + self._weapon_damage_added
 
     @property
     def spell_critical(self):
         """ Return spell critical """
-        return self.attributes["spell_critical"] + self._spell_critical_added + self.critical_damage_done
+        return int(self.attributes["spell_critical"]) + self._spell_critical_added + self.critical_damage_done
 
     @property
     def weapon_critical(self):
         """ Return spell critical """
-        return self.attributes["weapon_critical"] + self._weapon_critical_added + self.critical_damage_done
+        return int(self.attributes["weapon_critical"]) + self._weapon_critical_added + self.critical_damage_done
 
     @property
     def damage_done(self):
@@ -170,4 +201,4 @@ class Character:
     @property
     def critical_chance(self):
         """ Return critical chance """
-        return self.attributes.get("critical_chance") or []
+        return float(self.attributes.get("critical_chance")) or 0.0

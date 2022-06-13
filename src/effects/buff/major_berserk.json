@@ -1,0 +1,11 @@
+{
+    "name": "Major berserk",
+    "effect": "10% damage done increase",
+    "value": "10",
+    "mode": "percent",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "damage done"
+    ]
+}

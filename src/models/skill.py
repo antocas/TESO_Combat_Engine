@@ -84,7 +84,7 @@ class Skill:
     @property
     def buffs(self):
         """ Return buffs """
-        return self.attributes['buffs']
+        return self._buffs
 
     @property
     def debuffs(self):

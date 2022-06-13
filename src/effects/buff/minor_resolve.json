@@ -1,0 +1,12 @@
+{
+    "name": "Minor resolve",
+    "effect": "2974 physical and spell resistance",
+    "value": "2974",
+    "mode": "fixed",
+    "increase": true,
+    "target": "Self",
+    "stat_affected": [
+        "physical resistance",
+        "spell resistance"
+    ]
+}

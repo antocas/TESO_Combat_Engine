@@ -1,0 +1,11 @@
+{
+    "name": "Minor brittle",
+    "effect": "target takes 10% more critical damage",
+    "value": "10",
+    "mode": "percent",
+    "increase": true,
+    "target": "Target",
+    "stat_affected": [
+        "critical damage"
+    ]
+}

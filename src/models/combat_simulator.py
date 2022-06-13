@@ -57,7 +57,7 @@ def main_combat(character: Character, dummy: Dummy):
                 attack.calculate_damage(max_resource, resource_damage, index=index)
                 attack.increase_damage(character.damage_done)
 
-                critical = random.randint(0, 100) <= character.critical_chance//219.12
+                critical = random.randint(0, 100) <= character.critical_chance#//219.12
                 if critical:
                     max_critical = max(character.spell_critical, character.weapon_critical)/100.0
                     attack.make_critical(max_critical)
