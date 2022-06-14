@@ -50,10 +50,6 @@ if __name__ == '__main__':
     sidebar_block_option = sidebar_block()
     language = sidebar_block_option['language']
 
-
-    # if st.sidebar.button(st.session_state['language_tags']['refresh_data']):
-    #     st.experimental_rerun()
-
     st.title(st.session_state['language_tags']["instructions"]['header'])
     st.subheader(st.session_state['language_tags']["instructions"]['subheader'])
     st.markdown(st.session_state['language_tags']["instructions"]['body_1'])
@@ -63,3 +59,9 @@ if __name__ == '__main__':
     st.markdown(st.session_state['language_tags']["instructions"]['body_5'])
     st.markdown(st.session_state['language_tags']["instructions"]['body_6'])
     st.markdown(st.session_state['language_tags']["instructions"]['body_7'])
+
+    if st.button(st.session_state['language_tags']['hero_of_tamriel']):
+        with open('files_for_testing/hero_of_tamriel.json', 'r', encoding='utf-8') as file:
+            json_file = json.load(file)
+            st.session_state['character'] = json_file['character']
+            st.session_state['dummy'] = json_file['dummy']

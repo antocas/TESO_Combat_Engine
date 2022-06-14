@@ -46,5 +46,6 @@
     "refresh_data": "Refresh data",
     "save_data": "Save data",
     "load_data": "Load data",
-    "rotation_title": "Rotation ordered by priority"
+    "rotation_title": "Rotation ordered by priority",
+    "hero_of_tamriel": "Load Hero of Tamriel"
 }

@@ -81,7 +81,7 @@ def generate_character_card():
             data['physical_resistance'] = st.text_input(language_tags['physical_resistance'], value = data.get('physical_resistance') or 0)
 
     gen_spacing(2)
-    with st.expander('BUFFS & DEBUFFS - NO TAG'):
+    with st.expander('Buffs - Debuffs'):
         data['buffs'] = st.multiselect('Buffs', buff_names, default=data['buffs'])
         data['debuffs'] = st.multiselect('Debuffs', debuff_names, default=data['debuffs'])
 
