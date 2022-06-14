@@ -29,12 +29,14 @@
         "max_stamina": "Vitalidad máxima",
         "spell_penetration": "Penetración de hechizo",
         "physical_penetration": "Penetración física",
+        "critical_chance": "Probabilidad de crítico",
         "spell_resistance": "Resistencia de hechizo",
         "physical_resistance": "Resistencia fisica",
         "critical_resistance": "Resistencia crítica",
         "health_recovery": "Regeneración de vida",
         "magicka_recovery": "Regeneración de magicka",
-        "stamina_recovery": "Regeneración de stamina"
+        "stamina_recovery": "Regeneración de stamina",
+        "base_armor": "Armadura base"
     },
 
     "dps": "DPS",

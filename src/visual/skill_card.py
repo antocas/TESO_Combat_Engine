@@ -107,7 +107,13 @@ def generate_skill_card():
         st.error('First, you need to create a character')
         return None
     if not st.session_state.get('skills_selected'):
-        st.session_state['skills_selected'] = {}
+        skills = st.session_state['character'].get('skills_available') or []
+        passives = st.session_state['character'].get('passives_available') or []
+        st.session_state['skills_selected'] = {
+            'skills': skills,
+            'passives': passives,
+            'ultimate': skills
+        }
 
     skill_class = filter_skill(st.session_state['skills_available'], skill_type='Class', class_type=st.session_state['character']['class_name'])
     skill_main_weapon = filter_skill(st.session_state['skills_available'], skill_line=st.session_state['character']["main_bar"])

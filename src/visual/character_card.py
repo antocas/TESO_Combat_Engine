@@ -22,6 +22,10 @@ def generate_character_card():
     if st.session_state.get('character'):
         data = st.session_state['character']
 
+    if data.get('buffs') is None:
+        data['buffs'] = []
+        data['debuffs'] = []
+
     language_tags = st.session_state['language_tags']['character']
     # * All visual inputs
     data['name'] = st.text_input(language_tags['name'], value = data.get('name') or "")
@@ -61,7 +65,7 @@ def generate_character_card():
             data['spell_damage'] = st.text_input(language_tags['spell_damage'], value = data.get('spell_damage') or 1000)
             data['spell_critical'] = st.text_input(language_tags['spell_critical'], value = data.get('spell_critical') or 10)
             data['spell_penetration'] = st.text_input(language_tags['spell_penetration'], value = data.get('spell_penetration') or 0)
-            data['critical_chance'] = st.text_input('CRITICAL CHANCE %', value = data.get('critical_chance')) or 0
+            data['critical_chance'] = st.text_input(language_tags['critical_chance'], value = data.get('critical_chance')) or 0
         with cols[1]:
             data['weapon_damage'] = st.text_input(language_tags['weapon_damage'], value = data.get('physical_damage') or 1000)
             data['weapon_critical'] = st.text_input(language_tags['weapon_critical'], value = data.get('physical_critical') or 10)
@@ -78,7 +82,10 @@ def generate_character_card():
 
     gen_spacing(2)
     with st.expander('BUFFS & DEBUFFS - NO TAG'):
-        data['buffs'] = st.multiselect('Buffs', buff_names)
-        data['debuffs'] = st.multiselect('Debuffs', debuff_names)
+        data['buffs'] = st.multiselect('Buffs', buff_names, default=data['buffs'])
+        data['debuffs'] = st.multiselect('Debuffs', debuff_names, default=data['debuffs'])
+
+    if not data['skills_order']:
+        data['skills_order'] = [0]*12
     # * Save character to a file
     st.session_state['character'] = data

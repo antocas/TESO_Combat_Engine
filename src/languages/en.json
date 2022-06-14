@@ -29,12 +29,14 @@
         "max_stamina": "Max stamina",
         "spell_penetration": "Spell penetration",
         "physical_penetration": "Physical penetration",
+        "critical_chance": "Critical chance",
         "spell_resistance": "Spell resistance",
         "physical_resistance": "Physical resistance",
         "critical_resistance": "Critical resistance",
         "health_recovery": "Health recovery",
         "magicka_recovery": "Magicka recovery",
-        "stamina_recovery": "Stamina recovery"
+        "stamina_recovery": "Stamina recovery",
+        "base_armor": "Base armor"
     },
 
     "dps": "DPS",
